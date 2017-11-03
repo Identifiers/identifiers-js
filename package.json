@@ -30,7 +30,7 @@
     "build": "npm run build:commonjs && npm run build:es",
     "ts": "ts-node src/",
     "test": "mocha --opts mocha.opts",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "yarn run build"
   },
   "files": [
     "es",
