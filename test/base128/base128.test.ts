@@ -82,7 +82,7 @@ function stringToBytes(value: string): Uint8Array {
 function roundTrip(bytes: Uint8Array): void {
   const testEnc = encode(bytes);
   const testDec = decode(testEnc);
-  // note these expectations take up most of the time in this test
-  // expect(bytesToArray(testDec)).to.contain.members(bytesToArray(bytes));
-  // expect(testEnc).to.match(REGEXP);
+  // note these expectation checks take up 95% of the time in this test
+  expect(bytesToArray(testDec)).to.contain.members(bytesToArray(bytes));
+  expect(testEnc).to.match(REGEXP);
 }
