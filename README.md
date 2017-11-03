@@ -1,2 +1,1 @@
-# identifiers-js
-Javascript implementation of Identifiers
+## JavaScript implementation
