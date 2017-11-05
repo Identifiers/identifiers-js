@@ -1,5 +1,5 @@
 .idea
 node_modules
 lib
-es6
+es
 .DS_Store

@@ -81,9 +81,9 @@ function unpackChar(encoded: string, charPos: number, packed: long, shift: numbe
   if (value < 0) {
     throw new Error(`invalid character code: '${charCode}' at position ${charPos}`);
   }
-  return packed.or(long.fromInt(value, true).shl(shift));
+  return packed.or(long.fromInt(value, true).shiftLeft(shift));
 }
 
 function unpackIntoResult(unpacked: long, shift: number, result: Uint8Array, bytePos: number): void {
-  result[bytePos] = unpacked.shr(shift).low;
+  result[bytePos] = unpacked.shiftRight(shift).low;
 }

@@ -26,13 +26,14 @@ function validateInput(unencoded: Uint8Array): void {
 }
 
 export function encode(unencoded: Uint8Array): string {
+
   validateInput(unencoded);
 
   if (unencoded.length === 0) {
     return TERMINATOR;
   }
 
-  const result: Array<number> = [];
+  const result: number[] = [];
   const wordsEnd = Math.trunc(unencoded.length / WORD_SIZE) * WORD_SIZE;
 
   let pos = 0;
@@ -68,9 +69,9 @@ export function encode(unencoded: Uint8Array): string {
 }
 
 function packByte(unencoded: Uint8Array, pos: number, packed: long, shift: number): long {
-  return packed.or(long.fromInt(unencoded[pos] & BYTE_SIGN_MASK, true).shl(shift));
+  return packed.or(long.fromInt(unencoded[pos] & BYTE_SIGN_MASK, true).shiftLeft(shift));
 }
 
 function packIntoResult(packed: long, shift: number, result: number[]): void {
-  result.push(CODES[packed.shr(shift).low & BITS_MASK]);
+  result.push(CODES[packed.shiftRight(shift).low & BITS_MASK]);
 }
