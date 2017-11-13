@@ -20,7 +20,6 @@ export function encode(identifier: Identifier<any>): string {
   return base128.encode(bytes);
 }
 
-// todo test validate fails and throws an error
 export function findCodec(identifier: Identifier<any>): IdentifierCodec {
   const codec = identifier[codecSymbol];
   codec.validateForEncoding(identifier.value);

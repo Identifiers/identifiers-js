@@ -4,9 +4,9 @@ import * as encode from "../src/encode";
 import {Identifier} from "../src/identifier";
 import {codecSymbol} from "../src/shared";
 
-describe("encode.findCodec() tests", () => {
+describe("encode tests", () => {
 
-  it("throws an error with an identifier that is missing a codec", () => {
+  it("findCodec() throws an error with an identifier that is missing a codec", () => {
     const id: Identifier<string> = {
       type: "string",
       value: "boo"
@@ -14,7 +14,7 @@ describe("encode.findCodec() tests", () => {
     expect(() => encode.findCodec(id)).to.throw;
   });
 
-  it("throws an error when a codec cannot encode a value", () => {
+  it("findCodec() throws an error when a codec cannot encode a value", () => {
     const codec = {
       validateForEncoding: (value) => {
         throw new Error();
@@ -29,7 +29,7 @@ describe("encode.findCodec() tests", () => {
     expect(() => encode.findCodec(id)).to.throw;
   });
 
-  it("calls a codec's validateForEncoding method", () => {
+  it("findCodec() calls a codec's validateForEncoding()", () => {
     let called = false;
 
     const codec = {
