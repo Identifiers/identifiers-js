@@ -16,9 +16,6 @@ for (let i = 0; i < ALPHABET.length; i++) {
 }
 
 function validateInput(encoded: string): void {
-  if (!encoded || typeof encoded !== "string") {
-    throw new Error(`Cannot decode '${encoded}'`);
-  }
 
   if (!encoded.endsWith(TERMINATOR)) {
     throw new Error(`Expected '${TERMINATOR}' at end of encoded string: '${encoded}'`);
@@ -30,6 +27,9 @@ function validateInput(encoded: string): void {
   }
 }
 
+/**
+ * Expects a string value.
+ */
 export function decode(encoded: string): Uint8Array {
 
   validateInput(encoded);

@@ -41,9 +41,9 @@ describe("round-trip with long library", () => {
   });
 
   it("converts random byte arrays to and from base 128", () => {
-    const bytes = [];
+    const bytes: Uint8Array[] = [];
     for (let i = 1; i < 1000; i++) {
-      const byteArray = [];
+      const byteArray: number[] = [];
       for (let b = 0; b < i; b++) {
         byteArray[b] = Math.floor(Math.random() * 256);
       }

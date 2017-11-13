@@ -10,15 +10,15 @@ sudo dtrace -n 'profile-97/execname == "node" && arg1/{@[jstack(150, 8000)] = co
  */
 
 const suite = new Benchmark.Suite();
-const numbers = [];
-const numBytes: Array<Uint8Array> = [];
+const numbers: number[] = [];
+const numBytes: Uint8Array[] = [];
 for (let i = 0; i < 10; i++) {
   const num = Math.trunc(100000000 * Math.random());
   numbers.push(num);
   numBytes.push(msgpack.encode(num));
 }
 
-const strings = [];
+const strings: string[] = [];
 for (let i = 0; i < 2; i++) {
   strings.push(
     faker.lorem.slug(),
