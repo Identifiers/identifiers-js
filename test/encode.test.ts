@@ -1,4 +1,5 @@
 import {expect} from "chai";
+import * as msgpack from "msgpack-lite";
 
 import * as encode from "../src/encode";
 import {Identifier} from "../src/identifier";
@@ -13,6 +14,7 @@ describe("encode tests", () => {
     };
     expect(() => encode.findCodec(id)).to.throw;
   });
+
 
   it("findCodec() throws an error when a codec cannot encode a value", () => {
     const codec = {
@@ -29,6 +31,7 @@ describe("encode tests", () => {
     expect(() => encode.findCodec(id)).to.throw;
   });
 
+
   it("findCodec() calls a codec's validateForEncoding()", () => {
     let called = false;
 
@@ -44,7 +47,20 @@ describe("encode tests", () => {
       [codecSymbol]: codec
     };
 
-    const actual = encode.findCodec(id);
+    encode.findCodec(id);
+
     expect(called).to.be.true;
   });
+
+
+  it("encodeToBytes() returns the correct msgpack structure", () => {
+    const code = 1;
+    const value = "watermelon soup";
+
+    const bytes = encode.encodeToBytes(code,value);
+    expect(bytes).to.be.a("uint8array");
+
+    const actual: [number, string] = msgpack.decode(bytes);
+    expect(actual).to.have.members([code, value]);
+  })
 });

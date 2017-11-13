@@ -15,7 +15,7 @@ export function encode(identifier: Identifier<any>): string {
   S.assert(identifierSpec, identifier);
   const codec = findCodec(identifier);
   const value = codec.encode(identifier.value);
-  const bytes = encodeMsgPack(codec.typeCode, value);
+  const bytes = encodeToBytes(codec.typeCode, value);
 
   return base128.encode(bytes);
 }
@@ -26,8 +26,7 @@ export function findCodec(identifier: Identifier<any>): IdentifierCodec {
   return codec;
 }
 
-// todo test it creates the correct structure (and uses msgpack)
-export function encodeMsgPack(typeCode: number, value: any): Uint8Array {
+export function encodeToBytes(typeCode: number, value: any): Uint8Array {
   return msgpack.encode([
     typeCode,
     value
