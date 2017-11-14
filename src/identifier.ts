@@ -20,7 +20,7 @@ export interface Identifier<T> {
 export interface IdentifierCodec {
 
   /**
-   * A character code (< 128) marking the type of the identifier. Used to re-identify the Codec from an decoded string.
+   * A code (< 128) marking the type of the identifier. Used to re-identify the Codec from an encoded string.
    */
   readonly typeCode: number;
 

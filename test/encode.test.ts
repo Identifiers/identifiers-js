@@ -4,6 +4,7 @@ import * as msgpack from "msgpack-lite";
 import * as encode from "../src/encode";
 import {Identifier} from "../src/identifier";
 import {codecSymbol} from "../src/shared";
+import {IdentifierCodec} from "../lib/identifier";
 
 describe("encode tests", () => {
 
@@ -15,41 +16,46 @@ describe("encode tests", () => {
     expect(() => encode.findCodec(id)).to.throw;
   });
 
-
-  it("findCodec() throws an error when a codec cannot encode a value", () => {
-    const codec = {
-      validateForEncoding: (value) => {
-        throw new Error();
-      }
-    };
-    const id: Identifier<number> = {
+  it("findCodec() successfully finds a codec on an identifier", () => {
+    const id: Identifier<string> = {
       type: "string",
-      value: 22,
-      [codecSymbol]: codec
+      value: "boo",
+      [codecSymbol]: {}
     };
-
-    expect(() => encode.findCodec(id)).to.throw;
+    expect(() => encode.findCodec(id)).to.not.throw;
   });
 
 
-  it("findCodec() calls a codec's validateForEncoding()", () => {
-    let called = false;
+  it("encodeWithCodec() throws an error when a codec cannot encode a value", () => {
+    const codec = {
+      validateForEncoding: (value) => {
+        //Convinces typescript compiler that the return statement is reachable
+        if (new Date().getTime() > 0) {
+          throw new Error();
+        }
+        return;
+      }
+    } as IdentifierCodec;
 
+    expect(() => encode.encodeWithCodec(codec, 22)).to.throw;
+  });
+
+
+  it("encodeWithCodec() calls a codec's encoded methods", () => {
+    let called = false;
     const codec = {
       validateForEncoding: (value) => {
         called = true;
         return;
-      }
-    };
-    const id = {
-      type: "number",
-      value: 22,
-      [codecSymbol]: codec
-    };
+      },
+      encode: (value) => value + 1
+    } as IdentifierCodec;
+    const value = 768;
 
-    encode.findCodec(id);
+    const actual = encode.encodeWithCodec(codec, value);
 
     expect(called).to.be.true;
+    expect(actual).to.equal(value + 1);
   });
 
 
@@ -57,10 +63,10 @@ describe("encode tests", () => {
     const code = 1;
     const value = "watermelon soup";
 
-    const bytes = encode.encodeToBytes(code,value);
+    const bytes = encode.encodeBytes(code, value);
     expect(bytes).to.be.a("uint8array");
 
     const actual: [number, string] = msgpack.decode(bytes);
     expect(actual).to.have.members([code, value]);
-  })
+  });
 });

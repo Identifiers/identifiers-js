@@ -12,21 +12,24 @@ import {Identifier, IdentifierCodec} from "./identifier";
  */
 export function encode(identifier: Identifier<any>): string {
 
-  S.assert(identifierSpec, identifier);
   const codec = findCodec(identifier);
-  const value = codec.encode(identifier.value);
-  const bytes = encodeToBytes(codec.typeCode, value);
+  const value = encodeWithCodec(codec, identifier.value);
+  const bytes = encodeBytes(codec.typeCode, value);
 
   return base128.encode(bytes);
 }
 
 export function findCodec(identifier: Identifier<any>): IdentifierCodec {
-  const codec = identifier[codecSymbol];
-  codec.validateForEncoding(identifier.value);
-  return codec;
+  S.assert(identifierSpec, identifier);
+  return identifier[codecSymbol];
 }
 
-export function encodeToBytes(typeCode: number, value: any): Uint8Array {
+export function encodeWithCodec(codec: IdentifierCodec, value: any): any {
+  codec.validateForEncoding(value);
+  return codec.encode(value);
+}
+
+export function encodeBytes(typeCode: number, value: any): Uint8Array {
   return msgpack.encode([
     typeCode,
     value

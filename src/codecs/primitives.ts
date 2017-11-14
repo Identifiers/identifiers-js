@@ -12,15 +12,23 @@ const asIsCodec = {
 export const stringCodec: IdentifierCodec = {
   ...asIsCodec,
   type: "string",
-  typeCode: 83, // S
+  typeCode: 0,
   validateForEncoding: (value) => S.assert(S.spec.string, value),
+  validateForDecoding: this.validateForEncoding
+}
+
+export const booleanCodec: IdentifierCodec = {
+  ...asIsCodec,
+  type: "boolean",
+  typeCode: 1,
+  validateForEncoding: (value) => S.assert(S.spec.boolean, value),
   validateForDecoding: this.validateForEncoding
 }
 
 export const floatCodec: IdentifierCodec = {
   ...asIsCodec,
   type: "float",
-  typeCode: 70, // F
+  typeCode: 2,
   validateForEncoding: (value) => S.assert(S.spec.finite, value),
   validateForDecoding: this.validateForEncoding
 }
@@ -28,16 +36,8 @@ export const floatCodec: IdentifierCodec = {
 export const integerCodec: IdentifierCodec = {
   ...asIsCodec,
   type: "integer",
-  typeCode: 73, // I
+  typeCode: 3,
   validateForEncoding: (value) => S.assert(S.spec.integer, value),
-  validateForDecoding: this.validateForEncoding
-}
-
-export const booleanCodec: IdentifierCodec = {
-  ...asIsCodec,
-  type: "boolean",
-  typeCode: 66, // B
-  validateForEncoding: (value) => S.assert(S.spec.boolean, value),
   validateForDecoding: this.validateForEncoding
 }
 
@@ -46,7 +46,7 @@ export const booleanCodec: IdentifierCodec = {
  */
 export const datetimeCodec: IdentifierCodec = {
   type: "datetime",
-  typeCode: 68, // D
+  typeCode: 10,
   validateForEncoding: (value) => S.assert(S.spec.date, value),
   encode: (date: Date) => date.getTime(),
   validateForDecoding: this.validateForEncoding,

@@ -25,7 +25,7 @@ export function decode<T>(encoded: any): Identifier<T> {
   }
 
   const bytes = decodeString(encoded);
-  const decoded = decodeMsgPack(bytes);
+  const decoded = decodeBytes(bytes);
   const codec = codecForCodeType(decoded[0]);
   const value = decodeWithCodec(codec, decoded[1]);
 
@@ -33,20 +33,17 @@ export function decode<T>(encoded: any): Identifier<T> {
 }
 
 
-// todo test it's a string
 export function decodeString(encoded: any): Uint8Array {
   S.assert(S.spec.string, encoded);
   return base128.decode(encoded);
 }
 
-//todo test it handles bad input correctly
-export function decodeMsgPack(bytes: Uint8Array): [number, any] {
+export function decodeBytes(bytes: Uint8Array): [number, any] {
   const decoded: [number, any] = msgpack.decode(bytes);
   S.assert(arraySpec, decoded);
   return decoded;
 }
 
-//todo test it calls validate
 export function decodeWithCodec(codec: IdentifierCodec, decoded: any): Identifier<any> {
   codec.validateForDecoding(decoded);
   return codec.decode(decoded);
