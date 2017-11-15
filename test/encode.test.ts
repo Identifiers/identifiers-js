@@ -4,7 +4,7 @@ import * as msgpack from "msgpack-lite";
 import * as encode from "../src/encode";
 import {Identifier} from "../src/identifier";
 import {codecSymbol} from "../src/shared";
-import {IdentifierCodec} from "../lib/identifier";
+import {IdentifierCodec} from "../src/identifier";
 
 describe("encode tests", () => {
 
@@ -15,6 +15,7 @@ describe("encode tests", () => {
     };
     expect(() => encode.findCodec(id)).to.throw;
   });
+
 
   it("findCodec() successfully finds a codec on an identifier", () => {
     const id: Identifier<string> = {
@@ -59,7 +60,7 @@ describe("encode tests", () => {
   });
 
 
-  it("encodeToBytes() returns the correct msgpack structure", () => {
+  it("encodeBytes() returns the correct msgpack structure", () => {
     const code = 1;
     const value = "watermelon soup";
 

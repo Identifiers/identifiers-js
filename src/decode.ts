@@ -49,7 +49,6 @@ export function decodeWithCodec(codec: IdentifierCodec, decoded: any): Identifie
   return codec.decode(decoded);
 }
 
-//todo test shape of response
 export function createIdentifier(codec, value: any): Identifier<any> {
   return {
     type: codec.type,
