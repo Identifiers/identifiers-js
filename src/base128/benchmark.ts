@@ -2,14 +2,14 @@ import {encode} from "./encode";
 import {decode} from "./decode";
 import * as faker from "faker";
 import * as msgpack from "msgpack-lite";
-import * as Benchmark from "benchmark";
+import * as benchmark from "benchmark";
 
 /*
 Doesn't work on OS X :(
 sudo dtrace -n 'profile-97/execname == "node" && arg1/{@[jstack(150, 8000)] = count(); } tick-60s { exit(0); }' > stacks.out
  */
 
-const suite = new Benchmark.Suite();
+const suite = new benchmark.Suite();
 const numbers: number[] = [];
 const numBytes: Uint8Array[] = [];
 for (let i = 0; i < 10; i++) {
@@ -32,7 +32,7 @@ const strBytes = strings.map(str => msgpack.encode(str));
 suite
   .add("10 random numbers", () => numBytes.forEach(barr => roundTrip(barr)))
   .add("10 identifier strings", () => strBytes.forEach(barr => roundTrip(barr)))
-  .on("cycle", (event: Benchmark.Event) => console.log(`step: ${event.target}`))
+  .on("cycle", (event) => console.log(`step: ${event.target}`))
   .run();
 
 function roundTrip(bytes: Uint8Array): void {

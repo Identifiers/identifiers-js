@@ -1,8 +1,8 @@
-import * as base128 from "../src/base128"
 import {expect} from "chai";
 import * as msgpack from "msgpack-lite";
 import * as S from "js.spec";
 
+import * as base128 from "../src/base128/encode";
 import * as decode from "../src/decode";
 import {IdentifierCodec} from "../src/identifier";
 import {identifierSpec} from "../src/shared";

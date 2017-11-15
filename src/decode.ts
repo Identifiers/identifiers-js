@@ -1,4 +1,4 @@
-import * as base128 from "./base128";
+import * as base128 from "./base128/decode";
 import * as msgpack from "msgpack-lite";
 import * as S from "js.spec";
 

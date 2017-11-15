@@ -1,6 +1,8 @@
-import {encode, decode} from "../../src/base128";
 import {REGEXP} from "../../src/base128/constants";
 import {expect} from "chai";
+
+import {decode} from "../../src/base128/decode";
+import {encode} from "../../src/base128/encode";
 
 
 describe("round-trip with long library", () => {
