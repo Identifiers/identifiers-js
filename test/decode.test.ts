@@ -8,7 +8,7 @@ import {IdentifierCodec} from "../src/identifier";
 import {identifierSpec} from "../src/shared";
 
 
-describe("decode tests", () => {
+describe("fromString tests", () => {
 
   it("decodes base128 string input", () => {
     const bytes = Uint8Array.from([1, 2, 3]);

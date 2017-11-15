@@ -1,4 +1,4 @@
-import {encode} from "./encode";
-import {decode} from "./decode";
+import {toString} from "./encode";
+import {fromString} from "./decode";
 
-export {encode as toString, decode as fromString};
+export {toString, fromString};

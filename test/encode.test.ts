@@ -6,7 +6,7 @@ import {Identifier} from "../src/identifier";
 import {codecSymbol} from "../src/shared";
 import {IdentifierCodec} from "../src/identifier";
 
-describe("encode tests", () => {
+describe("toString tests", () => {
 
   it("findCodec() throws an error with an identifier that is missing a codec", () => {
     const id: Identifier<string> = {

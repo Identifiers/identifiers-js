@@ -17,7 +17,7 @@ const arraySpec = S.spec.and("decoded identifier array",
  * @param encoded the encoded string
  * @returns the identifier object
  */
-export function decode<T>(encoded: any): Identifier<T> {
+export function fromString<T>(encoded: any): Identifier<T> {
 
   if (S.valid(identifierSpec, encoded)) {
     //already an Identifier

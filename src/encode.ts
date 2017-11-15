@@ -10,7 +10,7 @@ import {Identifier, IdentifierCodec} from "./identifier";
  * @param identifier the identifier object
  * @returns an encoded identifier string
  */
-export function encode(identifier: Identifier<any>): string {
+export function toString(identifier: Identifier<any>): string {
 
   const codec = findCodec(identifier);
   const value = encodeWithCodec(codec, identifier.value);
