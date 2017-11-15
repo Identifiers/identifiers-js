@@ -10,7 +10,7 @@
   "dependencies": {
     "js.spec": "1.0.0-15",
     "long": "3.2.0",
-    "msgpack-lite": "0.1.26"
+    "msgpack-long-lite": "0.1.0"
   },
   "devDependencies": {
     "@types/benchmark": "1.0.30",
@@ -34,7 +34,8 @@
     "build": "npm run build:commonjs && npm run build:es",
     "ts": "ts-node src/",
     "test": "mocha --opts mocha.opts",
-    "prepublishOnly": "yarn run build"
+    "prepublishOnly": "yarn run build",
+    "alias-msgpack-ts": "ln -s ./node_modules/@types/msgpack-lite ./node_modules/@types/msgpack-long-lite"
   },
   "files": [
     "es",

@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import * as msgpack from "msgpack-lite";
+import * as msgpack from "msgpack-long-lite";
 
 import * as encode from "../src/encode";
 import {Identifier} from "../src/identifier";

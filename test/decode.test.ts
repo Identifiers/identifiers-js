@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import * as msgpack from "msgpack-lite";
+import * as msgpack from "msgpack-long-lite";
 import * as S from "js.spec";
 
 import * as base128 from "../src/base128/encode";

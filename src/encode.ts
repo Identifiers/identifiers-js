@@ -1,5 +1,5 @@
 import * as base128 from "./base128/encode";
-import * as msgpack from "msgpack-lite";
+import * as msgpack from "msgpack-long-lite";
 import * as S from "js.spec";
 
 import {codecSymbol, identifierSpec} from "./shared";
