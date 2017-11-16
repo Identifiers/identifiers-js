@@ -1,6 +1,6 @@
 import * as primitives from "./primitives";
+import * as semantics from "./semantics";
 import {IdentifierCodec} from "../identifier";
-
 
 export function codecForCodeType(typeCode: number): IdentifierCodec {
 
@@ -17,8 +17,8 @@ export function codecForCodeType(typeCode: number): IdentifierCodec {
     case primitives.booleanCodec.typeCode :
       return primitives.booleanCodec;
 
-    case primitives.datetimeCodec.typeCode :
-      return primitives.datetimeCodec;
+    case semantics.datetimeCodec.typeCode :
+      return semantics.datetimeCodec;
 
     default:
       throw new Error(`No codec for typeCode '${typeCode}' found.`);

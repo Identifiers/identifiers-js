@@ -1,7 +1,8 @@
 import {expect} from "chai";
 
 import {codecForCodeType} from "../../src/codecs/finder";
-import {booleanCodec, datetimeCodec, floatCodec, integerCodec, stringCodec} from "../../src/codecs/primitives";
+import {booleanCodec, floatCodec, integerCodec, stringCodec} from "../../src/codecs/primitives";
+import {datetimeCodec} from "../../src/codecs/semantics";
 
 describe("primitive codecs", () => {
 

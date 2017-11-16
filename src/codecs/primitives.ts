@@ -1,4 +1,5 @@
 import * as S from "js.spec";
+import * as long from "long";
 
 import {IdentifierCodec} from "../identifier";
 
@@ -14,7 +15,7 @@ export const stringCodec: IdentifierCodec = {
   type: "string",
   typeCode: 0,
   validateForEncoding: (value) => S.assert(S.spec.string, value),
-  validateForDecoding: this.validateForEncoding
+  validateForDecoding: (value) => S.assert(S.spec.string, value)
 }
 
 export const booleanCodec: IdentifierCodec = {
@@ -22,15 +23,15 @@ export const booleanCodec: IdentifierCodec = {
   type: "boolean",
   typeCode: 1,
   validateForEncoding: (value) => S.assert(S.spec.boolean, value),
-  validateForDecoding: this.validateForEncoding
+  validateForDecoding: (value) => S.assert(S.spec.boolean, value)
 }
 
 export const floatCodec: IdentifierCodec = {
   ...asIsCodec,
   type: "float",
   typeCode: 2,
-  validateForEncoding: (value) => S.assert(S.spec.finite, value),
-  validateForDecoding: this.validateForEncoding
+  validateForEncoding: (value) => S.assert(S.spec.number, value), // todo change to S.spec.finite when PR is merged
+  validateForDecoding: (value) => S.assert(S.spec.number, value)
 }
 
 export const integerCodec: IdentifierCodec = {
@@ -38,17 +39,22 @@ export const integerCodec: IdentifierCodec = {
   type: "integer",
   typeCode: 3,
   validateForEncoding: (value) => S.assert(S.spec.integer, value),
-  validateForDecoding: this.validateForEncoding
+  validateForDecoding: (value) => S.assert(S.spec.integer, value)
 }
 
-/**
- * Encoded value is the unix/epoch time numerical value.
- */
-export const datetimeCodec: IdentifierCodec = {
-  type: "datetime",
-  typeCode: 10,
-  validateForEncoding: (value) => S.assert(S.spec.date, value),
-  encode: (date: Date) => date.getTime(),
-  validateForDecoding: this.validateForEncoding,
-  decode: (decoded: number) => new Date(decoded)
+const longSpec = S.spec.or("long", {
+  "google long": long.isLong,
+  "integer": S.spec.integer
+});
+export const longCodec: IdentifierCodec = {
+  encode: (value) => long.isLong(value) ? value : long.fromInt(value),
+  decode: (decoded) => decoded, //assuming it is a google long
+  type: "long",
+  typeCode: 4,
+  validateForEncoding: (value) => S.assert(longSpec, value),
+  validateForDecoding: (value) => {
+    if (!long.isLong(value)) {
+      throw new Error("only decodes google longs");
+    }
+  }
 }
