@@ -1,5 +1,7 @@
 import * as S from "js.spec";
 
+export const semanticTypeMask = 0x10;
+
 export const codecSymbol: symbol = Symbol.for("id-codec");
 
 // todo tests

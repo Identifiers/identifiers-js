@@ -8,7 +8,7 @@ import {IdentifierCodec} from "../src/identifier";
 import {identifierSpec} from "../src/shared";
 
 
-describe("fromString tests", () => {
+describe("decodeFromString tests", () => {
 
   it("decodes base128 string input", () => {
     const bytes = Uint8Array.from([1, 2, 3]);
@@ -19,7 +19,7 @@ describe("fromString tests", () => {
 
 
   it("fails with non-string input", () => {
-    expect(() => decode.decodeString(78)).to.throw;
+    expect(() => decode.decodeString(78)).to.throw();
   });
 
 
@@ -34,7 +34,7 @@ describe("fromString tests", () => {
   it("fails with incorrect packed structure, but correct msgpack bytes", () => {
     const value = {"bite": 0};
     const packed = msgpack.encode(value);
-    expect(() => decode.decodeBytes(packed)).to.throw;
+    expect(() => decode.decodeBytes(packed)).to.throw();
   });
 
 
@@ -51,7 +51,7 @@ describe("fromString tests", () => {
 
     const actual = decode.decodeWithCodec(codec, value);
     expect(actual).to.equal(value + 1);
-    expect(called).to.be.true;
+    expect(called).to.equal(true);
   });
 
 
@@ -61,7 +61,7 @@ describe("fromString tests", () => {
 
     const actual = decode.createIdentifier(codec, value);
 
-    expect(S.valid(identifierSpec, actual)).to.be.true;
+    expect(S.valid(identifierSpec, actual)).to.equal(true);
     expect(actual).to.include({type: codec.type, value: value});
   });
 });

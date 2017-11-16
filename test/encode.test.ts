@@ -6,14 +6,14 @@ import {Identifier} from "../src/identifier";
 import {codecSymbol} from "../src/shared";
 import {IdentifierCodec} from "../src/identifier";
 
-describe("toString tests", () => {
+describe("encodeToString tests", () => {
 
   it("findCodec() throws an error with an identifier that is missing a codec", () => {
     const id: Identifier<string> = {
       type: "string",
       value: "boo"
     };
-    expect(() => encode.findCodec(id)).to.throw;
+    expect(() => encode.findCodec(id)).to.throw();
   });
 
 
@@ -23,13 +23,13 @@ describe("toString tests", () => {
       value: "boo",
       [codecSymbol]: {}
     };
-    expect(() => encode.findCodec(id)).to.not.throw;
+    expect(() => encode.findCodec(id)).to.not.throw();
   });
 
 
   it("encodeWithCodec() throws an error when a codec cannot encode a value", () => {
     const codec = {
-      validateForEncoding: (value) => {
+      validateForIdentifier: (value) => {
         //Convinces typescript compiler that the return statement is reachable
         if (new Date().getTime() > 0) {
           throw new Error();
@@ -38,25 +38,30 @@ describe("toString tests", () => {
       }
     } as IdentifierCodec;
 
-    expect(() => encode.encodeWithCodec(codec, 22)).to.throw;
+    expect(() => encode.encodeWithCodec(codec, 22)).to.throw();
   });
 
 
-  it("encodeWithCodec() calls a codec's encoded methods", () => {
-    let called = false;
+  it("encodeWithCodec() calls a codec's encoding methods", () => {
+    let calledValidate = false;
+    const value = 768;
+
     const codec = {
-      validateForEncoding: (value) => {
-        called = true;
+      validateForIdentifier: (value) => {
+        calledValidate = true;
         return;
+      },
+      forIdentifier: (value) => {
+        return value + 10;
       },
       encode: (value) => value + 1
     } as IdentifierCodec;
-    const value = 768;
 
     const actual = encode.encodeWithCodec(codec, value);
 
-    expect(called).to.be.true;
-    expect(actual).to.equal(value + 1);
+    expect(calledValidate).to.equal(true);
+    // value changed by correct amount means the encoding function used the return values of the codec
+    expect(actual).to.equal(value + 11);
   });
 
 

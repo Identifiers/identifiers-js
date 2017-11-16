@@ -5,7 +5,7 @@ import {decode} from "../../src/base128/decode";
 import {encode} from "../../src/base128/encode";
 
 
-describe("round-trip with long library", () => {
+describe("base128 round-trip", () => {
 
   it("throws error decoding incorrect values", () => {
     expect(() => decode("")).to.throw();

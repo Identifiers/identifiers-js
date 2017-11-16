@@ -1,16 +1,16 @@
 import {expect} from "chai";
-import * as long from "long";
+import * as Long from "long";
 
-import {booleanCodec, floatCodec, integerCodec, longCodec, stringCodec} from "../../src/codecs/primitives";
+import {booleanCodec, floatCodec, integerCodec, longCodec, stringCodec} from "../../src/types/primitives";
 
 
-describe("primitive codecs", () => {
+describe("primitive codecs for identifier values", () => {
 
   describe("string codec", () => {
     it("supports encoding", () => {
       const value = "ballast";
-      expect(() => stringCodec.validateForEncoding(value)).to.not.throw();
-      expect(() => stringCodec.validateForEncoding(1)).to.throw();
+      expect(() => stringCodec.validateForIdentifier(value)).to.not.throw();
+      expect(() => stringCodec.validateForIdentifier(1)).to.throw();
       const actual = stringCodec.encode(value);
       expect(actual).to.equal(value);
     })
@@ -27,8 +27,8 @@ describe("primitive codecs", () => {
   describe("boolean codec", () => {
     it("supports encoding", () => {
       const value = true;
-      expect(() => booleanCodec.validateForEncoding(value)).to.not.throw();
-      expect(() => booleanCodec.validateForEncoding(1)).to.throw();
+      expect(() => booleanCodec.validateForIdentifier(value)).to.not.throw();
+      expect(() => booleanCodec.validateForIdentifier(1)).to.throw();
       const actual = booleanCodec.encode(value);
       expect(actual).to.equal(value);
     });
@@ -46,8 +46,8 @@ describe("primitive codecs", () => {
   describe("float codec", () => {
     it("supports encoding", () => {
       const value = 22.5;
-      expect(() => floatCodec.validateForEncoding(value)).to.not.throw();
-      expect(() => floatCodec.validateForEncoding("200")).to.throw();
+      expect(() => floatCodec.validateForIdentifier(value)).to.not.throw();
+      expect(() => floatCodec.validateForIdentifier("200")).to.throw();
       const actual = floatCodec.encode(value);
       expect(actual).to.equal(value);
     });
@@ -65,8 +65,8 @@ describe("primitive codecs", () => {
   describe("integer codec", () => {
     it("supports encoding", () => {
       const value = -205;
-      expect(() => integerCodec.validateForEncoding(value)).to.not.throw();
-      expect(() => integerCodec.validateForEncoding(20.223)).to.throw();
+      expect(() => integerCodec.validateForIdentifier(value)).to.not.throw();
+      expect(() => integerCodec.validateForIdentifier(20.223)).to.throw();
       const actual = integerCodec.encode(value);
       expect(actual).to.equal(value);
     });
@@ -82,23 +82,20 @@ describe("primitive codecs", () => {
 
 
   describe("long codec", () => {
-    it("supports encoding numbers", () => {
-      const value = -205;
-      expect(() => longCodec.validateForEncoding(value)).to.not.throw();
-      expect(() => longCodec.validateForEncoding(20.223)).to.throw();
-      let actual: long = longCodec.encode(value);
-      expect(actual.toNumber()).to.equal(value);
+    it("does not support decoding numbers", () => {
+      const value = 996364853;
+      expect(() => longCodec.validateForDecoding(value)).to.throw();
     });
 
     it("supports encoding google longs", () => {
-      const value = long.fromNumber(4764576383);
-      expect(() => longCodec.validateForEncoding(value)).to.not.throw();
+      const value = Long.fromNumber(4764576383);
+      expect(() => longCodec.validateForIdentifier(value)).to.not.throw();
       const actual = longCodec.encode(value);
       expect(actual).to.equal(value);
     });
 
     it("supports decoding google longs", () => {
-      const value = long.fromNumber(4764576383);
+      const value = Long.fromNumber(4764576383);
       expect(() => longCodec.validateForDecoding(value)).to.not.throw();
       expect(() => longCodec.validateForDecoding(-205)).to.throw();
       expect(() => longCodec.validateForDecoding(20.223)).to.throw();

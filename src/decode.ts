@@ -1,9 +1,9 @@
-import * as base128 from "./base128/decode";
 import * as msgpack from "msgpack-long-lite";
 import * as S from "js.spec";
 
+import * as base128 from "./base128/decode";
 import {Identifier, IdentifierCodec} from "./identifier";
-import {codecForCodeType} from "./codecs/finder";
+import {codecForTypeCode} from "./types/finder";
 import {codecSymbol, identifierSpec} from "./shared";
 
 const arraySpec = S.spec.and("decoded identifier array",
@@ -17,7 +17,7 @@ const arraySpec = S.spec.and("decoded identifier array",
  * @param encoded the encoded string
  * @returns the identifier object
  */
-export function fromString<T>(encoded: any): Identifier<T> {
+export function decodeFromString<T>(encoded: any): Identifier<T> {
 
   if (S.valid(identifierSpec, encoded)) {
     //already an Identifier
@@ -26,7 +26,7 @@ export function fromString<T>(encoded: any): Identifier<T> {
 
   const bytes = decodeString(encoded);
   const decoded = decodeBytes(bytes);
-  const codec = codecForCodeType(decoded[0]);
+  const codec = codecForTypeCode(decoded[0]);
   const value = decodeWithCodec(codec, decoded[1]);
 
   return createIdentifier(codec, value);

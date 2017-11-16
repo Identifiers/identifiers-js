@@ -21,6 +21,11 @@ export interface IdentifierCodec {
 
   /**
    * A code (< 128) marking the type of the identifier. Used to re-identify the Codec from an encoded string.
+   * Codes from 0-7 are primitives. Codes 8-15 are structural. Semantic codes should be based on a primitive/structural
+   * type by or-ing the base typeCode with 0x10:
+   * <code>
+   * newTypeCode = baseTypeCode | 0x10;
+   * </code>
    */
   readonly typeCode: number;
 
@@ -30,10 +35,17 @@ export interface IdentifierCodec {
   readonly type: string;
 
   /**
-   * Validates a value before it is encoded. Throw an Error if the value is not of the expected shape.
+   * Validates a value before it is used in an Identifier. Throw an Error if the value is not of the expected shape.
    * @param value the value to validate
    */
-  validateForEncoding(value: any): void;
+  validateForIdentifier(value: any): void;
+
+  /**
+   * Convert a value into a value that can be used in an Identifier.
+   * @param value the value to prepare
+   * @returns the prepared value
+   */
+  forIdentifier(value: any): any;
 
   /**
    * Convert an Identifier's value into a value that can be encoded.

@@ -1,7 +1,7 @@
-import * as base128 from "./base128/encode";
 import * as msgpack from "msgpack-long-lite";
 import * as S from "js.spec";
 
+import * as base128 from "./base128/encode";
 import {codecSymbol, identifierSpec} from "./shared";
 import {Identifier, IdentifierCodec} from "./identifier";
 
@@ -10,7 +10,7 @@ import {Identifier, IdentifierCodec} from "./identifier";
  * @param identifier the identifier object
  * @returns an encoded identifier string
  */
-export function toString(identifier: Identifier<any>): string {
+export function encodeToString(identifier: Identifier<any>): string {
 
   const codec = findCodec(identifier);
   const value = encodeWithCodec(codec, identifier.value);
@@ -25,8 +25,9 @@ export function findCodec(identifier: Identifier<any>): IdentifierCodec {
 }
 
 export function encodeWithCodec(codec: IdentifierCodec, value: any): any {
-  codec.validateForEncoding(value);
-  return codec.encode(value);
+  // Don't trust the identifier was constructed with the factories
+  codec.validateForIdentifier(value);
+  return codec.encode(codec.forIdentifier(value));
 }
 
 export function encodeBytes(typeCode: number, value: any): Uint8Array {
