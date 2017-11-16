@@ -13,9 +13,9 @@
     "msgpack-long-lite": "0.1.0"
   },
   "devDependencies": {
-    "@types/benchmark": "1.0.30",
-    "@types/chai": "4.0.4",
-    "@types/faker": "4.1.1",
+    "@types/benchmark": "1.0.31",
+    "@types/chai": "4.0.5",
+    "@types/faker": "4.1.2",
     "@types/js.spec": "1.0.1",
     "@types/long": "3.0.32",
     "@types/mocha": "2.2.44",
@@ -35,7 +35,7 @@
     "ts": "ts-node src/",
     "test": "mocha --opts mocha.opts",
     "prepublishOnly": "yarn run build",
-    "alias-msgpack-ts": "ln -s ./node_modules/@types/msgpack-lite ./node_modules/@types/msgpack-long-lite"
+    "alias-msgpack-ts": "ln -s \"$(pwd)/node_modules/@types/msgpack-lite\" ./node_modules/@types/msgpack-long-lite"
   },
   "files": [
     "es",
