@@ -3,14 +3,14 @@ import * as Long from "long";
 
 import {IdentifierCodec} from "../identifier";
 
-// todo these codecs need to be documented in the identifiers spec
 
-const asIsCodec = {
+export const asIsCodec = {
   forIdentifier: (value) => value,
   encode: (value) => value,
   decode: (value) => value
 }
 
+// todo these codecs need to be documented in the identifiers spec
 
 function validateAny(value: any): void {
   if (   value === undefined
@@ -23,7 +23,7 @@ function validateAny(value: any): void {
 export const anyCodec: IdentifierCodec = {
   ...asIsCodec,
   type: "any",
-  typeCode: 0,
+  typeCode: 0x0,
   validateForIdentifier: validateAny,
   validateForDecoding: validateAny
 }
@@ -31,7 +31,7 @@ export const anyCodec: IdentifierCodec = {
 export const stringCodec: IdentifierCodec = {
   ...asIsCodec,
   type: "string",
-  typeCode: 1,
+  typeCode: 0x1,
   validateForIdentifier: (value) => S.assert(S.spec.string, value),
   validateForDecoding: (value) => S.assert(S.spec.string, value)
 }
@@ -39,24 +39,31 @@ export const stringCodec: IdentifierCodec = {
 export const booleanCodec: IdentifierCodec = {
   ...asIsCodec,
   type: "boolean",
-  typeCode: 2,
+  typeCode: 0x2,
   validateForIdentifier: (value) => S.assert(S.spec.boolean, value),
   validateForDecoding: (value) => S.assert(S.spec.boolean, value)
 }
 
+
+//32-bit signed value
+const MIN_INT = -(2 ** 31);
+const MAX_INT = 2 ** 31 - 1;
+const integerSpec = S.spec.and("integer value",
+  S.spec.integer,
+  (value) => value > MIN_INT && value < MAX_INT);
+
 export const integerCodec: IdentifierCodec = {
   ...asIsCodec,
   type: "integer",
-  typeCode: 3,
-  //todo how many bytes should this integer be? I think we will need unsigned too?
-  validateForIdentifier: (value) => S.assert(S.spec.integer, value), //todo does this work for a 32-bit integer?
-  validateForDecoding: (value) => S.assert(S.spec.integer, value)
+  typeCode: 0x3,
+  validateForIdentifier: (value) => S.assert(integerSpec, value),
+  validateForDecoding: (value) => S.assert(integerSpec, value)
 }
 
 export const floatCodec: IdentifierCodec = {
   ...asIsCodec,
   type: "float",
-  typeCode: 4,
+  typeCode: 0x4,
   validateForIdentifier: (value) => S.assert(S.spec.number, value), // todo change to S.spec.finite when PR is merged
   validateForDecoding: (value) => S.assert(S.spec.number, value)
 }
@@ -68,7 +75,7 @@ const longSpec = S.spec.or("long", {
 export const longCodec: IdentifierCodec = {
   ...asIsCodec,
   type: "long",
-  typeCode: 5,
+  typeCode: 0x5,
   validateForIdentifier: (value) => S.assert(longSpec, value),
   forIdentifier: (value) => Long.isLong(value) ? value : Long.fromInt(value),
   validateForDecoding: (value) => {
@@ -78,11 +85,10 @@ export const longCodec: IdentifierCodec = {
   }
 }
 
-//todo JS double. Perhaps Google has one of these I can extract?
 export const doubleCodec: IdentifierCodec = {
   ...asIsCodec,
   type: "double",
-  typeCode: 6,
-  validateForIdentifier: (value) => S.assert(S.spec.number, value),
+  typeCode: 0x6,
+  validateForIdentifier: (value) => S.assert(S.spec.number, value), // todo change to S.spec.finite when PR is merged
   validateForDecoding: (value) => S.assert(S.spec.number, value)
 }

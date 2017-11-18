@@ -73,7 +73,7 @@ describe("primitive codecs for identifier values", () => {
     });
   });
 
-
+// todo add test for OOB numbers (single-precision float values
   describe("float codec", () => {
     it("supports encoding", () => {
       const value = 22.5;
@@ -93,6 +93,7 @@ describe("primitive codecs for identifier values", () => {
   });
 
 
+// todo add test for OOB numbers (single-precision int values)
   describe("integer codec", () => {
     it("supports encoding", () => {
       const value = -205;

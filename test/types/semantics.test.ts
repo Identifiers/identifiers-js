@@ -14,7 +14,7 @@ describe("semantic codecs", () => {
     });
 
     it("supports decoding", () => {
-      const value = 44444747777747;
+      const value = new Date().getTime();
       expect(() => datetimeCodec.validateForDecoding(value)).to.not.throw();
       expect(() => datetimeCodec.validateForDecoding(new Date())).to.throw();
       expect(() => datetimeCodec.validateForDecoding("not a number")).to.throw();

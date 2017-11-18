@@ -4,17 +4,31 @@
 
 ids.identifier(value) => Figures out codec from value type. Not sure what it will do about object. Wait for mapIdentifier?
 
+####Primitive identifiers
+* any -- any is what? any value type? only "identifiable" value types? including nil? Needs a stricter definition.
+* string -- utf-8 string
+* boolean -- true or false
+* integer -- 32-bit signed ints
+* float -- 32-bit signed decimals (IEEE 754)
+* long -- 64-bit signed ints
+* double -- 64-bit signed decimals (IEEE 754)
+
 ####Structured identifiers
 * listIdentifier -- same-sequence
 * mapIdentifier (sort by keys)
 
 ####Semantic identifiers
-* UUID: https://en.wikipedia.org/wiki/Universally_unique_identifier
+* Datetime: unix time, see if you can find some kid of spec for this. base type is number
+* UUID: https://en.wikipedia.org/wiki/Universally_unique_identifier. Many types, see if you need to split them out into their spaces
 * IP: https://stackoverflow.com/questions/8105629/ip-addresses-stored-as-int-results-in-overflow
 * IPv6: https://technet.microsoft.com/en-us/library/cc781672(v=ws.10).aspx#w2k3tr_ipv6_how_thcz (128 bits--4 ints or 2 longs)
-* GEO: https://en.wikipedia.org/wiki/Geo_URI_scheme (looks like floats, but do they need to be doubles?)
+* GEO: https://en.wikipedia.org/wiki/Geotagging (looks like floats, but do they need to be doubles?)
 * MAC: https://en.wikipedia.org/wiki/MAC_address
-* The three-word addressing scheme?
+* The three-word addresses: http://what3words.com
+* currency?
+* Locale?
+* BigInteger?
+* BigDecimal?
 
 #####Graceful downgrading
 All semantic identifiers derive from the primitive and structured identifiers so that if someone doesn't have a codec they
