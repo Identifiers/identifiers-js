@@ -24,9 +24,6 @@ export function codecForTypeCode(typeCode: number): IdentifierCodec {
     case primitives.longCodec.typeCode :
       return primitives.longCodec;
 
-    case primitives.doubleCodec.typeCode :
-      return primitives.doubleCodec;
-
     case semantics.datetimeCodec.typeCode :
       return semantics.datetimeCodec;
 

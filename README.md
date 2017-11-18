@@ -9,9 +9,8 @@ ids.identifier(value) => Figures out codec from value type. Not sure what it wil
 * string -- utf-8 string
 * boolean -- true or false
 * integer -- 32-bit signed ints
-* float -- 32-bit signed decimals (IEEE 754)
+* float -- 64-bit signed decimals (IEEE 754)
 * long -- 64-bit signed ints
-* double -- 64-bit signed decimals (IEEE 754)
 
 ####Structured identifiers
 * listIdentifier -- same-sequence
@@ -19,11 +18,11 @@ ids.identifier(value) => Figures out codec from value type. Not sure what it wil
 
 ####Semantic identifiers
 * Datetime: unix time, see if you can find some kid of spec for this. base type is number
-* UUID: https://en.wikipedia.org/wiki/Universally_unique_identifier. Many types, see if you need to split them out into their spaces
-* IP: https://stackoverflow.com/questions/8105629/ip-addresses-stored-as-int-results-in-overflow
-* IPv6: https://technet.microsoft.com/en-us/library/cc781672(v=ws.10).aspx#w2k3tr_ipv6_how_thcz (128 bits--4 ints or 2 longs)
-* GEO: https://en.wikipedia.org/wiki/Geotagging (looks like floats, but do they need to be doubles?)
+* IP: https://stackoverflow.com/questions/8105629/ip-addresses-stored-as-int-results-in-overflow (integer)
+* IPv6: https://technet.microsoft.com/en-us/library/cc781672(v=ws.10).aspx#w2k3tr_ipv6_how_thcz (128 bits--2 longs)
+* GEO: https://en.wikipedia.org/wiki/Geotagging
 * MAC: https://en.wikipedia.org/wiki/MAC_address
+* UUID: https://en.wikipedia.org/wiki/Universally_unique_identifier. Many types, see if you need to split them out into their spaces
 * The three-word addresses: http://what3words.com
 * currency?
 * Locale?

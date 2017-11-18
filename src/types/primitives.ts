@@ -68,6 +68,7 @@ export const floatCodec: IdentifierCodec = {
   validateForDecoding: (value) => S.assert(S.spec.number, value)
 }
 
+
 const longSpec = S.spec.or("long", {
   "google long": Long.isLong,
   "integer": S.spec.integer
@@ -83,12 +84,4 @@ export const longCodec: IdentifierCodec = {
       throw new Error("only decodes google longs");
     }
   }
-}
-
-export const doubleCodec: IdentifierCodec = {
-  ...asIsCodec,
-  type: "double",
-  typeCode: 0x6,
-  validateForIdentifier: (value) => S.assert(S.spec.number, value), // todo change to S.spec.finite when PR is merged
-  validateForDecoding: (value) => S.assert(S.spec.number, value)
 }
