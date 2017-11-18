@@ -49,7 +49,7 @@ export function decodeWithCodec(codec: IdentifierCodec, decoded: any): Identifie
   return codec.decode(decoded);
 }
 
-export function createIdentifier(codec, value: any): Identifier<any> {
+export function createIdentifier(codec: IdentifierCodec, value: any): Identifier<any> {
   return {
     type: codec.type,
     value: value,

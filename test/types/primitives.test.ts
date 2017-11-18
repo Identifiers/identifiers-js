@@ -57,7 +57,7 @@ describe("primitive codecs for identifier values", () => {
 
   describe("boolean codec", () => {
     it("supports encoding", () => {
-      const value = true;
+      const value = false;
       expect(() => booleanCodec.validateForIdentifier(value)).to.not.throw();
       expect(() => booleanCodec.validateForIdentifier(1)).to.throw();
       const actual = booleanCodec.encode(value);

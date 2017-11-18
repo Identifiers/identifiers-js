@@ -5,8 +5,8 @@ import * as S from "js.spec";
 import * as factory from "../../src/types/factory";
 import {Identifier, IdentifierCodec} from "../../src/identifier";
 import {identifierSpec} from "../../src/shared";
-import {stringCodec, booleanCodec, floatCodec, integerCodec, longCodec} from "../../src/types/primitives";
-import {datetimeCodec} from "../../src/types/semantics";
+import {anyCodec, stringCodec, booleanCodec, integerCodec, floatCodec, longCodec} from "../../src/types/primitives";
+
 
 function validateCreatedIdentifier(expectedCodec: IdentifierCodec, expectedValue: any, actualId: Identifier<any>): void {
   expect(S.valid(identifierSpec, actualId)).to.equal(true);
@@ -14,6 +14,14 @@ function validateCreatedIdentifier(expectedCodec: IdentifierCodec, expectedValue
 }
 
 describe("identifier factory", () => {
+  it("creates an any identifier", () => {
+    const values = ["air", false, 229573.1, null, new Date(), [], {}];
+    values.forEach((value) => {
+      const actual = factory.forAny(value);
+      validateCreatedIdentifier(anyCodec, value, actual);
+    });
+  });
+
   it("creates a string identifier", () => {
     const value = "air";
     const actual = factory.forString(value);
@@ -21,7 +29,7 @@ describe("identifier factory", () => {
   });
 
   it("creates a boolean identifier", () => {
-    const value = true;
+    const value = false;
     const actual = factory.forBoolean(value);
     validateCreatedIdentifier(booleanCodec, value, actual);
   });
@@ -41,7 +49,7 @@ describe("identifier factory", () => {
   it("creates a long(number) identifier", () => {
     const value = 9967574044;
     const actual = factory.forLong(value);
-    validateCreatedIdentifier(longCodec, value, actual);
+    validateCreatedIdentifier(longCodec, Long.fromInt(value), actual);
   });
 
   it("creates a long(Long) identifier", () => {
