@@ -4,7 +4,7 @@ import {codecForTypeCode} from "../../src/types/finder";
 import {anyCodec, stringCodec, booleanCodec, floatCodec, integerCodec, longCodec} from "../../src/types/primitives";
 import {datetimeCodec} from "../../src/types/semantics";
 
-describe("primitive codecs", () => {
+describe("codec finder", () => {
 
   it("throws error if it can't find a codec", () => {
     expect(() => codecForTypeCode(-200)).to.throw();

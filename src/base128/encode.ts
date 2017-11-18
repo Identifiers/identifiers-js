@@ -19,15 +19,8 @@ for (let i = 0; i < ALPHABET.length; i++) {
   CODES[i] = ALPHABET.charCodeAt(i);
 }
 
-function validateInput(unencoded: Uint8Array): void {
-  if (!unencoded || !(unencoded instanceof Uint8Array)) {
-    throw new Error(`Cannot encode ${unencoded}`);
-  }
-}
 
 export function encode(unencoded: Uint8Array): string {
-
-  validateInput(unencoded);
 
   if (unencoded.length === 0) {
     return TERMINATOR;

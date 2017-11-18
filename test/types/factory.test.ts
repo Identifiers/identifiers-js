@@ -57,4 +57,10 @@ describe("identifier factory", () => {
     const actual = factory.forLong(value);
     validateCreatedIdentifier(longCodec, value, actual);
   });
+
+  it("creates a datetime identifier", () => {
+    const value = new Date();
+    const actual = factory.forDatetime(value);
+    validateCreatedIdentifier(longCodec, value, actual);
+  });
 });

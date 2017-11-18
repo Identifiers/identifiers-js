@@ -23,8 +23,11 @@
     "benchmark": "2.1.4",
     "chai": "4.1.2",
     "faker": "4.1.0",
+    "istanbul": "0.4.5",
     "mocha": "4.0.1",
+    "nyc": "11.3.0",
     "rimraf": "2.6.2",
+    "source-map-support": "0.5.0",
     "ts-node": "3.3.0",
     "typescript": "2.6.1"
   },
@@ -34,6 +37,7 @@
     "build": "npm run build:commonjs && npm run build:es",
     "ts": "ts-node src/",
     "test": "mocha --opts mocha.opts",
+    "coverage": "nyc mocha --opts mocha.opts",
     "prepublishOnly": "yarn run build",
     "alias-msgpack-ts": "ln -s \"$(pwd)/node_modules/@types/msgpack-lite\" ./node_modules/@types/msgpack-long-lite"
   },
@@ -42,5 +46,22 @@
     "lib"
   ],
   "types": "./lib/index.d.ts",
-  "module": "./es/index.js"
+  "module": "./es/index.js",
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "src/base128/benchmark.ts",
+      "src/base128/generate-table.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "reporter": [
+      "html"
+    ],
+    "sourceMap": true,
+    "all": true
+  }
 }
