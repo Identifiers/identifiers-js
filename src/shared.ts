@@ -1,6 +1,6 @@
 import * as S from "js.spec";
 
-export const semanticTypeMask = 0x10;
+export const semanticTypeMask = 0x1f;
 
 export const codecSymbol: symbol = Symbol.for("id-codec");
 

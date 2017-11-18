@@ -1,10 +1,41 @@
 import {expect} from "chai";
 import * as Long from "long";
 
-import {booleanCodec, floatCodec, integerCodec, longCodec, stringCodec} from "../../src/types/primitives";
+import {anyCodec, booleanCodec, floatCodec, integerCodec, longCodec, stringCodec} from "../../src/types/primitives";
 
 
 describe("primitive codecs for identifier values", () => {
+
+  describe("any codec", () => {
+    const anyValues = ["barter", true, null, /.+/, -23.3, {a: "b"}];
+    it("supports encoding", () => {
+      anyValues.forEach((value) => {
+        expect(() => anyCodec.validateForIdentifier(value)).to.not.throw();
+        const actual = anyCodec.encode(value);
+        expect(actual).to.equal(value);
+      });
+    });
+
+    it("rejects encoding non-values", () => {
+      expect(() => anyCodec.validateForIdentifier(undefined)).to.throw();
+      expect(() => anyCodec.validateForIdentifier(() => true)).to.throw();
+      expect(() => anyCodec.validateForIdentifier(Symbol.for("nope"))).to.throw();
+    });
+
+    it("supports decoding", () => {
+      anyValues.forEach((value) => {
+        expect(() => anyCodec.validateForDecoding(value)).to.not.throw();
+        const actual = anyCodec.decode(value);
+        expect(actual).to.equal(value);
+      });
+    });
+
+    it("rejects decoding non-values", () => {
+      expect(() => anyCodec.validateForDecoding(undefined)).to.throw();
+      expect(() => anyCodec.validateForDecoding(() => true)).to.throw();
+      expect(() => anyCodec.validateForDecoding(Symbol.for("nope"))).to.throw();
+    });
+  });
 
   describe("string codec", () => {
     it("supports encoding", () => {

@@ -1,14 +1,19 @@
 import {expect} from "chai";
 
 import {codecForTypeCode} from "../../src/types/finder";
-import {stringCodec, booleanCodec, floatCodec, integerCodec, longCodec} from "../../src/types/primitives";
+import {anyCodec, stringCodec, booleanCodec, floatCodec, integerCodec, longCodec} from "../../src/types/primitives";
 import {datetimeCodec} from "../../src/types/semantics";
-import * as shared from "../../src/shared";
 
 describe("primitive codecs", () => {
 
   it("throws error if it can't find a codec", () => {
     expect(() => codecForTypeCode(-200)).to.throw();
+  });
+
+
+  it("finds the any codec", () => {
+    const actual = codecForTypeCode(anyCodec.typeCode);
+    expect(actual).to.equal(anyCodec);
   });
 
 
@@ -48,11 +53,8 @@ describe("primitive codecs", () => {
   });
 
 
-/*
   it("downgrades to a baser codec", () => {
-    // todo get your bit twiddling back
-    const actual = codecForTypeCode((integerCodec.typeCode | shared.semanticTypeMask) + 3);
+    const actual = codecForTypeCode(integerCodec.typeCode + 192);
     expect(actual).to.equal(integerCodec);
   });
-*/
 });
