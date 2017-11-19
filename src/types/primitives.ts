@@ -16,7 +16,7 @@ function validateAny(value: any): void {
   if (   value === undefined
       || S.spec.fn(value)
       || S.spec.symbol(value)) {
-    throw new Error("identifier values must not be undefined, functions or symbols");
+    throw new Error("identifier values cannot be undefined, functions or symbols");
   }
 }
 
@@ -60,6 +60,7 @@ export const integerCodec: IdentifierCodec = {
   validateForDecoding: (value) => S.assert(integerSpec, value)
 }
 
+
 export const floatCodec: IdentifierCodec = {
   ...asIsCodec,
   type: "float",
@@ -73,9 +74,11 @@ const longSpec = S.spec.or("long", {
   "google long": Long.isLong,
   "integer": S.spec.integer
 });
+
 const longDecodeSpec = S.spec.and("long decode",
   S.spec.array,
   (value) => value.length == 2);
+
 export const longCodec: IdentifierCodec = {
   type: "long",
   typeCode: 0x5,

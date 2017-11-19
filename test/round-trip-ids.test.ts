@@ -21,6 +21,7 @@ describe("round-trip identifiers to strings", () => {
     roundTrip(ids.forLong(8700));
     roundTrip(ids.forLong(2 ** 63));
     roundTrip(ids.forLong(Long.fromBits(63, 65535)));
+    roundTrip(ids.forDatetime(7785646));
     roundTrip(ids.forDatetime(new Date()));
   });
 });

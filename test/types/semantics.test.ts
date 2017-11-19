@@ -8,7 +8,7 @@ describe("semantic codecs", () => {
     it("supports encoding", () => {
       const value = new Date();
       expect(() => datetimeCodec.validateForIdentifier(value)).to.not.throw();
-      expect(() => datetimeCodec.validateForIdentifier(33779563)).to.throw();
+      expect(() => datetimeCodec.validateForIdentifier(33779563)).to.not.throw();
       const actual = datetimeCodec.encode(value);
       expect(actual).to.equal(value.getTime());
     });
