@@ -1,4 +1,5 @@
 import {expect} from "chai";
+import * as Long from "long";
 
 import * as ids from "../src";
 
@@ -18,7 +19,8 @@ describe("round-trip identifiers to strings", () => {
     roundTrip(ids.forInteger(99));
     roundTrip(ids.forFloat(0.009));
     roundTrip(ids.forLong(8700));
-    // roundTrip(ids.forLong(2 ** 63));
+    roundTrip(ids.forLong(2 ** 63));
+    roundTrip(ids.forLong(Long.fromBits(63, 65535)));
     roundTrip(ids.forDatetime(new Date()));
   });
 });
