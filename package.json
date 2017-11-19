@@ -10,7 +10,7 @@
   "dependencies": {
     "js.spec": "1.0.0-15",
     "long": "3.2.0",
-    "msgpack-long-lite": "0.1.0"
+    "msgpack-lite": "0.1.26"
   },
   "devDependencies": {
     "@types/benchmark": "1.0.31",

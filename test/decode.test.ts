@@ -1,14 +1,14 @@
 import {expect} from "chai";
-import * as msgpack from "msgpack-long-lite";
+import * as msgpack from "msgpack-lite";
 import * as S from "js.spec";
 
 import * as base128 from "../src/base128/encode";
 import * as decode from "../src/decode";
 import {IdentifierCodec} from "../src/identifier";
-import {identifierSpec} from "../src/shared";
+import {codecSymbol, identifierSpec} from "../src/shared";
 
 
-describe("decodeFromString tests", () => {
+describe("decode tests", () => {
 
   it("decodes base128 string input", () => {
     const bytes = Uint8Array.from([1, 2, 3]);
@@ -20,6 +20,15 @@ describe("decodeFromString tests", () => {
 
   it("fails with non-string input", () => {
     expect(() => decode.decodeString(78)).to.throw();
+  });
+
+
+  it("simply returns Identifier input", () => {
+    const id = {
+      [codecSymbol]: {}
+    };
+    const actual = decode.decodeFromString(id);
+    expect(actual).to.equal(id);
   });
 
 
@@ -56,7 +65,7 @@ describe("decodeFromString tests", () => {
 
 
   it("creates an identifier with the correct shape", () => {
-    const codec = {type: 100};
+    const codec = {type: "fruit"} as IdentifierCodec;
     const value = "banana";
 
     const actual = decode.createIdentifier(codec, value);

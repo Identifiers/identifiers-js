@@ -1,7 +1,7 @@
 import {encode} from "./encode";
 import {decode} from "./decode";
 import * as faker from "faker";
-import * as msgpack from "msgpack-long-lite";
+import * as msgpack from "msgpack-lite";
 import * as benchmark from "benchmark";
 
 /*

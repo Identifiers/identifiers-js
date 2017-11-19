@@ -73,15 +73,15 @@ const longSpec = S.spec.or("long", {
   "google long": Long.isLong,
   "integer": S.spec.integer
 });
+const longDecodeSpec = S.spec.and("long decode",
+  S.spec.array,
+  (value) => value.length == 2);
 export const longCodec: IdentifierCodec = {
-  ...asIsCodec,
   type: "long",
   typeCode: 0x5,
   validateForIdentifier: (value) => S.assert(longSpec, value),
   forIdentifier: (value) => Long.isLong(value) ? value : Long.fromInt(value),
-  validateForDecoding: (value) => {
-    if (!Long.isLong(value)) {
-      throw new Error("only decodes google longs");
-    }
-  }
+  validateForDecoding: (value) => S.assert(longDecodeSpec, value),
+  encode: (value: Long) => [value.low, value.high],
+  decode: (value: number[]) => Long.fromBits(value[0], value[1])
 }

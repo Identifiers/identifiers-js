@@ -51,3 +51,6 @@ semantic types.
 
 If 224 is used as the flag, one could use the rest of the byte to signal the base type, then look to the second byte for the semantic
 slot.
+
+
+TODO: package.json keywords field

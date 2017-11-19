@@ -1,12 +1,12 @@
 import {expect} from "chai";
-import * as msgpack from "msgpack-long-lite";
+import * as msgpack from "msgpack-lite";
 
 import * as encode from "../src/encode";
 import {Identifier} from "../src/identifier";
 import {codecSymbol} from "../src/shared";
 import {IdentifierCodec} from "../src/identifier";
 
-describe("encodeToString tests", () => {
+describe("encode tests", () => {
 
   it("findCodec() throws an error with an identifier that is missing a codec", () => {
     const id: Identifier<string> = {

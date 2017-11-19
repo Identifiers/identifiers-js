@@ -3,6 +3,7 @@ import * as Long from "long";
 
 import {anyCodec, booleanCodec, floatCodec, integerCodec, longCodec, stringCodec} from "../../src/types/primitives";
 
+// todo: more tests around forIdentifier validation. these are currently muddled together
 
 describe("primitive codecs for identifier values", () => {
 
@@ -111,27 +112,21 @@ describe("primitive codecs for identifier values", () => {
     });
   });
 
-
   describe("long codec", () => {
-    it("does not support decoding numbers", () => {
-      const value = 996364853;
-      expect(() => longCodec.validateForDecoding(value)).to.throw();
-    });
-
     it("supports encoding google longs", () => {
       const value = Long.fromNumber(4764576383);
       expect(() => longCodec.validateForIdentifier(value)).to.not.throw();
       const actual = longCodec.encode(value);
-      expect(actual).to.equal(value);
+      expect(actual).to.contain.ordered.members([value.low, value.high]);
     });
 
-    it("supports decoding google longs", () => {
+    it("supports decoding array of 2 numbers into a google long", () => {
       const value = Long.fromNumber(4764576383);
-      expect(() => longCodec.validateForDecoding(value)).to.not.throw();
-      expect(() => longCodec.validateForDecoding(-205)).to.throw();
-      expect(() => longCodec.validateForDecoding(20.223)).to.throw();
-      const actual = longCodec.decode(value);
-      expect(actual).to.equal(value);
+      const longArray = [value.low, value.high];
+      expect(() => longCodec.validateForDecoding(value)).to.throw();
+      expect(() => longCodec.validateForDecoding(longArray)).to.not.throw();
+      const actual = longCodec.decode(longArray);
+      expect(actual).to.deep.equal(value);
     });
   });
 });
