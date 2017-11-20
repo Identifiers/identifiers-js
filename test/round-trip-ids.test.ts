@@ -13,7 +13,9 @@ function roundTrip(id) {
 describe("round-trip identifiers to strings", () => {
 
   it("uses identifier factory functions", () => {
-    roundTrip(ids.forAny(null));
+    roundTrip(ids.forAny("a string"));
+    roundTrip(ids.forAny(false));
+    roundTrip(ids.forAny(33.456));
     roundTrip(ids.forString("hello"));
     roundTrip(ids.forBoolean(true));
     roundTrip(ids.forInteger(99));

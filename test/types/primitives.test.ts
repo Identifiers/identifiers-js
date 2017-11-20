@@ -8,7 +8,7 @@ import {anyCodec, booleanCodec, floatCodec, integerCodec, longCodec, stringCodec
 describe("primitive codecs for identifier values", () => {
 
   describe("any codec", () => {
-    const anyValues = ["barter", true, null, /.+/, -23.3, {a: "b"}];
+    const anyValues = ["barter", true, -23.3];
     it("supports encoding", () => {
       anyValues.forEach((value) => {
         expect(() => anyCodec.validateForIdentifier(value)).to.not.throw();
@@ -17,10 +17,11 @@ describe("primitive codecs for identifier values", () => {
       });
     });
 
+    const anyFailureValues = [undefined, null, /.+/, [-23.3], {a: "b"}, Symbol.for("nope")];
     it("rejects encoding non-values", () => {
-      expect(() => anyCodec.validateForIdentifier(undefined)).to.throw();
-      expect(() => anyCodec.validateForIdentifier(() => true)).to.throw();
-      expect(() => anyCodec.validateForIdentifier(Symbol.for("nope"))).to.throw();
+      anyFailureValues.forEach((value) => {
+        expect(() => anyCodec.validateForIdentifier(value)).to.throw();
+      });
     });
 
     it("supports decoding", () => {
@@ -32,9 +33,9 @@ describe("primitive codecs for identifier values", () => {
     });
 
     it("rejects decoding non-values", () => {
-      expect(() => anyCodec.validateForDecoding(undefined)).to.throw();
-      expect(() => anyCodec.validateForDecoding(() => true)).to.throw();
-      expect(() => anyCodec.validateForDecoding(Symbol.for("nope"))).to.throw();
+      anyFailureValues.forEach((value) => {
+        expect(() => anyCodec.validateForDecoding(value)).to.throw();
+      });
     });
   });
 

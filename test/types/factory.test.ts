@@ -15,7 +15,7 @@ function validateCreatedIdentifier(codec: IdentifierCodec, value: any, actualId:
 
 describe("identifier factory", () => {
   it("creates an any identifier", () => {
-    const values = ["air", false, 229573.1, null, new Date(), [], {}];
+    const values = ["air", false, 229573.1];
     values.forEach((value) => {
       const actual = factory.forAny(value);
       validateCreatedIdentifier(anyCodec, value, actual);

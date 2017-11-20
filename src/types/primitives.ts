@@ -10,22 +10,18 @@ export const asIsCodec = {
   decode: (value) => value
 }
 
-// todo these codecs need to be documented in the identifiers spec
-
-function validateAny(value: any): void {
-  if (   value === undefined
-      || S.spec.fn(value)
-      || S.spec.symbol(value)) {
-    throw new Error("identifier values cannot be undefined, functions or symbols");
-  }
-}
+const anySpec = S.spec.or("any identifier type", {
+  "string": S.spec.string,
+  "boolean": S.spec.boolean,
+  "number": S.spec.number
+});
 
 export const anyCodec: IdentifierCodec = {
   ...asIsCodec,
   type: "any",
   typeCode: 0x0,
-  validateForIdentifier: validateAny,
-  validateForDecoding: validateAny
+  validateForIdentifier: (value) => S.assert(anySpec, value),
+  validateForDecoding: (value) => S.assert(anySpec, value)
 }
 
 export const stringCodec: IdentifierCodec = {
