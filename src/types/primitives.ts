@@ -10,7 +10,7 @@ export const asIsCodec = {
   decode: (value) => value
 }
 
-const anySpec = S.spec.or("any identifier type", {
+export const anySpec = S.spec.or("any identifier type", {
   "string": S.spec.string,
   "boolean": S.spec.boolean,
   "number": S.spec.number
@@ -44,9 +44,10 @@ export const booleanCodec: IdentifierCodec = {
 //32-bit signed value
 const MIN_INT = -(2 ** 31);
 const MAX_INT = 2 ** 31 - 1;
+const integerRangeSpec = (value) => value > MIN_INT && value < MAX_INT;
 const integerSpec = S.spec.and("integer value",
   S.spec.integer,
-  (value) => value > MIN_INT && value < MAX_INT);
+  integerRangeSpec);
 
 export const integerCodec: IdentifierCodec = {
   ...asIsCodec,
@@ -73,7 +74,10 @@ const longSpec = S.spec.or("long", {
 
 const longDecodeSpec = S.spec.and("long decode",
   S.spec.array,
-  (value) => value.length == 2);
+  S.spec.collection("array of 2 numbers",
+    S.spec.integer,
+    {[S.symbol.count]: 2}
+  ));
 
 export const longCodec: IdentifierCodec = {
   type: "long",
