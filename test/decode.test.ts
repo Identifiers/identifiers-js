@@ -53,6 +53,13 @@ describe("decode tests", () => {
   });
 
 
+  it("fails with too long of an array, but correct msgpack bytes", () => {
+    const value = [1, "hello", "too many"];
+    const packed = msgpack.encode(value);
+    expect(() => decode.decodeBytes(packed)).to.throw();
+  });
+
+
   it("decodeWithCodec() calls a codec's decode methods", () => {
     let called = false;
     const codec = {

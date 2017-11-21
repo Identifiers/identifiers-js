@@ -4,12 +4,7 @@ import * as S from "js.spec";
 import * as base128 from "./base128/decode";
 import {Identifier, IdentifierCodec} from "./identifier";
 import {codecForTypeCode} from "./types/finder";
-import {codecSymbol, identifierSpec} from "./shared";
-
-const arraySpec = S.spec.and("decoded identifier array",
-    S.spec.array,
-    (array) => array.length === 2,
-    (array) => S.spec.integer(array[0]));
+import {hasValue, codecSymbol, identifierSpec} from "./shared";
 
 
 /**
@@ -37,6 +32,11 @@ export function decodeString(encoded: any): Uint8Array {
   S.assert(S.spec.string, encoded);
   return base128.decode(encoded);
 }
+
+const arraySpec = S.spec.tuple("decoded identifier array",
+    S.spec.integer,
+    hasValue
+);
 
 export function decodeBytes(bytes: Uint8Array): [number, any] {
   const decoded: [number, any] = msgpack.decode(bytes);

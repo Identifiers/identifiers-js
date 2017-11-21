@@ -72,12 +72,9 @@ const longSpec = S.spec.or("long", {
   "integer": S.spec.integer
 });
 
-const longDecodeSpec = S.spec.and("long decode",
-  S.spec.array,
-  S.spec.collection("array of 2 numbers",
-    S.spec.integer,
-    {[S.symbol.count]: 2}
-  ));
+const longDecodeSpec = S.spec.tuple("long decode",
+  S.spec.integer,
+  S.spec.integer);
 
 export const longCodec: IdentifierCodec = {
   type: "long",

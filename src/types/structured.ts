@@ -5,6 +5,7 @@ import {IdentifierCodec} from "../identifier";
 
 
 const anyListSpec = S.spec.and("any-list",
+  // must be an array, not a Set
   S.spec.array,
   S.spec.collection("any item", anySpec)
 );
