@@ -1,11 +1,15 @@
 import {expect} from "chai";
 import * as msgpack from "msgpack-lite";
-import * as S from "js.spec";
 
 import * as base128 from "../src/base128/encode";
 import * as decode from "../src/decode";
 import {IdentifierCodec} from "../src/identifier";
 import {codecSymbol, identifierSpec} from "../src/shared";
+
+import * as chai from "chai";
+import jsSpecChai from "js.spec-chai";
+
+chai.use(jsSpecChai);
 
 
 describe("decode tests", () => {
@@ -25,6 +29,8 @@ describe("decode tests", () => {
 
   it("simply returns Identifier input", () => {
     const id = {
+      type: "fruit",
+      value: "apple",
       [codecSymbol]: {}
     };
     const actual = decode.decodeFromString(id);
@@ -70,7 +76,7 @@ describe("decode tests", () => {
 
     const actual = decode.createIdentifier(codec, value);
 
-    expect(S.valid(identifierSpec, actual)).to.equal(true);
+    expect(actual).to.conform(identifierSpec);
     expect(actual).to.include({type: codec.type, value: value});
   });
 });

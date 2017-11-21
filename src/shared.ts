@@ -4,6 +4,12 @@ export const semanticTypeMask = 0x1f;
 
 export const codecSymbol: symbol = Symbol.for("id-codec");
 
-export const identifierSpec = S.spec.and("existing identifier",
-  S.spec.object,
-  (id) => id[codecSymbol]);
+const hasCodecSymbol = (id) => id[codecSymbol];
+const hasValue = (value) => value !== null;
+
+export const identifierSpec = S.spec.and("identifier",
+  S.spec.map("identifier structure", {
+    type: S.spec.string,
+    value: hasValue
+  }),
+  hasCodecSymbol);

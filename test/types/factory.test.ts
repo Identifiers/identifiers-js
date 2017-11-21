@@ -1,15 +1,19 @@
 import {expect} from "chai";
 import * as Long from "long";
-import * as S from "js.spec";
 
 import * as factory from "../../src/types/factory";
 import {Identifier, IdentifierCodec} from "../../src/identifier";
 import {identifierSpec} from "../../src/shared";
 import {anyCodec, stringCodec, booleanCodec, integerCodec, floatCodec, longCodec} from "../../src/types/primitives";
 
+import * as chai from "chai";
+import jsSpecChai from "js.spec-chai";
+
+chai.use(jsSpecChai);
+
 
 function validateCreatedIdentifier(codec: IdentifierCodec, value: any, actualId: Identifier<any>): void {
-  expect(S.valid(identifierSpec, actualId)).to.equal(true);
+  expect(actualId).to.conform(identifierSpec);
   expect(actualId.value).to.deep.equal(value);
 }
 

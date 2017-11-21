@@ -829,6 +829,10 @@ js-yaml@3.x:
     argparse "^1.0.7"
     esprima "^4.0.0"
 
+js.spec-chai@0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/js.spec-chai/-/js.spec-chai-0.1.6.tgz#85208b736cab0472259a6c55cfbf8516129a70d3"
+
 js.spec@1.0.0-15:
   version "1.0.0-15"
   resolved "https://registry.yarnpkg.com/js.spec/-/js.spec-1.0.0-15.tgz#0358de9b2d6a86a8cd917d3852c21555fa055fdb"
