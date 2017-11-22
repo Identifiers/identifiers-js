@@ -1,36 +1,35 @@
 import * as primitives from "./primitives";
+import * as lists from "./lists";
 import * as semantics from "./semantics";
 import * as shared from "../shared";
 import {IdentifierCodec} from "../identifier";
 
+// todo move all awareness of [codecSymbol] in here so it finds and applies a codec to an identifier.
+// Right now this knowledge is spread too much.
+
+const codecs: IdentifierCodec[] = [];
+
+
+[ primitives.anyCodec,
+  primitives.stringCodec,
+  primitives.booleanCodec,
+  primitives.integerCodec,
+  primitives.floatCodec,
+  primitives.longCodec,
+  lists.anyListCodec,
+  lists.stringListCodec,
+  semantics.datetimeCodec
+].forEach((codec) => codecs[codec.typeCode] = codec);
+
+
 export function codecForTypeCode(typeCode: number): IdentifierCodec {
-
-  switch (typeCode) {
-    case primitives.anyCodec.typeCode :
-      return primitives.anyCodec;
-
-    case primitives.stringCodec.typeCode :
-      return primitives.stringCodec;
-
-    case primitives.booleanCodec.typeCode :
-      return primitives.booleanCodec;
-
-    case primitives.integerCodec.typeCode :
-      return primitives.integerCodec;
-
-    case primitives.floatCodec.typeCode :
-      return primitives.floatCodec;
-
-    case primitives.longCodec.typeCode :
-      return primitives.longCodec;
-
-    case semantics.datetimeCodec.typeCode :
-      return semantics.datetimeCodec;
-
-    default:
-      if (typeCode <= shared.semanticTypeMask) {
-        throw new Error(`No codec for typeCode '${typeCode}' found.`);
-      }
-      return codecForTypeCode(typeCode & shared.semanticTypeMask);
+  const codec = codecs[typeCode];
+  if (codec) {
+    return codec;
   }
+
+  if (typeCode <= shared.semanticTypeMask) {
+    throw new Error(`No codec for typeCode '${typeCode}' found.`);
+  }
+  return codecForTypeCode(typeCode & shared.semanticTypeMask);
 }
