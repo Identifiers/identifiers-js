@@ -3,6 +3,7 @@ import * as msgpack from "msgpack-lite";
 
 import * as base128 from "../src/base128/encode";
 import * as decode from "../src/decode";
+import * as primitives from "../src/types/primitives";
 import {IdentifierCodec} from "../src/identifier";
 import {codecSymbol, identifierSpec} from "../src/shared";
 
@@ -31,7 +32,7 @@ describe("decode tests", () => {
     const id = {
       type: "fruit",
       value: "apple",
-      [codecSymbol]: {}
+      [codecSymbol]: primitives.anyCodec
     };
     const actual = decode.decodeFromString(id);
     expect(actual).to.equal(id);
@@ -78,7 +79,7 @@ describe("decode tests", () => {
 
 
   it("creates an identifier with the correct shape", () => {
-    const codec = {type: "fruit"} as IdentifierCodec;
+    const codec = primitives.anyCodec;
     const value = "banana";
 
     const actual = decode.createIdentifier(codec, value);

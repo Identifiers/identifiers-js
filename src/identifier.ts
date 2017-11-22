@@ -41,6 +41,12 @@ export interface IdentifierCodec {
   validateForIdentifier(value: any): void;
 
   /**
+   * Validates a value before it is decoded. Throw an Error if the value is not of the expected shape.
+   * @param value the value to validate
+   */
+  validateForDecoding(value: any): void;
+
+  /**
    * Convert a value into a value that can be used in an Identifier.
    * @param value the value to prepare
    * @returns the prepared value
@@ -53,12 +59,6 @@ export interface IdentifierCodec {
    * @returns the prepared value
    */
   encode(value: any): any;
-
-  /**
-   * Validates a value before it is decoded. Throw an Error if the value is not of the expected shape.
-   * @param value the value to validate
-   */
-  validateForDecoding(value: any): void;
 
   /**
    * Converts a decoded value into an Identifier's value. This function should throw an Error if the decoded type is wrong.

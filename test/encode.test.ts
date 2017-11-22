@@ -5,6 +5,8 @@ import * as encode from "../src/encode";
 import {Identifier} from "../src/identifier";
 import {codecSymbol} from "../src/shared";
 import {IdentifierCodec} from "../src/identifier";
+import * as primitives from "../src/types/primitives";
+
 
 describe("encode tests", () => {
 
@@ -21,7 +23,7 @@ describe("encode tests", () => {
     const id: Identifier<string> = {
       type: "string",
       value: "boo",
-      [codecSymbol]: {}
+      [codecSymbol]: primitives.anyCodec
     };
     expect(() => encode.findCodec(id)).to.not.throw();
   });

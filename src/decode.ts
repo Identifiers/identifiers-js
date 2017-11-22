@@ -4,7 +4,7 @@ import * as S from "js.spec";
 import * as base128 from "./base128/decode";
 import {Identifier, IdentifierCodec} from "./identifier";
 import {codecForTypeCode} from "./types/finder";
-import {hasValue, codecSymbol, identifierSpec} from "./shared";
+import {exists, codecSymbol, identifierSpec} from "./shared";
 
 
 /**
@@ -34,8 +34,8 @@ export function decodeString(encoded: any): Uint8Array {
 }
 
 const arraySpec = S.spec.tuple("decoded identifier array",
-    S.spec.integer,
-    hasValue
+  S.spec.integer,
+  exists
 );
 
 export function decodeBytes(bytes: Uint8Array): [number, any] {
