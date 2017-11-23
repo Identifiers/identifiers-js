@@ -2,31 +2,9 @@ import {expect} from "chai";
 import * as msgpack from "msgpack-lite";
 
 import * as encode from "../src/encode";
-import {Identifier, IdentifierCodec} from "../src/identifier";
-import {codecSymbol} from "../src/shared";
-import {anyCodec} from "../src/types/any";
-import {findCodec} from "../src/types/finder";
+import {IdentifierCodec} from "../src/identifier";
 
 describe("encode tests", () => {
-// todo move findCodec() tests to finder.test.ts
-  it("findCodec() throws an error with an identifier that is missing a codec", () => {
-    const id: Identifier<string> = {
-      type: "string",
-      value: "boo"
-    };
-    expect(() => findCodec(id)).to.throw();
-  });
-
-
-  it("findCodec() successfully finds a codec on an identifier", () => {
-    const id: Identifier<string> = {
-      type: "string",
-      value: "boo",
-      [codecSymbol]: anyCodec
-    };
-    expect(() => findCodec(id)).to.not.throw();
-  });
-
 
   it("encodeWithCodec() throws an error when a codec cannot encode a value", () => {
     const codec = {
