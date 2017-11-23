@@ -23,6 +23,17 @@ describe("codec finder", () => {
       expect(() => findCodec(id)).to.throw();
     });
 
+    it("throws an error with an identifier that's codec isn't known by the finder", () => {
+      const id: Identifier<string> = {
+        type: "string",
+        value: "boo",
+        [codecSymbol]: {
+          typeCode: -1
+        }
+      };
+      expect(() => findCodec(id)).to.throw();
+    });
+
     it("successfully finds a codec on an identifier", () => {
       const id: Identifier<string> = {
         type: "string",
