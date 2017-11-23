@@ -1,17 +1,15 @@
+import * as chai from "chai";
 import {expect} from "chai";
 import * as msgpack from "msgpack-lite";
 
 import * as base128 from "../src/base128/encode";
 import * as decode from "../src/decode";
-import * as primitives from "../src/types/primitives";
 import {IdentifierCodec} from "../src/identifier";
-import {codecSymbol, identifierSpec} from "../src/shared";
-
-import * as chai from "chai";
 import jsSpecChai from "js.spec-chai";
+import {anyCodec} from "../src/types/any";
+import {identifierSpec} from "./test-shared";
 
 chai.use(jsSpecChai);
-
 
 describe("decode tests", () => {
 
@@ -25,17 +23,6 @@ describe("decode tests", () => {
 
   it("fails with non-string input", () => {
     expect(() => decode.decodeString(78)).to.throw();
-  });
-
-
-  it("simply returns Identifier input", () => {
-    const id = {
-      type: "fruit",
-      value: "apple",
-      [codecSymbol]: primitives.anyCodec
-    };
-    const actual = decode.decodeFromString(id);
-    expect(actual).to.equal(id);
   });
 
 
@@ -79,12 +66,11 @@ describe("decode tests", () => {
 
 
   it("creates an identifier with the correct shape", () => {
-    const codec = primitives.anyCodec;
     const value = "banana";
 
-    const actual = decode.createIdentifier(codec, value);
+    const actual = decode.createIdentifier(anyCodec, value);
 
     expect(actual).to.conform(identifierSpec);
-    expect(actual).to.include({type: codec.type, value: value});
+    expect(actual).to.include({type: anyCodec.type, value: value});
   });
 });

@@ -1,9 +1,8 @@
 import * as msgpack from "msgpack-lite";
-import * as S from "js.spec";
 
 import * as base128 from "./base128/encode";
-import {codecSymbol, identifierSpec} from "./shared";
 import {Identifier, IdentifierCodec} from "./identifier";
+import {findCodec} from "./types/finder";
 
 /**
  * Convert an Identifier into an encoded identifier string.
@@ -17,11 +16,6 @@ export function encodeToString(identifier: Identifier<any>): string {
   const bytes = encodeBytes(codec.typeCode, value);
 
   return base128.encode(bytes);
-}
-
-export function findCodec(identifier: Identifier<any>): IdentifierCodec {
-  S.assert(identifierSpec, identifier);
-  return identifier[codecSymbol];
 }
 
 export function encodeWithCodec(codec: IdentifierCodec, value: any): any {

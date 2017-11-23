@@ -1,10 +1,10 @@
 import * as S from "js.spec";
 
 import {IdentifierCodec} from "../identifier";
-import * as primitives from "./primitives";
+import {longCodec} from "./long";
+import {createListCodec} from "./lists";
+import {SLOTS} from "./shared-types";
 
-const SLOTS = [0x20, 0x40, 0x60, 0x80, 0xa0, 0xc0];
-const EXT = 0xe0;
 
 const datetimeSpec = S.spec.or("datetime spec", {
   "Date": S.spec.date,
@@ -16,7 +16,7 @@ const datetimeSpec = S.spec.or("datetime spec", {
  */
 export const datetimeCodec: IdentifierCodec = {
   type: "datetime",
-  typeCode: primitives.longCodec.typeCode | SLOTS[1],
+  typeCode: longCodec.typeCode | SLOTS[1],
   validateForIdentifier: (value) => S.assert(datetimeSpec, value),
   // JS number has sufficient space for Dates; don't need to use google Long
   validateForDecoding: (value) => S.assert(S.spec.integer, value),
@@ -24,3 +24,5 @@ export const datetimeCodec: IdentifierCodec = {
   encode: (date: Date) => date.getTime(),
   decode: (decoded: number) => new Date(decoded)
 }
+
+export const datetimeListCodec = createListCodec(datetimeCodec, datetimeSpec);

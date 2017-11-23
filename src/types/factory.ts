@@ -2,10 +2,15 @@ import * as Long from "long";
 
 import {Identifier, IdentifierCodec} from "../identifier";
 import {createIdentifier} from "../decode";
-import {anyCodec, stringCodec, booleanCodec, integerCodec, floatCodec, longCodec} from "./primitives";
-import {datetimeCodec} from "./semantics";
+import {anyCodec} from "./any";
+import {stringCodec} from "./string";
+import {booleanCodec} from "./boolean";
+import {integerCodec} from "./integer";
+import {floatCodec} from "./float";
+import {longCodec} from "./long";
+import {datetimeCodec} from "./datetime";
 
-function newIdentifier<T>(codec: IdentifierCodec, value: any): Identifier<T> {
+export function newIdentifier<T>(codec: IdentifierCodec, value: any): Identifier<T> {
   codec.validateForIdentifier(value);
   return createIdentifier(codec, codec.forIdentifier(value));
 };

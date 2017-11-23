@@ -4,7 +4,7 @@ import * as S from "js.spec";
 import * as base128 from "./base128/decode";
 import {Identifier, IdentifierCodec} from "./identifier";
 import {codecForTypeCode} from "./types/finder";
-import {exists, codecSymbol, identifierSpec} from "./shared";
+import {exists, codecSymbol} from "./shared";
 
 
 /**
@@ -13,11 +13,6 @@ import {exists, codecSymbol, identifierSpec} from "./shared";
  * @returns the identifier object
  */
 export function decodeFromString<T>(encoded: any): Identifier<T> {
-
-  if (S.valid(identifierSpec, encoded)) {
-    //already an Identifier
-    return encoded;
-  }
 
   const bytes = decodeString(encoded);
   const decoded = decodeBytes(bytes);

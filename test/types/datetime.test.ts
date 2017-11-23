@@ -1,6 +1,6 @@
 import {expect} from "chai";
 
-import {datetimeCodec} from "../../src/types/semantics";
+import {datetimeCodec} from "../../src/types/datetime";
 
 describe("semantic codecs", () => {
 

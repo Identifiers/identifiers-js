@@ -1,10 +1,15 @@
 import {expect} from "chai";
 import * as Long from "long";
 
-import {anyCodec, booleanCodec, floatCodec, integerCodec, longCodec, stringCodec} from "../../src/types/primitives";
+import {longCodec} from "../../src/types/long";
+import {anyCodec} from "../../src/types/any";
+import {booleanCodec} from "../../src/types/boolean";
+import {stringCodec} from "../../src/types/string";
+import {integerCodec} from "../../src/types/integer";
+import {floatCodec} from "../../src/types/float";
 
 // todo: more tests around forIdentifier validation. these are currently muddled together
-
+// todo: break these into different tests and add list test
 describe("primitive codecs for identifier values", () => {
 
   describe("any codec", () => {

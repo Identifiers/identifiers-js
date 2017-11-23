@@ -1,26 +1,26 @@
 import * as S from "js.spec";
-
-import {anySpec, anyCodec, asIsCodec, stringCodec} from "./primitives";
 import {IdentifierCodec} from "../identifier";
+import {asIsCodec} from "./shared-types";
 
 export const LIST_TYPE_CODE = 0x8;
 
-function createListCodec(itemCodec: IdentifierCodec, itemSpec: S.Spec): IdentifierCodec {
+export function createListCodec(itemCodec: IdentifierCodec, forIdentifierSpec: S.Spec, forDecodingSpec?: S.Spec): IdentifierCodec {
   const listType = `${itemCodec.type}-list`;
-  const listSpec = S.spec.and(`${listType} spec`,
+  const forIdentifierListSpec = S.spec.and(`${listType} spec`,
     S.spec.array, // must be an array, not a Set
-    S.spec.collection(`${listType} item spec`, itemSpec));
+    S.spec.collection(`${listType} item spec`, forIdentifierSpec));
+
+  const forDecodingListSpec = S.spec.and(`${listType} spec`,
+    S.spec.array, // must be an array, not a Set
+    S.spec.collection(`${listType} item spec`, forDecodingSpec || forIdentifierSpec));
 
   return {
     ...asIsCodec,
     type: listType,
     typeCode: LIST_TYPE_CODE | itemCodec.typeCode,
-    validateForIdentifier: (list) => S.assert(listSpec, list),
-    validateForDecoding: (list) => S.assert(listSpec, list),
+    validateForIdentifier: (list) => S.assert(forIdentifierListSpec, list),
+    validateForDecoding: (list) => S.assert(forDecodingListSpec, list),
     forIdentifier: (list) => list.map(itemCodec.forIdentifier)
   }
 }
-
-export const anyListCodec = createListCodec(anyCodec, anySpec);
-export const stringListCodec = createListCodec(stringCodec, S.spec.string);
 

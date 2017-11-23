@@ -3,11 +3,16 @@ import * as Long from "long";
 
 import * as factory from "../../src/types/factory";
 import {Identifier, IdentifierCodec} from "../../src/identifier";
-import {identifierSpec} from "../../src/shared";
-import {anyCodec, stringCodec, booleanCodec, integerCodec, floatCodec, longCodec} from "../../src/types/primitives";
+import {longCodec} from "../../src/types/long";
 
 import * as chai from "chai";
 import jsSpecChai from "js.spec-chai";
+import {anyCodec} from "../../src/types/any";
+import {booleanCodec} from "../../src/types/boolean";
+import {stringCodec} from "../../src/types/string";
+import {integerCodec} from "../../src/types/integer";
+import {floatCodec} from "../../src/types/float";
+import {identifierSpec} from "../test-shared";
 
 chai.use(jsSpecChai);
 
