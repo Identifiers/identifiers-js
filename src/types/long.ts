@@ -3,6 +3,9 @@ import * as Long from "long";
 import {IdentifierCodec} from "../identifier";
 import {createListCodec} from "./lists";
 
+
+// todo consider not requiring Google Long library but instead vend an equivalent type that looks like Long
+// also look at how you can create a MsgPack long instead of 2-int array
 const longSpec = S.spec.or("long", {
   "google long": Long.isLong,
   "integer": S.spec.integer

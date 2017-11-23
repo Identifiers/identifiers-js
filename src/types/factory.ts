@@ -10,11 +10,13 @@ import {floatCodec} from "./float";
 import {longCodec} from "./long";
 import {datetimeCodec} from "./datetime";
 
-export function newIdentifier<T>(codec: IdentifierCodec, value: any): Identifier<T> {
+
+function newIdentifier<T>(codec: IdentifierCodec, value: any): Identifier<T> {
   codec.validateForIdentifier(value);
   return createIdentifier(codec, codec.forIdentifier(value));
 };
 
+// todo: How should list factories be created?
 
 export function forAny(value: any): Identifier<any> {
   return newIdentifier(anyCodec, value);
