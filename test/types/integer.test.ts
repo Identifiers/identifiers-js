@@ -3,12 +3,12 @@ import {expect} from "chai";
 import {integerCodec} from "../../src/types/integer";
 
 
-// todo add test for OOB numbers (single-precision int values)
 describe("integer codec", () => {
   it("supports encoding", () => {
     const value = -205;
     expect(() => integerCodec.validateForIdentifier(value)).to.not.throw();
     expect(() => integerCodec.validateForIdentifier(20.223)).to.throw();
+    expect(() => integerCodec.validateForIdentifier(787869585484)).to.throw();
     const actual = integerCodec.encode(value);
     expect(actual).to.equal(value);
   });
