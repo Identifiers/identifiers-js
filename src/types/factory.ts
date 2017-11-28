@@ -1,5 +1,3 @@
-import * as Long from "long";
-
 import {Identifier, IdentifierCodec} from "../identifier";
 import {createIdentifier} from "../decode";
 import {anyCodec} from "./any";
@@ -7,7 +5,7 @@ import {stringCodec} from "./string";
 import {booleanCodec} from "./boolean";
 import {integerCodec} from "./integer";
 import {floatCodec} from "./float";
-import {longCodec} from "./long";
+import {longCodec, LongLike} from "./long";
 import {datetimeCodec} from "./datetime";
 
 
@@ -38,7 +36,7 @@ export function forFloat(value: number): Identifier<number> {
   return newIdentifier(floatCodec, value);
 }
 
-export function forLong(value: Long | number): Identifier<Long> {
+export function forLong(value: LongLike | number): Identifier<LongLike> {
   return newIdentifier(longCodec, value);
 }
 

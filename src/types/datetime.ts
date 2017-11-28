@@ -18,7 +18,7 @@ export const datetimeCodec: IdentifierCodec = {
   type: "datetime",
   typeCode: longCodec.typeCode | SEMANTIC_SLOTS[1],
   validateForIdentifier: (value) => S.assert(datetimeSpec, value),
-  // JS number has sufficient space for Dates; don't need to use google Long
+  // JS number has sufficient space for Dates; don't need to use Long
   validateForDecoding: (value) => S.assert(S.spec.integer, value),
   forIdentifier: (value) => typeof value === "number" ? new Date(value) : value,
   encode: (date: Date) => date.getTime(),

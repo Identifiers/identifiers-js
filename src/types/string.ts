@@ -1,6 +1,7 @@
+import * as S from "js.spec";
+
 import {IdentifierCodec} from "../identifier";
 import {asIsCodec} from "./shared-types";
-import * as S from "js.spec";
 import {createListCodec} from "./lists";
 
 export const stringCodec: IdentifierCodec = {

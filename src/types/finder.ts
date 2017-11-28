@@ -1,3 +1,5 @@
+import * as S from "js.spec";
+
 import * as shared from "../shared";
 import {codecSymbol, exists} from "../shared";
 import {Identifier, IdentifierCodec} from "../identifier";
@@ -8,12 +10,9 @@ import {integerCodec, integerListCodec} from "./integer";
 import {floatCodec, floatListCodec} from "./float";
 import {longCodec, longListCodec} from "./long";
 import {datetimeCodec, datetimeListCodec} from "./datetime";
-import * as S from "js.spec";
 
 
 const codecs: IdentifierCodec[] = [];
-
-
 [ anyCodec,
   anyListCodec,
   stringCodec,
