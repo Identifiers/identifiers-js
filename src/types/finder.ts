@@ -1,7 +1,7 @@
 import * as S from "js.spec";
 
 import * as shared from "../shared";
-import {codecSymbol, exists} from "../shared";
+import {codecSymbol, existsPredicate} from "../shared";
 import {Identifier, IdentifierCodec} from "../identifier";
 import {anyCodec, anyListCodec} from "./any";
 import {booleanCodec, booleanListCodec} from "./boolean";
@@ -50,7 +50,7 @@ export const identifierSpec = S.spec.and("identifier",
     hasCodecSymbol,
     S.spec.map("identifier structure", {
       type: S.spec.string,
-      value: exists
+      value: existsPredicate
     }));
 
 export function findCodec(identifier: Identifier<any>): IdentifierCodec {

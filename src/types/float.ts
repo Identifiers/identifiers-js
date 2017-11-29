@@ -8,8 +8,8 @@ export const floatCodec: IdentifierCodec = {
   ...asIsCodec,
   type: "float",
   typeCode: 0x4,
-  validateForIdentifier: (value) => S.assert(S.spec.number, value), // todo change to S.spec.finite when PR is merged
-  validateForDecoding: (value) => S.assert(S.spec.number, value)
+  validateForIdentifier: (value) => S.assert(S.spec.finite, value),
+  validateForDecoding: (value) => S.assert(S.spec.finite, value)
 }
 
-export const floatListCodec = createListCodec(floatCodec, S.spec.number);
+export const floatListCodec = createListCodec(floatCodec, S.spec.finite);

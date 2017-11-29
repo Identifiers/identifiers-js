@@ -6,17 +6,17 @@
   version "1.0.31"
   resolved "https://registry.yarnpkg.com/@types/benchmark/-/benchmark-1.0.31.tgz#2dd3514e93396f362ba5551a7c9ff0da405c1d38"
 
-"@types/chai@4.0.5":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.0.5.tgz#b6e250e281b47e0192e236619e9b1afe62fd345c"
+"@types/chai@4.0.6":
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.0.6.tgz#9cb5a7fb7dd83be0cfcaafdbd95a2b5dd351762f"
 
 "@types/faker@4.1.2":
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@types/faker/-/faker-4.1.2.tgz#f8ab50c9f9af68c160dd71b63f83e24b712d0df5"
 
-"@types/js.spec@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@types/js.spec/-/js.spec-1.0.1.tgz#8cc10ea283864c747b1bc76d7675d7c95b266b90"
+"@types/js.spec@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/js.spec/-/js.spec-1.0.2.tgz#d1c4451e06623981d7035a7fbe2b3afbdf3d0d81"
 
 "@types/long@3.0.32":
   version "3.0.32"
@@ -642,7 +642,7 @@ inherits@2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
 
-int64-buffer@^0.1.9:
+int64-buffer@0.1.9, int64-buffer@^0.1.9:
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/int64-buffer/-/int64-buffer-0.1.9.tgz#9e039da043b24f78b196b283e04653ef5e990f61"
 
@@ -833,9 +833,9 @@ js.spec-chai@0.1.6:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/js.spec-chai/-/js.spec-chai-0.1.6.tgz#85208b736cab0472259a6c55cfbf8516129a70d3"
 
-js.spec@1.0.0-15:
-  version "1.0.0-15"
-  resolved "https://registry.yarnpkg.com/js.spec/-/js.spec-1.0.0-15.tgz#0358de9b2d6a86a8cd917d3852c21555fa055fdb"
+js.spec@1.0.0-17:
+  version "1.0.0-17"
+  resolved "https://registry.yarnpkg.com/js.spec/-/js.spec-1.0.0-17.tgz#2a24146a41bb794ac2ab40fd27e9e85deec32c34"
   dependencies:
     lodash.chunk "^4.2.0"
     lodash.flattendeep "^4.4.0"
@@ -1577,9 +1577,9 @@ type-detect@^4.0.0:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-4.0.3.tgz#0e3f2670b44099b0b46c284d136a7ef49c74c2ea"
 
-typescript@2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.6.1.tgz#ef39cdea27abac0b500242d6726ab90e0c846631"
+typescript@2.6.2:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.6.2.tgz#3c5b6fd7f6de0914269027f03c0946758f7673a4"
 
 uglify-js@^2.6:
   version "2.8.29"

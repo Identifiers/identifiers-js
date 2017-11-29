@@ -5,12 +5,12 @@ import {asIsCodec} from "./shared-types";
 import {createListCodec} from "./lists";
 
 //32-bit signed value
-const MIN_INT = -(2 ** 31);
-const MAX_INT = 2 ** 31 - 1;
-const integerRangeSpec = (value) => value > MIN_INT && value < MAX_INT;
+const MAX_INT = 2 ** 31;
+const MIN_INT = -MAX_INT;
+const integerRangeSpec = (value) => value >= MIN_INT && value < MAX_INT;
 
 export const integerSpec = S.spec.and("integer value",
-    S.spec.integer,
+    Number.isInteger,
     integerRangeSpec);
 
 export const integerCodec: IdentifierCodec = {

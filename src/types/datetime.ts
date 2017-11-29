@@ -8,7 +8,7 @@ import {SEMANTIC_SLOTS} from "./shared-types";
 
 const datetimeSpec = S.spec.or("datetime spec", {
   "Date": S.spec.date,
-  "number": S.spec.integer
+  "number": Number.isInteger
 });
 
 /**
@@ -19,10 +19,10 @@ export const datetimeCodec: IdentifierCodec = {
   typeCode: longCodec.typeCode | SEMANTIC_SLOTS[1],
   validateForIdentifier: (value) => S.assert(datetimeSpec, value),
   // JS number has sufficient space for Dates; don't need to use Long
-  validateForDecoding: (value) => S.assert(S.spec.integer, value),
+  validateForDecoding: (value) => S.assert(Number.isInteger, value),
   forIdentifier: (value) => typeof value === "number" ? new Date(value) : value,
-  encode: (date: Date) => date.getTime(),
-  decode: (decoded: number) => new Date(decoded)
+  encode: (date) => date.getTime(),
+  decode: (decoded) => new Date(decoded)
 }
 
 export const datetimeListCodec = createListCodec(datetimeCodec, datetimeSpec);

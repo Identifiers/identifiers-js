@@ -1,6 +1,6 @@
 import * as S from "js.spec";
 
-import {codecSymbol, exists} from "../src/shared";
+import {codecSymbol, existsPredicate} from "../src/shared";
 
 
 export const codecSpec = S.spec.map("codec", {
@@ -21,5 +21,5 @@ export const identifierSpec = S.spec.and("identifier",
   hasCodecSymbol,
   S.spec.map("identifier structure", {
     type: S.spec.string,
-    value: exists
+    value: existsPredicate
   }));

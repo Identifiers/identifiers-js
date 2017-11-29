@@ -62,12 +62,13 @@ describe("identifier factory", () => {
 
   it("creates a long (from number) identifier", () => {
     const value = 9967574044;
+    const long = Long.fromNumber(value);
     const actual = factory.forLong(value);
-    validateCreatedIdentifier(longCodec, Long.fromInt(value), actual);
+    validateCreatedIdentifier(longCodec, {low: long.low, high: long.high}, actual);
   });
 
-  it("creates a long (from google Long) identifier", () => {
-    const value = Long.fromInt(9967574044);
+  it("creates a long (from  Long) identifier", () => {
+    const value = Long.fromNumber(9967574044);
     const actual = factory.forLong(value);
     validateCreatedIdentifier(longCodec, value, actual);
   });

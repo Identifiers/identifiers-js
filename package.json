@@ -8,15 +8,16 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "js.spec": "1.0.0-15",
+    "int64-buffer": "0.1.9",
+    "js.spec": "1.0.0-17",
     "long": "3.2.0",
     "msgpack-lite": "0.1.26"
   },
   "devDependencies": {
     "@types/benchmark": "1.0.31",
-    "@types/chai": "4.0.5",
+    "@types/chai": "4.0.6",
     "@types/faker": "4.1.2",
-    "@types/js.spec": "1.0.1",
+    "@types/js.spec": "1.0.2",
     "@types/long": "3.0.32",
     "@types/mocha": "2.2.44",
     "@types/msgpack-lite": "0.1.6",
@@ -30,7 +31,7 @@
     "rimraf": "2.6.2",
     "source-map-support": "0.5.0",
     "ts-node": "3.3.0",
-    "typescript": "2.6.1"
+    "typescript": "2.6.2"
   },
   "scripts": {
     "build:commonjs": "rimraf lib && tsc --target es5 --outDir lib --module commonjs --declaration",

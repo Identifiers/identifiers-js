@@ -7,7 +7,7 @@ import {createListCodec} from "./lists";
 export const anySpec = S.spec.or("any identifier type", {
   "string": S.spec.string,
   "boolean": S.spec.boolean,
-  "number": S.spec.number
+  "number": S.spec.finite
 });
 
 export const anyCodec: IdentifierCodec = {
