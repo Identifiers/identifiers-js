@@ -5,8 +5,8 @@ import {stringCodec, stringListCodec} from "./string";
 import {booleanCodec, booleanListCodec} from "./boolean";
 import {integerCodec, integerListCodec} from "./integer";
 import {floatCodec, floatListCodec} from "./float";
-import {longCodec, LongInput, LongLike, longListCodec} from "./long";
-import {datetimeCodec, DatetimeInput, datetimeListCodec} from "./datetime";
+import {longCodec, longListCodec} from "./long";
+import {datetimeCodec, datetimeListCodec} from "./datetime";
 
 
 type ItemFactory<IN, OUT> = (value: IN) => Identifier<OUT>;
@@ -34,36 +34,4 @@ export const factory = {
   float: newFactory(floatCodec, floatListCodec),
   long: newFactory(longCodec, longListCodec),
   datetime: newFactory(datetimeCodec, datetimeListCodec)
-}
-
-
-
-
-
-export function forAny(value: any): Identifier<any> {
-  return newIdentifier(anyCodec, value);
-}
-
-export function forString(value: string): Identifier<string> {
-  return newIdentifier(stringCodec, value);
-}
-
-export function forBoolean(value: boolean): Identifier<boolean> {
-  return newIdentifier(booleanCodec, value);
-}
-
-export function forInteger(value: number): Identifier<number> {
-  return newIdentifier(integerCodec, value);
-}
-
-export function forFloat(value: number): Identifier<number> {
-  return newIdentifier(floatCodec, value);
-}
-
-export function forLong(value: LongInput): Identifier<LongLike> {
-  return newIdentifier(longCodec, value);
-}
-
-export function forDatetime(value: DatetimeInput): Identifier<Date> {
-  return newIdentifier(datetimeCodec, value);
 }
