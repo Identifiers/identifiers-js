@@ -11,6 +11,8 @@ const datetimeSpec = S.spec.or("datetime spec", {
   "number": Number.isInteger
 });
 
+export type DatetimeInput = number | Date;
+
 /**
  * Encoded value is the unix time value. Base type is long.
  */
@@ -20,7 +22,8 @@ export const datetimeCodec: IdentifierCodec = {
   validateForIdentifier: (value) => S.assert(datetimeSpec, value),
   // JS number has sufficient space for Dates; don't need to use Long
   validateForDecoding: (value) => S.assert(Number.isInteger, value),
-  forIdentifier: (value) => typeof value === "number" ? new Date(value) : value,
+  // copy value to prevent modification outside this identifier from mutating it's internal state
+  forIdentifier: (value) => new Date(typeof value === "number" ? value : value.getTime()),
   encode: (date) => date.getTime(),
   decode: (decoded) => new Date(decoded)
 }

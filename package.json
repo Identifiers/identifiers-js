@@ -9,7 +9,7 @@
   "private": false,
   "dependencies": {
     "int64-buffer": "0.1.9",
-    "js.spec": "1.0.0-17",
+    "js.spec": "1.0.0-19",
     "long": "3.2.0",
     "msgpack-lite": "0.1.26"
   },

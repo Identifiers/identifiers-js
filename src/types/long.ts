@@ -24,6 +24,7 @@ export interface LongLike {
   low: number;
 }
 
+export type LongInput = number | LongLike;
 
 const longArraySpec = S.spec.tuple("long decode",
   integerSpec,
@@ -45,14 +46,15 @@ const decodeSpec = S.spec.or("decoded long", {
 });
 
 function createIdentifierValue(value): LongLike {
+  let long = value;
   if (typeof value === 'number') {
-    const long = Long.fromNumber(value);
-    return {high: long.high, low: long.low};
+    long = Long.fromNumber(value);
   }
-  return value;
+  const {high, low} = long;
+  return {high, low};
 }
 
-function readDecoded(value: Int64BE | number) {
+function readDecoded(value: Int64BE | number): LongLike {
   return Int64BE.isInt64BE(value)
     ? readLong(value)
     : {high: 0, low: value}

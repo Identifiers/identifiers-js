@@ -17,38 +17,38 @@ function roundTrip(id, assertion?: (expected, actual) => void) {
 
 describe("round-trip identifiers to strings using factory functions", () => {
 
-  it("forAny()", () => {
-    roundTrip(ids.forAny("a string"));
-    roundTrip(ids.forAny(false));
-    roundTrip(ids.forAny(33.456));
+  it("any", () => {
+    roundTrip(ids.factory.any("a string"));
+    roundTrip(ids.factory.any(false));
+    roundTrip(ids.factory.any(33.456));
   });
 
-  it("forString()", () => {
-    roundTrip(ids.forString("hello"));
+  it("string", () => {
+    roundTrip(ids.factory.string("hello"));
   });
 
-  it("forBoolean()", () => {
-    roundTrip(ids.forBoolean(true));
+  it("boolean", () => {
+    roundTrip(ids.factory.boolean(true));
   });
 
-  it("forInteger()", () => {
-    roundTrip(ids.forInteger(99));
+  it("integer", () => {
+    roundTrip(ids.factory.integer(99));
   });
 
-  it("forFloat()", () => {
-    roundTrip(ids.forFloat(0.009));
+  it("float", () => {
+    roundTrip(ids.factory.float(0.009));
   });
 
-  it("forLong()", () => {
-    roundTrip(ids.forLong(8700), expectForLong);
-    roundTrip(ids.forLong(2 ** 63), expectForLong);
-    roundTrip(ids.forLong(Long.fromBits(63, 65535)), expectForLong);
-    roundTrip(ids.forLong({low: 766745, high: 2900}), expectForLong);
+  it("long", () => {
+    roundTrip(ids.factory.long(8700), expectForLong);
+    roundTrip(ids.factory.long(2 ** 63), expectForLong);
+    roundTrip(ids.factory.long(Long.fromBits(63, 65535)), expectForLong);
+    roundTrip(ids.factory.long({low: 766745, high: 2900}), expectForLong);
   });
 
-  it("forDatetime()", () => {
-    roundTrip(ids.forDatetime(7785646));
-    roundTrip(ids.forDatetime(new Date()));
+  it("datetime", () => {
+    roundTrip(ids.factory.datetime(7785646));
+    roundTrip(ids.factory.datetime(new Date()));
   });
 });
 

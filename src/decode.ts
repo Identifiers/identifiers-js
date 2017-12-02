@@ -23,7 +23,7 @@ export function decodeFromString<T>(encoded: any): Identifier<T> {
 }
 
 
-export function decodeString(encoded: any): Uint8Array {
+export function decodeString(encoded: string): Uint8Array {
   S.assert(S.spec.string, encoded);
   return base128.decode(encoded);
 }
