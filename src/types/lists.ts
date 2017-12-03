@@ -1,7 +1,6 @@
 import * as S from "js.spec";
 
 import {IdentifierCodec} from "../identifier";
-import {asIsCodec} from "./shared-types";
 
 export const LIST_TYPE_CODE = 0x8;
 
@@ -16,12 +15,13 @@ export function createListCodec(itemCodec: IdentifierCodec, forIdentifierSpec: S
     S.spec.collection(`${listType} item spec`, forDecodingSpec || forIdentifierSpec));
 
   return {
-    ...asIsCodec,
     type: listType,
     typeCode: LIST_TYPE_CODE | itemCodec.typeCode,
     validateForIdentifier: (list) => S.assert(forIdentifierListSpec, list),
     validateForDecoding: (list) => S.assert(forDecodingListSpec, list),
-    forIdentifier: (list) => list.map(itemCodec.forIdentifier)
+    forIdentifier: (list) => list.map(itemCodec.forIdentifier),
+    encode: (list) => list.map(itemCodec.encode),
+    decode: (list) => list.map(itemCodec.decode)
   }
 }
 

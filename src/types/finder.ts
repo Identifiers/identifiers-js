@@ -47,11 +47,12 @@ function hasCodecSymbol(id: any): boolean {
 }
 
 export const identifierSpec = S.spec.and("identifier",
-    hasCodecSymbol,
-    S.spec.map("identifier structure", {
-      type: S.spec.string,
-      value: existsPredicate
-    }));
+  hasCodecSymbol,
+  S.spec.map("identifier structure", {
+    type: S.spec.string,
+    value: existsPredicate
+  })
+);
 
 export function findCodec(identifier: Identifier<any>): IdentifierCodec {
   S.assert(identifierSpec, identifier);

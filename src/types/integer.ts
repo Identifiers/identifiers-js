@@ -10,8 +10,9 @@ const MIN_INT = -MAX_INT;
 const integerRangeSpec = (value) => value >= MIN_INT && value < MAX_INT;
 
 export const integerSpec = S.spec.and("integer value",
-    Number.isInteger,
-    integerRangeSpec);
+  Number.isInteger,
+  integerRangeSpec
+);
 
 export const integerCodec: IdentifierCodec = {
   ...asIsCodec,

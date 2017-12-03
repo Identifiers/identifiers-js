@@ -14,7 +14,7 @@ const datetimeSpec = S.spec.or("datetime spec", {
 export type DatetimeInput = number | Date;
 
 /**
- * Encoded value is the unix time value. Base type is long.
+ * Encoded value is the unix epoch time value. Base type is long.
  */
 export const datetimeCodec: IdentifierCodec = {
   type: "datetime",

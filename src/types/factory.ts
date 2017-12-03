@@ -9,9 +9,10 @@ import {longCodec, longListCodec} from "./long";
 import {datetimeCodec, datetimeListCodec} from "./datetime";
 
 
-type ItemFactory<IN, OUT> = (value: IN) => Identifier<OUT>;
+interface ItemFactory<IN, OUT> { (value: IN): Identifier<OUT>; }
 type ListFactory<IN, OUT> = (...values: IN[]) => Identifier<OUT>;
-type Factory<IN, OUT, F extends ItemFactory<IN, OUT> = ItemFactory<IN, OUT>> = F & {list: ListFactory<IN, OUT>};
+
+export type Factory<IN, OUT, F extends ItemFactory<IN, OUT> = ItemFactory<IN, OUT>> = F & {list: ListFactory<IN, OUT>};
 
 
 function newFactory<IN, OUT>(itemCodec, listCodec): Factory<IN, OUT> {
@@ -26,9 +27,12 @@ function newIdentifier<T>(codec: IdentifierCodec, value: any): Identifier<T> {
   return createIdentifier(codec, codec.forIdentifier(value));
 };
 
+/**
+ * Factories for identifiers.
+ */
 export const factory = {
-  any: newFactory(anyCodec, anyListCodec),
-  string: newFactory(stringCodec, stringListCodec),
+  any: newFactory<any, any>(anyCodec, anyListCodec),
+  string: newFactory<string, string>(stringCodec, stringListCodec),
   boolean: newFactory(booleanCodec, booleanListCodec),
   integer: newFactory(integerCodec, integerListCodec),
   float: newFactory(floatCodec, floatListCodec),

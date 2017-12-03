@@ -16,28 +16,33 @@ export interface LongLike {
   /**
    * The high 32 bits as a signed value.
    */
-  high: number;
+  readonly high: number;
 
   /**
    * The low 32 bits as a signed value.
    */
-  low: number;
+  readonly low: number;
 }
 
+/**
+ * Input type for long identifier that takes either a number or a LongLike object.
+ */
 export type LongInput = number | LongLike;
 
-const longArraySpec = S.spec.tuple("long decode",
-  integerSpec,
-  integerSpec);
 
-// forgiving of other fields in the object; js.spec can't be forgiving like this
-function longLikeSpec({low, high}): boolean {
-  return S.valid(longArraySpec, [low, high]);
-};
+export const longLikeSpec = S.spec.map("long value", {
+  low: integerSpec,
+  high: integerSpec,
+  [S.symbol.optional]: {
+    unsigned: S.spec.and("unsigned flag should be false",
+      S.spec.boolean,
+      (value) => !!value)
+  }
+});
 
-const identifierSpec = S.spec.or("long", {
-  "LongLike": longLikeSpec,
-  "integer": Number.isInteger
+const identifierSpec = S.spec.or("long identifier", {
+  "number": Number.isInteger,
+  "LongLike": longLikeSpec
 });
 
 const decodeSpec = S.spec.or("decoded long", {
@@ -54,7 +59,17 @@ function createIdentifierValue(value): LongLike {
   return {high, low};
 }
 
-function readDecoded(value: Int64BE | number): LongLike {
+/*
+  If number is a 32-bit int value (high != 0) then just use number so msgpack will store as int32
+  If over that size use Int64BE
+*/
+function encodeValue({low, high}) {
+  return high === 0
+    ? low
+    : new Int64BE(high, low);
+}
+
+function decodeValue(value: Int64BE | number): LongLike {
   return Int64BE.isInt64BE(value)
     ? readLong(value)
     : {high: 0, low: value}
@@ -73,10 +88,8 @@ export const longCodec: IdentifierCodec = {
   validateForIdentifier: (value) => S.assert(identifierSpec, value),
   forIdentifier: createIdentifierValue,
   validateForDecoding: (value) => S.assert(decodeSpec, value),
-  // if number is a 32-bit int value then just use number so msgpack will store as int32
-  // over that size use long. Basically that means if high != 0.
-  encode: ({low, high}) => high === 0 ? low : new Int64BE(high, low),
-  decode: (value) => Int64BE.isInt64BE(value) ? readLong(value) : {high: 0, low: value}
+  encode: encodeValue,
+  decode: decodeValue
 }
 
 export const longListCodec: IdentifierCodec = createListCodec(longCodec, identifierSpec, decodeSpec);

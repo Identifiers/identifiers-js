@@ -15,10 +15,10 @@ describe("long codec", () => {
     });
 
     it("supports encoding numbers", () => {
-      const value = Long.fromNumber(4);
+      const value = 4;
       expect(() => longCodec.validateForIdentifier(value)).to.not.throw();
-      const actual = longCodec.encode(value);
-      expect(actual).equals(value.low);
+      const actual = longCodec.encode(longCodec.forIdentifier(value));
+      expect(actual).equals(value);
     });
 
     it("supports decoding numbers", () => {
@@ -37,12 +37,23 @@ describe("long codec", () => {
   });
 
   describe("list of longs", () => {
-    //todo more tests
     it("supports encoding mixed types of longs", () => {
-      const values = [1, 2, Long.fromNumber(2 ** 60)];
+      const values = longListCodec.forIdentifier([1, 2, Long.fromNumber(2 ** 60)]);
       expect(() => longListCodec.validateForIdentifier(values)).to.not.throw();
       const actual = longListCodec.encode(values);
-      expect(actual).to.contain.ordered.members(values);
+      const v3 = values[2];
+      expect(actual).to.contain.deep.ordered.members([1, 2, new Int64BE(v3.high, v3.low)]);
+    });
+
+    it("supports decoding mixed types of longs", () => {
+      const values = [77, -2994, new Int64BE(2 ** 62)];
+      expect(() => longListCodec.validateForDecoding(values)).to.not.throw();
+      const actual = longListCodec.decode(values);
+      expect(actual).to.contain.deep.ordered.members([
+        {low: 77, high: 0},
+        {low: -2994, high: 0},
+        {low: 0, high: 1073741824}
+      ]);
     });
   });
 });
