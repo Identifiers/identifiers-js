@@ -59,7 +59,7 @@ const decodeSpec = S.spec.or("decoded long", {
   "Int64BE": Int64BE.isInt64BE
 });
 
-function createIdentifierValue(value): LongLike {
+function forIdentifierValue(value): LongLike {
   let long = value;
   if (typeof value === 'number') {
     long = Long.fromNumber(value);
@@ -95,7 +95,7 @@ export const longCodec: IdentifierCodec = {
   type: "long",
   typeCode: 0x5,
   validateForIdentifier: (value) => S.assert(longInputSpec, value),
-  forIdentifier: createIdentifierValue,
+  forIdentifier: forIdentifierValue,
   validateForDecoding: (value) => S.assert(decodeSpec, value),
   encode: encodeValue,
   decode: decodeValue
