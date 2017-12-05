@@ -16,10 +16,9 @@ export type Factory<IN, OUT, F extends ItemFactory<IN, OUT> = ItemFactory<IN, OU
 
 
 function newFactory<IN, OUT>(itemCodec, listCodec): Factory<IN, OUT> {
-  const item = (value: IN): Identifier<OUT> => newIdentifier(itemCodec, value);
-  const list = (...values: IN[]): Identifier<OUT> => newIdentifier(listCodec, values);
-  item["list"] = list;
-  return item as Factory<IN, OUT>;
+  const factory = ((v: IN) => newIdentifier(itemCodec, v)) as Factory<IN, OUT>;
+  factory.list = (...values: IN[]): Identifier<OUT> => newIdentifier(listCodec, values);
+  return factory;
 };
 
 function newIdentifier<T>(codec: IdentifierCodec, value: any): Identifier<T> {

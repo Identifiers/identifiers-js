@@ -44,6 +44,7 @@ describe("round-trip identifiers to strings using factory functions", () => {
     roundTrip(ids.factory.long(2 ** 63));
     roundTrip(ids.factory.long(Long.fromBits(63, 65535)));
     roundTrip(ids.factory.long({low: 766745, high: 2900}));
+    roundTrip(ids.factory.long({low: 89, high: 420, unsigned: false}));
     roundTrip(ids.factory.long.list(1987, 2 ** 58, Long.fromNumber(-100), {low: -50, high: 5564}));
   });
 

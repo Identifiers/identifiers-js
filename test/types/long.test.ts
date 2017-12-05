@@ -8,10 +8,10 @@ import {Int64BE} from "int64-buffer";
 describe("long codec", () => {
   describe("individual longs", () => {
     it("supports encoding long-like objects", () => {
-      const value = Long.fromNumber(83447645763839);
+      const value = {high: 21, low: 9843};
       expect(() => longCodec.validateForIdentifier(value)).to.not.throw();
-      const actual: Int64BE = longCodec.encode(value);
-      expect(actual.toNumber()).equals(value.toNumber());
+      const actual = longCodec.encode(value);
+      expect(actual.toArray()).to.contain.ordered.members([0, 0, 0, 21, 0, 0, 38, 115]);
     });
 
     it("supports encoding numbers", () => {
@@ -50,9 +50,9 @@ describe("long codec", () => {
       expect(() => longListCodec.validateForDecoding(values)).to.not.throw();
       const actual = longListCodec.decode(values);
       expect(actual).to.contain.deep.ordered.members([
-        {low: 77, high: 0},
-        {low: -2994, high: 0},
-        {low: 0, high: 1073741824}
+        {high: 0, low: 77},
+        {high: 0, low: -2994},
+        {high: 1073741824, low: 0}
       ]);
     });
   });

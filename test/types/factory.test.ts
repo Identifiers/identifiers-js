@@ -3,7 +3,7 @@ import * as Long from "long";
 import * as chai from "chai";
 import jsSpecChai from "js.spec-chai";
 
-import {factory} from "../../src/types/factory";
+import {factory} from "../../src";
 import {Identifier} from "../../src/identifier";
 import {identifierSpec} from "../test-shared";
 
@@ -105,6 +105,11 @@ describe("identifier factory methods", () => {
       const value = Long.fromNumber(19404);
       const actual = factory.long(value);
       validateCreatedIdentifier({low: value.low, high: value.high}, actual);
+    });
+
+    it("rejects a Long that is unsigned", () => {
+      const value = Long.fromNumber(19404, true);
+      expect(() => factory.long(value)).to.throw();
     });
 
     it("creates a list identifier from numbers", () => {
