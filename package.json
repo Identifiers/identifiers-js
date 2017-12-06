@@ -8,14 +8,14 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "int64-buffer": "0.1.9",
+    "int64-buffer": "0.1.10",
     "js.spec": "1.0.0-19",
     "long": "3.2.0",
     "msgpack-lite": "0.1.26"
   },
   "devDependencies": {
     "@types/benchmark": "1.0.31",
-    "@types/chai": "4.0.6",
+    "@types/chai": "4.0.8",
     "@types/faker": "4.1.2",
     "@types/js.spec": "1.0.2",
     "@types/long": "3.0.32",
