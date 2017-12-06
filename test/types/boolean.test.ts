@@ -4,12 +4,12 @@ import {booleanCodec} from "../../src/types/boolean";
 
 
 describe("boolean codec", () => {
-  it("validates good values for identifier", () => {
+  it("validates good identifier values", () => {
     expect(() => booleanCodec.validateForIdentifier(true)).to.not.throw();
     expect(() => booleanCodec.validateForIdentifier(false)).to.not.throw();
   });
 
-  it("rejects bad values for identifier", () => {
+  it("rejects bad identifier values", () => {
     expect(() => booleanCodec.validateForIdentifier(1)).to.throw();
     expect(() => booleanCodec.validateForIdentifier(null)).to.throw();
   });
@@ -20,12 +20,12 @@ describe("boolean codec", () => {
     expect(actual).to.equal(value);
   });
 
-  it("validates good decode values", () => {
+  it("validates good decoded values", () => {
     expect(() => booleanCodec.validateForDecoding(true)).to.not.throw();
     expect(() => booleanCodec.validateForDecoding(false)).to.not.throw();
   });
 
-  it("invalidates bad decode values", () => {
+  it("rejects decoding bad values", () => {
     expect(() => booleanCodec.validateForDecoding(0)).to.throw();
     expect(() => booleanCodec.validateForDecoding("false")).to.throw();
     expect(() => booleanCodec.validateForDecoding(null)).to.throw();

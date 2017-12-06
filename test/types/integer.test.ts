@@ -25,12 +25,12 @@ describe("integer codec", () => {
     expect(actual).to.equal(value);
   });
 
-  it("validates good values for decoding", () => {
+  it("validates good decoded values", () => {
     expect(() => integerCodec.validateForDecoding(2)).to.not.throw();
     expect(() => integerCodec.validateForDecoding(-400)).to.not.throw();
   });
 
-  it("rejects bad values for decoding", () => {
+  it("rejects decoding bad values", () => {
     expect(() => integerCodec.validateForDecoding("happiness")).to.throw();
     expect(() => integerCodec.validateForDecoding(12.44)).to.throw();
     expect(() => integerCodec.validateForDecoding(2 ** 32)).to.throw();

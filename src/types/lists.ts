@@ -18,9 +18,9 @@ export function createListCodec(itemCodec: IdentifierCodec, forIdentifierSpec: S
     type: listType,
     typeCode: LIST_TYPE_CODE | itemCodec.typeCode,
     validateForIdentifier: (list) => S.assert(forIdentifierListSpec, list),
-    validateForDecoding: (list) => S.assert(forDecodingListSpec, list),
     forIdentifier: (list) => list.map(itemCodec.forIdentifier),
     encode: (list) => list.map(itemCodec.encode),
+    validateForDecoding: (list) => S.assert(forDecodingListSpec, list),
     decode: (list) => list.map(itemCodec.decode)
   }
 }

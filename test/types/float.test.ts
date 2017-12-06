@@ -25,7 +25,7 @@ describe("float codec", () => {
     expect(() => floatCodec.validateForDecoding(-12984.45)).to.not.throw();
   });
 
-  it("rejects bad decoded values", () => {
+  it("rejects decoding bad values", () => {
     expect(() => floatCodec.validateForDecoding(false)).to.throw();
     expect(() => floatCodec.validateForDecoding("200.23")).to.throw();
   });

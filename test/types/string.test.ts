@@ -25,7 +25,7 @@ describe("string codec", () => {
     expect(() => stringCodec.validateForDecoding("")).to.not.throw();
   });
 
-  it("rejects bad decoded values", () => {
+  it("rejects decoding bad values", () => {
     expect(() => stringCodec.validateForDecoding(false)).to.throw();
     expect(() => stringCodec.validateForDecoding(1)).to.throw();
 

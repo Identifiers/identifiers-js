@@ -96,8 +96,8 @@ export const longCodec: IdentifierCodec = {
   typeCode: 0x5,
   validateForIdentifier: (value) => S.assert(longInputSpec, value),
   forIdentifier: forIdentifierValue,
-  validateForDecoding: (value) => S.assert(decodeSpec, value),
   encode: encodeValue,
+  validateForDecoding: (value) => S.assert(decodeSpec, value),
   decode: decodeValue
 }
 

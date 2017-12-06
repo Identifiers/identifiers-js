@@ -23,7 +23,7 @@ describe("datetime codec", () => {
     expect(() => datetimeCodec.validateForDecoding(33779563)).to.not.throw();
   });
 
-  it("rejects bad decoded values", () => {
+  it("rejects decoding bad values", () => {
     expect(() => datetimeCodec.validateForDecoding(new Date())).to.throw();
     expect(() => datetimeCodec.validateForDecoding("2017")).to.throw();
     expect(() => datetimeCodec.validateForDecoding(224.3)).to.throw();
