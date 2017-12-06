@@ -7,37 +7,43 @@ import {Int64BE} from "int64-buffer";
 
 describe("long codec", () => {
   describe("individual longs", () => {
-    it("supports encoding long-like objects", () => {
-      const value = {high: 21, low: 9843};
-      expect(() => longCodec.validateForIdentifier(value)).to.not.throw();
-      const actual = longCodec.encode(value);
-      expect(actual.toArray()).to.contain.ordered.members([0, 0, 0, 21, 0, 0, 38, 115]);
+    it("validates good identifier values", () => {
+      expect(() => longCodec.validateForIdentifier(77)).to.not.throw();
+      expect(() => longCodec.validateForIdentifier({high: 21, low: 9843})).to.not.throw();
     });
 
-    it("supports encoding numbers", () => {
+    it("supports encoding 32-bit numbers", () => {
       const value = 4;
-      expect(() => longCodec.validateForIdentifier(value)).to.not.throw();
-      const actual = longCodec.encode(longCodec.forIdentifier(value));
+      const actual = longCodec.encode({high: 0, low: value});
       expect(actual).equals(value);
+    });
+
+    it("supports encoding larger numbers", () => {
+      const value = {high: 4221, low: 3};
+      const actual = longCodec.encode(value);
+      expect(actual.toArray()).to.contain.ordered.members([0, 0, 16, 125, 0, 0, 0, 3]);
+    });
+
+    it("validates good decoded values", () => {
+      expect(() => longCodec.validateForDecoding(1999)).to.not.throw();
+      expect(() => longCodec.validateForDecoding(new Int64BE(1797574472988))).to.not.throw();
     });
 
     it("supports decoding numbers", () => {
       const value = 37;
-      expect(() => longCodec.validateForDecoding(value)).to.not.throw();
       const actual = longCodec.decode(value);
       expect(actual).to.deep.equal({high: 0, low: 37});
     });
 
     it("supports decoding Int64BE", () => {
       const value = new Int64BE(77975744723112);
-      expect(() => longCodec.validateForDecoding(value)).to.not.throw();
       const actual = longCodec.decode(value);
       expect(actual).to.deep.equal({high: 18155, low: 613464232});
     });
   });
 
   describe("list of longs", () => {
-    it("supports encoding mixed types of longs", () => {
+    it("supports validating and encoding mixed types of longs", () => {
       const values = longListCodec.forIdentifier([1, 2, Long.fromNumber(2 ** 60)]);
       expect(() => longListCodec.validateForIdentifier(values)).to.not.throw();
       const actual = longListCodec.encode(values);
@@ -45,7 +51,7 @@ describe("long codec", () => {
       expect(actual).to.contain.deep.ordered.members([1, 2, new Int64BE(v3.high, v3.low)]);
     });
 
-    it("supports decoding mixed types of longs", () => {
+    it("supports validating and decoding mixed types of longs", () => {
       const values = [77, -2994, new Int64BE(2 ** 62)];
       expect(() => longListCodec.validateForDecoding(values)).to.not.throw();
       const actual = longListCodec.decode(values);
