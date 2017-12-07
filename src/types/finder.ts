@@ -1,6 +1,5 @@
 import * as S from "js.spec";
 
-import * as shared from "../shared";
 import {codecSymbol, existsPredicate} from "../shared";
 import {Identifier, IdentifierCodec} from "../identifier";
 import {anyCodec, anyListCodec} from "./any";
@@ -10,7 +9,7 @@ import {integerCodec, integerListCodec} from "./integer";
 import {floatCodec, floatListCodec} from "./float";
 import {longCodec, longListCodec} from "./long";
 import {datetimeCodec, datetimeListCodec} from "./datetime";
-
+import {SEMANTIC_TYPE_MASK} from "./shared-types";
 
 const codecs: IdentifierCodec[] = [];
 [ anyCodec,
@@ -35,10 +34,10 @@ export function codecForTypeCode(typeCode: number): IdentifierCodec {
   if (codec) {
     return codec;
   }
-  if (typeCode <= shared.semanticTypeMask) {
+  if (typeCode <= SEMANTIC_TYPE_MASK) {
     throw new Error(`No codec for typeCode '${typeCode}' found.`);
   }
-  return codecForTypeCode(typeCode & shared.semanticTypeMask);
+  return codecForTypeCode(typeCode & SEMANTIC_TYPE_MASK);
 }
 
 

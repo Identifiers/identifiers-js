@@ -3,7 +3,7 @@ import * as S from "js.spec";
 import {IdentifierCodec} from "../identifier";
 import {longCodec} from "./long";
 import {createListCodec} from "./lists";
-import {SEMANTIC_SLOTS} from "./shared-types";
+import {SEMANTIC_MASKS} from "./shared-types";
 
 
 const datetimeSpec = S.spec.or("datetime spec", {
@@ -18,7 +18,7 @@ export type DatetimeInput = number | Date;
  */
 export const datetimeCodec: IdentifierCodec = {
   type: "datetime",
-  typeCode: longCodec.typeCode | SEMANTIC_SLOTS[1],
+  typeCode: longCodec.typeCode | SEMANTIC_MASKS.SLOT_1,
   validateForIdentifier: (value) => S.assert(datetimeSpec, value),
   // copy value to prevent modification outside this identifier from mutating it's internal state
   forIdentifier: (value) => new Date(typeof value === "number" ? value : value.getTime()),

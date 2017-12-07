@@ -9,8 +9,8 @@ import {longCodec, longListCodec} from "./long";
 import {datetimeCodec, datetimeListCodec} from "./datetime";
 
 
-interface ItemFactory<IN, OUT> { (value: IN): Identifier<OUT>; }
-type ListFactory<IN, OUT> = (...values: IN[]) => Identifier<OUT>;
+export interface ItemFactory<IN, OUT> { (value: IN): Identifier<OUT>; }
+export interface ListFactory<IN, OUT> { (...values: IN[]): Identifier<OUT> };
 
 export type Factory<IN, OUT, F extends ItemFactory<IN, OUT> = ItemFactory<IN, OUT>> = F & {list: ListFactory<IN, OUT>};
 
