@@ -4,6 +4,8 @@ import {IdentifierCodec} from "../identifier";
 import {asIsCodec} from "./shared-types";
 import {createListCodec} from "./lists";
 
+export type AnyType = string | number | boolean;
+
 export const anySpec = S.spec.or("any primitive identifier type", {
   "string": S.spec.string,
   "boolean": S.spec.boolean,

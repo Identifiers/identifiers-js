@@ -6,6 +6,7 @@ import jsSpecChai from "js.spec-chai";
 import {factory} from "../../src";
 import {Identifier} from "../../src/identifier";
 import {identifierSpec} from "../test-shared";
+import {LongLike} from "../../src/types/long";
 
 chai.use(jsSpecChai);
 
@@ -127,7 +128,7 @@ describe("identifier factory methods", () => {
     it("creates a list identifier from Longs", () => {
       const l1 = Long.fromNumber(-276534);
       const l2 = Long.fromNumber(15);
-      const actual = factory.long.list(l1, l2);
+      const actual: Identifier<LongLike[]> = factory.long.list(l1, l2);
       validateCreatedIdentifier([
         {low: l1.low, high: l1.high},
         {low: l2.low, high: l2.high}
@@ -137,7 +138,7 @@ describe("identifier factory methods", () => {
     it("creates a list identifier from both number and Long", () => {
       const l1 = Long.fromNumber(764739633);
       const v2 = -685849345;
-      const actual = factory.long.list(l1, v2);
+      const actual: Identifier<LongLike[]> = factory.long.list(l1, v2);
       const l2 = Long.fromNumber(v2);
       validateCreatedIdentifier([
         {low: l1.low, high: l1.high},

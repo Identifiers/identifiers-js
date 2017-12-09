@@ -8,11 +8,16 @@ export function createListCodec(itemCodec: IdentifierCodec, forIdentifierSpec: S
   const listType = `${itemCodec.type}-list`;
   const forIdentifierListSpec = S.spec.and(`${listType} spec`,
     S.spec.array, // must be an array, not a Set
-    S.spec.collection(`${listType} item spec`, forIdentifierSpec));
+    //todo consider applying itemCodec.validateForIdentifier fn. Will it generate a good error message?
+    S.spec.collection(`${listType} item spec`, forIdentifierSpec, {
+      [S.symbol.minCount]: 1
+    }));
 
   const forDecodingListSpec = S.spec.and(`${listType} spec`,
     S.spec.array, // must be an array, not a Set
-    S.spec.collection(`${listType} item spec`, forDecodingSpec || forIdentifierSpec));
+    S.spec.collection(`${listType} item spec`, forDecodingSpec || forIdentifierSpec, {
+      [S.symbol.minCount]: 1
+    }));
 
   return {
     type: listType,
