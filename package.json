@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@types/benchmark": "1.0.31",
-    "@types/chai": "4.0.8",
+    "@types/chai": "4.0.10",
     "@types/faker": "4.1.2",
     "@types/js.spec": "1.0.2",
     "@types/long": "3.0.32",
@@ -30,7 +30,7 @@
     "nyc": "11.3.0",
     "rimraf": "2.6.2",
     "source-map-support": "0.5.0",
-    "ts-node": "3.3.0",
+    "ts-node": "4.0.1",
     "typescript": "2.6.2"
   },
   "scripts": {
