@@ -21,11 +21,6 @@ describe("decode tests", () => {
   });
 
 
-  it("fails with non-string input", () => {
-    expect(() => decode.decodeString(78)).to.throw();
-  });
-
-
   it("decodes correct msgpack bytes", () => {
     const value = [1, {"bark": 1}];
     const packed = msgpack.encode(value);

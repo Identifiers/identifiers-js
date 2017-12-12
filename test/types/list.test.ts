@@ -27,9 +27,13 @@ describe("create a list codec from an item codec", () => {
       forIdentifier: (value) => {spy.fi++; return value + 1;},
       encode: (value) => {spy.e++; return value + 1;},
       validateForDecoding: (value) => {spy.vfd++;},
-      decode: (value) => {spy.d++; return value + 1;}
+      decode: (value) => {spy.d++; return value - 1;}
     };
-    const codecUnderTest = createListCodec(itemCodec, S.spec.and("item spec", (value) => {spy.is++; return true;}));
+    const codecUnderTest = createListCodec(
+      itemCodec,
+      S.spec.and("item for identifier spec", (value) => {spy.is++; return true;}),
+      S.spec.and("item decode spec", (value) => {spy.vfd++; return true;})
+    );
 
     const values = [1, 2, 3];
 
@@ -38,7 +42,13 @@ describe("create a list codec from an item codec", () => {
       expect(codecUnderTest.typeCode).to.equal(itemCodec.typeCode | LIST_TYPE_CODE);
     });
 
-    it("validates a list of values", () => {
+    it("rejects empty lists for identifier", () => {
+      spy.reset();
+      expect(() => codecUnderTest.validateForIdentifier(null)).to.throw();
+      expect(() => codecUnderTest.validateForIdentifier([])).to.throw();
+    });
+
+    it("validates a list of values for identifier", () => {
       spy.reset();
       codecUnderTest.validateForIdentifier(values);
       expect(spy.is).to.equal(3);
@@ -57,7 +67,24 @@ describe("create a list codec from an item codec", () => {
       expect(spy.e).to.equal(3);
       expect(actual).to.contain.ordered.members([2, 3, 4]);
     });
+
+    it("validates a list of values for decoding", () => {
+      spy.reset();
+      codecUnderTest.validateForDecoding(values);
+      expect(spy.vfd).to.equal(3);
+    });
+
+    it("decodes a list of values", () => {
+      spy.reset();
+      const actual = codecUnderTest.decode(values);
+      expect(spy.d).to.equal(3);
+      expect(actual).to.contain.ordered.members([0, 1, 2]);
+    });
+
+    it("rejects empty lists for decoding", () => {
+      spy.reset();
+      expect(() => codecUnderTest.validateForDecoding(null)).to.throw();
+      expect(() => codecUnderTest.validateForDecoding([])).to.throw();
+    });
   });
 });
-
-//todo  more tests--just run coverage with this one test and see how lists.ts is covered

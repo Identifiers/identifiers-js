@@ -26,9 +26,10 @@ export interface LongLike {
 }
 
 /**
- * Input type for long identifier that takes either a number or a LongLike object.
+ * Input type for long identifier that takes either a number or a LongLike object. Some Long-like objects
+ * have an unsigned field.
  */
-export type LongInput = number | LongLike;
+export type LongInput = number | (LongLike & {unsigned?: boolean});
 
 
 export const longLikeSpec = S.spec.map("long value", {
