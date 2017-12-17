@@ -1,44 +1,38 @@
 import {expect} from "chai";
 import * as msgpack from "msgpack-lite";
+import * as S from "js.spec";
 
 import * as encode from "../src/encode";
-import {IdentifierCodec} from "../src/identifier";
+import {asIsCodec} from "../src/types/shared-types";
 
 describe("encode tests", () => {
 
-  it("encodeWithCodec() throws an error when a codec cannot encode a value", () => {
-    const codec = {
-      validateForIdentifier: (value) => {
-        //Convinces typescript compiler that the return statement is reachable
-        if (new Date().getTime() > 0) {
-          throw new Error();
-        }
-        return;
-      }
-    } as IdentifierCodec;
+  const codec = {
+    ...asIsCodec,
+    typeCode: 0,
+    type: "test",
+    specForIdentifier: S.spec.number,
+    specForDecoding: S.spec.nil
+  };
 
-    expect(() => encode.encodeWithCodec(codec, 22)).to.throw();
+  it("encodeWithCodec() throws an error when a codec cannot encode a value", () => {
+    expect(() => encode.encodeWithCodec(codec, "22")).to.throw();
   });
 
 
   it("encodeWithCodec() calls a codec's encoding methods", () => {
-    let calledValidate = false;
     const value = 768;
 
-    const codec = {
-      validateForIdentifier: (value) => {
-        calledValidate = true;
-        return;
-      },
+    const spyCodec = {
+      ...codec,
       forIdentifier: (value) => {
         return value + 10;
       },
       encode: (value) => value + 1
-    } as IdentifierCodec;
+    };
 
-    const actual = encode.encodeWithCodec(codec, value);
+    const actual = encode.encodeWithCodec(spyCodec, value);
 
-    expect(calledValidate).to.equal(true);
     // value changed by correct amount means the encoding function used the return values of the codec
     expect(actual).to.equal(value + 11);
   });

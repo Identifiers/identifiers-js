@@ -1,4 +1,5 @@
 import * as msgpack from "msgpack-lite";
+import * as S from "js.spec";
 
 import * as base128 from "./base128/encode";
 import {Identifier, IdentifierCodec} from "./identifier";
@@ -20,7 +21,7 @@ export function encodeToString(identifier: Identifier<any>): string {
 
 export function encodeWithCodec(codec: IdentifierCodec, value: any): any {
   // Don't trust the identifier was constructed with the factories
-  codec.validateForIdentifier(value);
+  S.assert(codec.specForIdentifier, value);
   return codec.encode(codec.forIdentifier(value));
 }
 

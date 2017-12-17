@@ -1,17 +1,21 @@
 import {expect} from "chai";
+import * as chai from "chai";
+import jsSpecChai from "js.spec-chai";
+chai.use(jsSpecChai);
 
 import {floatCodec} from "../../src/types/float";
 
 
 describe("float codec", () => {
   it("validates good identifier values", () => {
-    expect(() => floatCodec.validateForIdentifier(100)).to.not.throw();
-    expect(() => floatCodec.validateForIdentifier(-12984.45)).to.not.throw();
+    expect(100).to.conform(floatCodec.specForIdentifier);
+    expect(-12984.76).to.conform(floatCodec.specForIdentifier);
   });
 
   it("rejects bad identifier values", () => {
-    expect(() => floatCodec.validateForIdentifier(false)).to.throw();
-    expect(() => floatCodec.validateForIdentifier("200.23")).to.throw();
+    expect(false).to.not.conform(floatCodec.specForIdentifier);
+    expect("200.23").to.not.conform(floatCodec.specForIdentifier);
+    expect(Number.NaN).to.not.conform(floatCodec.specForIdentifier);
   });
 
   it("supports encoding", () => {
@@ -21,13 +25,13 @@ describe("float codec", () => {
   });
 
   it("validates good decoded values", () => {
-    expect(() => floatCodec.validateForDecoding(100)).to.not.throw();
-    expect(() => floatCodec.validateForDecoding(-12984.45)).to.not.throw();
+    expect(4556).to.conform(floatCodec.specForDecoding);
+    expect(-885932.2).to.conform(floatCodec.specForDecoding);
   });
 
   it("rejects decoding bad values", () => {
-    expect(() => floatCodec.validateForDecoding(false)).to.throw();
-    expect(() => floatCodec.validateForDecoding("200.23")).to.throw();
+    expect(true).to.not.conform(floatCodec.specForDecoding);
+    expect("-883.22").to.not.conform(floatCodec.specForDecoding);
   });
 
   it("supports decoding", () => {

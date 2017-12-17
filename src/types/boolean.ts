@@ -2,14 +2,11 @@ import * as S from "js.spec";
 
 import {IdentifierCodec} from "../identifier";
 import {asIsCodec} from "./shared-types";
-import {createListCodec} from "./lists";
 
 export const booleanCodec: IdentifierCodec = {
   ...asIsCodec,
   type: "boolean",
   typeCode: 0x2,
-  validateForIdentifier: (value) => S.assert(S.spec.boolean, value),
-  validateForDecoding: (value) => S.assert(S.spec.boolean, value)
+  specForIdentifier: S.spec.boolean,
+  specForDecoding: S.spec.boolean
 }
-
-export const booleanListCodec = createListCodec(booleanCodec, S.spec.boolean);

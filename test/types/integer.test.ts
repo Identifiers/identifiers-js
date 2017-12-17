@@ -1,22 +1,26 @@
 import {expect} from "chai";
+import * as chai from "chai";
+import jsSpecChai from "js.spec-chai";
+chai.use(jsSpecChai);
 
 import {integerCodec} from "../../src/types/integer";
 
 
 describe("integer codec", () => {
   it("validates good identifier values", () => {
-    expect(() => integerCodec.validateForIdentifier(-100)).to.not.throw();
-    expect(() => integerCodec.validateForIdentifier(0)).to.not.throw();
-    expect(() => integerCodec.validateForIdentifier(10000)).to.not.throw();
-    expect(() => integerCodec.validateForIdentifier((2 ** 31) - 1)).to.not.throw();
-    expect(() => integerCodec.validateForIdentifier(-(2 ** 31))).to.not.throw();
+    expect(-100).to.conform(integerCodec.specForIdentifier);
+    expect(0).to.conform(integerCodec.specForIdentifier);
+    expect(10000).to.conform(integerCodec.specForIdentifier);
+    expect((2 ** 31) - 1).to.conform(integerCodec.specForIdentifier);
+    expect(-(2 ** 31)).to.conform(integerCodec.specForIdentifier);
   });
 
   it("rejects bad identifier values", () => {
-    expect(() => integerCodec.validateForIdentifier(20.223)).to.throw();
-    expect(() => integerCodec.validateForIdentifier(787869585484)).to.throw();
-    expect(() => integerCodec.validateForIdentifier((2 ** 31))).to.throw();
-    expect(() => integerCodec.validateForIdentifier(-(2 ** 31) - 1)).to.throw();
+    expect(223.74).to.not.conform(integerCodec.specForIdentifier);
+    expect(787869585484).to.not.conform(integerCodec.specForIdentifier);
+    expect(2 ** 31).to.not.conform(integerCodec.specForIdentifier);
+    expect(-(2 ** 31) - 1).to.not.conform(integerCodec.specForIdentifier);
+    expect(Number.NaN).to.not.conform(integerCodec.specForIdentifier);
   });
 
   it("supports encoding", () => {
@@ -26,14 +30,14 @@ describe("integer codec", () => {
   });
 
   it("validates good decoded values", () => {
-    expect(() => integerCodec.validateForDecoding(2)).to.not.throw();
-    expect(() => integerCodec.validateForDecoding(-400)).to.not.throw();
+    expect(2).to.conform(integerCodec.specForDecoding);
+    expect(-4003).to.conform(integerCodec.specForDecoding);
   });
 
   it("rejects decoding bad values", () => {
-    expect(() => integerCodec.validateForDecoding("happiness")).to.throw();
-    expect(() => integerCodec.validateForDecoding(12.44)).to.throw();
-    expect(() => integerCodec.validateForDecoding(2 ** 32)).to.throw();
+    expect("happiness").to.not.conform(integerCodec.specForDecoding);
+    expect(12.44).to.not.conform(integerCodec.specForDecoding);
+    expect(2 ** 32).to.not.conform(integerCodec.specForDecoding);
   });
 
   it("supports decoding", () => {

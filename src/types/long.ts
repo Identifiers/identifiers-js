@@ -3,7 +3,6 @@ import {Int64BE} from "int64-buffer";
 import * as Long from "long";
 
 import {IdentifierCodec} from "../identifier";
-import {createListCodec} from "./lists";
 import {integerSpec} from "./integer";
 import {existsPredicate} from "../shared";
 
@@ -95,11 +94,9 @@ function readLong(value: Int64BE): LongLike {
 export const longCodec: IdentifierCodec = {
   type: "long",
   typeCode: 0x5,
-  validateForIdentifier: (value) => S.assert(longInputSpec, value),
+  specForIdentifier: longInputSpec,
   forIdentifier: forIdentifierValue,
   encode: encodeValue,
-  validateForDecoding: (value) => S.assert(decodeSpec, value),
+  specForDecoding: decodeSpec,
   decode: decodeValue
 }
-
-export const longListCodec: IdentifierCodec = createListCodec(longCodec, longInputSpec, decodeSpec);

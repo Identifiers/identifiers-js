@@ -23,17 +23,13 @@ describe("create a list codec from an item codec", () => {
       typeCode: 1000,
       type: "test",
       //not used. I wonder if that's a good idea. Perhaps the list spec should apply this fn
-      validateForIdentifier: (value) => {spy.vfi++;},
+      specForIdentifier: (value) => {spy.vfi++;},
       forIdentifier: (value) => {spy.fi++; return value + 1;},
       encode: (value) => {spy.e++; return value + 1;},
-      validateForDecoding: (value) => {spy.vfd++;},
+      specForDecoding: (value) => {spy.vfd++;},
       decode: (value) => {spy.d++; return value - 1;}
     };
-    const codecUnderTest = createListCodec(
-      itemCodec,
-      S.spec.and("item for identifier spec", (value) => {spy.is++; return true;}),
-      S.spec.and("item decode spec", (value) => {spy.vfd++; return true;})
-    );
+    const codecUnderTest = createListCodec(itemCodec);
 
     const values = [1, 2, 3];
 
@@ -44,13 +40,13 @@ describe("create a list codec from an item codec", () => {
 
     it("rejects empty lists for identifier", () => {
       spy.reset();
-      expect(() => codecUnderTest.validateForIdentifier(null)).to.throw();
-      expect(() => codecUnderTest.validateForIdentifier([])).to.throw();
+      expect(() => codecUnderTest.specForIdentifier()).to.throw();
+      expect(() => codecUnderTest.specForIdentifier()).to.throw();
     });
 
     it("validates a list of values for identifier", () => {
       spy.reset();
-      codecUnderTest.validateForIdentifier(values);
+      codecUnderTest.specForIdentifier();
       expect(spy.is).to.equal(3);
     });
 
@@ -70,7 +66,7 @@ describe("create a list codec from an item codec", () => {
 
     it("validates a list of values for decoding", () => {
       spy.reset();
-      codecUnderTest.validateForDecoding(values);
+      codecUnderTest.specForDecoding();
       expect(spy.vfd).to.equal(3);
     });
 
@@ -83,8 +79,8 @@ describe("create a list codec from an item codec", () => {
 
     it("rejects empty lists for decoding", () => {
       spy.reset();
-      expect(() => codecUnderTest.validateForDecoding(null)).to.throw();
-      expect(() => codecUnderTest.validateForDecoding([])).to.throw();
+      expect(() => codecUnderTest.specForDecoding()).to.throw();
+      expect(() => codecUnderTest.specForDecoding()).to.throw();
     });
   });
 });

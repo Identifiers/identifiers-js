@@ -42,7 +42,7 @@ export function decodeBytes(bytes: Uint8Array): [number, any] {
 }
 
 export function decodeWithCodec(codec: IdentifierCodec, decoded: any): Identifier<any> {
-  codec.validateForDecoding(decoded);
+  S.assert(codec.specForDecoding, decoded);
   return codec.decode(decoded);
 }
 

@@ -1,6 +1,8 @@
 /**
  * Contains the value and type of an Identifier value.
  */
+import {Spec} from "js.spec";
+
 export interface Identifier<T> {
   /**
    * Short string name the type of the Identifier. Examples include 'uuid', 'date', 'u-id'.
@@ -35,16 +37,14 @@ export interface IdentifierCodec {
   readonly type: string;
 
   /**
-   * Validates a value before it is used in an Identifier. Throw an Error if the value is not of the expected shape.
-   * @param value the value to validate
+   * Spec to validate a value before it is used in an Identifier.
    */
-  validateForIdentifier(value: any): void;
+  readonly specForIdentifier: Spec;
 
   /**
-   * Validates a value before it is decoded. Throw an Error if the value is not of the expected shape.
-   * @param value the value to validate
+   * Spec to validate a value before it is decoded.
    */
-  validateForDecoding(value: any): void;
+  readonly specForDecoding: Spec;
 
   /**
    * Convert a value into a value that can be used in an Identifier.

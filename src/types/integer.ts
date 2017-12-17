@@ -2,7 +2,6 @@ import * as S from "js.spec";
 
 import {IdentifierCodec} from "../identifier";
 import {asIsCodec} from "./shared-types";
-import {createListCodec} from "./lists";
 
 //32-bit signed value
 const MAX_INT = 2 ** 31;
@@ -18,8 +17,6 @@ export const integerCodec: IdentifierCodec = {
   ...asIsCodec,
   type: "integer",
   typeCode: 0x3,
-  validateForIdentifier: (value) => S.assert(integerSpec, value),
-  validateForDecoding: (value) => S.assert(integerSpec, value)
+  specForIdentifier: integerSpec,
+  specForDecoding: integerSpec
 }
-
-export const integerListCodec = createListCodec(integerCodec, integerSpec);

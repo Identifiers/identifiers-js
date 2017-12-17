@@ -6,8 +6,6 @@ import {codecSymbol, existsPredicate} from "../src/shared";
 export const codecSpec = S.spec.map("codec", {
   typeCode: S.spec.integer,
   type: S.spec.string,
-  validateForIdentifier: S.spec.fn,
-  validateForDecoding: S.spec.fn,
   forIdentifier: S.spec.fn,
   encode: S.spec.fn,
   decode: S.spec.fn,

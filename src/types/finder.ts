@@ -2,31 +2,26 @@ import * as S from "js.spec";
 
 import {codecSymbol, existsPredicate} from "../shared";
 import {Identifier, IdentifierCodec} from "../identifier";
-import {anyCodec, anyListCodec} from "./any";
-import {booleanCodec, booleanListCodec} from "./boolean";
-import {stringCodec, stringListCodec} from "./string";
-import {integerCodec, integerListCodec} from "./integer";
-import {floatCodec, floatListCodec} from "./float";
-import {longCodec, longListCodec} from "./long";
-import {datetimeCodec, datetimeListCodec} from "./datetime";
+import {anyCodec} from "./any";
+import {booleanCodec} from "./boolean";
+import {stringCodec} from "./string";
+import {integerCodec} from "./integer";
+import {floatCodec} from "./float";
+import {longCodec} from "./long";
+import {datetimeCodec} from "./datetime";
 import {SEMANTIC_TYPE_MASK} from "./shared-types";
 
 const codecs: IdentifierCodec[] = [];
 [ anyCodec,
-  anyListCodec,
   stringCodec,
-  stringListCodec,
   booleanCodec,
-  booleanListCodec,
   integerCodec,
-  integerListCodec,
   floatCodec,
-  floatListCodec,
   longCodec,
-  longListCodec,
   datetimeCodec,
-  datetimeListCodec
-].forEach((codec) => codecs[codec.typeCode] = codec);
+].forEach((codec) => {
+  codecs[codec.typeCode] = codec; //todo list codec?
+});
 
 
 export function codecForTypeCode(typeCode: number): IdentifierCodec {
