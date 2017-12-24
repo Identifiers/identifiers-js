@@ -10,6 +10,7 @@ import {floatCodec} from "./float";
 import {longCodec, LongInput, LongLike} from "./long";
 import {datetimeCodec, DatetimeInput} from "./datetime";
 import {createListCodec} from "./lists";
+import {registerCodec} from "./finder";
 
 
 export interface ItemFactory<IN, OUT> {
@@ -26,9 +27,16 @@ export type Factory<IN, OUT, F extends ItemFactory<IN, OUT> =  ItemFactory<IN, O
   };
 
 
-function newFactory<IN, OUT>(itemCodec): Factory<IN, OUT> {
-  const factory = ((v: IN) => newIdentifier(itemCodec, v)) as Factory<IN, OUT>;
+/*
+  Yes it's ugly--newFactory is registering codecs! It's creating list codecs! The hard part is the factory object.
+  Another way to do this is to assemble the factory and the codecs in index. That's more "normal"
+ */
+export function newFactory<IN, OUT>(itemCodec): Factory<IN, OUT> {
   const listCodec = createListCodec(itemCodec);
+  registerCodec(itemCodec);
+  registerCodec(listCodec);
+
+  const factory = ((v: IN) => newIdentifier(itemCodec, v)) as Factory<IN, OUT>;
   factory.list = (...values: IN[]): Identifier<OUT[]> => newIdentifier(listCodec, values);
   return factory;
 };

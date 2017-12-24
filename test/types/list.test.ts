@@ -6,14 +6,13 @@ import {IdentifierCodec} from "../../src/identifier";
 
 
 const spy = {
-  vfi: 0,
+  sfi: 0,
   fi: 0,
   e: 0,
-  vfd: 0,
+  sfd: 0,
   d: 0,
-  is: 0,
   reset: function() {
-    this.vfi = this.fi = this.e = this.vfd = this.d = this.is = 0;
+    this.sfi = this.fi = this.e = this.sfd = this.d = this.is = 0;
   }
 };
 
@@ -22,11 +21,10 @@ describe("create a list codec from an item codec", () => {
     const itemCodec: IdentifierCodec =  {
       typeCode: 1000,
       type: "test",
-      //not used. I wonder if that's a good idea. Perhaps the list spec should apply this fn
-      specForIdentifier: (value) => {spy.vfi++;},
+      specForIdentifier: S.spec.and("spy forIdentifier", (value) => {spy.sfi++; return true;}),
       forIdentifier: (value) => {spy.fi++; return value + 1;},
       encode: (value) => {spy.e++; return value + 1;},
-      specForDecoding: (value) => {spy.vfd++;},
+      specForDecoding: S.spec.and("spy forDecoding", (value) => {spy.sfd++; return true;}),
       decode: (value) => {spy.d++; return value - 1;}
     };
     const codecUnderTest = createListCodec(itemCodec);
@@ -40,14 +38,14 @@ describe("create a list codec from an item codec", () => {
 
     it("rejects empty lists for identifier", () => {
       spy.reset();
-      expect(() => codecUnderTest.specForIdentifier()).to.throw();
-      expect(() => codecUnderTest.specForIdentifier()).to.throw();
+      expect(S.valid(codecUnderTest.specForIdentifier, null)).to.equal(false);
+      expect(S.valid(codecUnderTest.specForIdentifier, [])).to.equal(false);
     });
 
     it("validates a list of values for identifier", () => {
       spy.reset();
-      codecUnderTest.specForIdentifier();
-      expect(spy.is).to.equal(3);
+      expect(S.valid(codecUnderTest.specForIdentifier, values)).to.equal(true);
+      expect(spy.sfi).to.equal(3);
     });
 
     it("uses forIdentifier on a list of values", () => {
@@ -66,8 +64,8 @@ describe("create a list codec from an item codec", () => {
 
     it("validates a list of values for decoding", () => {
       spy.reset();
-      codecUnderTest.specForDecoding();
-      expect(spy.vfd).to.equal(3);
+      expect(S.valid(codecUnderTest.specForDecoding, values)).to.equal(true);
+      expect(spy.sfd).to.equal(3);
     });
 
     it("decodes a list of values", () => {
@@ -79,8 +77,8 @@ describe("create a list codec from an item codec", () => {
 
     it("rejects empty lists for decoding", () => {
       spy.reset();
-      expect(() => codecUnderTest.specForDecoding()).to.throw();
-      expect(() => codecUnderTest.specForDecoding()).to.throw();
+      expect(S.valid(codecUnderTest.specForDecoding, null)).to.equal(false);
+      expect(S.valid(codecUnderTest.specForDecoding, [])).to.equal(false);
     });
   });
 });

@@ -31,8 +31,8 @@ describe("string codec", () => {
   });
 
   it("rejects decoding bad values", () => {
-    expect(new Date()).to.conform(stringCodec.specForDecoding);
-    expect(null).to.conform(stringCodec.specForDecoding);
+    expect(new Date()).to.not.conform(stringCodec.specForDecoding);
+    expect(null).to.not.conform(stringCodec.specForDecoding);
 
     it("supports decoding", () => {
       const value = "ballast";

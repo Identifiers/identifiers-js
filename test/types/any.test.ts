@@ -8,7 +8,7 @@ import {anyCodec} from "../../src/types/any";
 
 describe("any codec", () => {
   const anyValues = ["barter", true, -23.3];
-  const anyFailureValues = [undefined, null, /.+/, [-23.3], {a: "b"}, Symbol.for("nope")];
+  const anyFailureValues = [undefined, null, /.+/, [-23.3], {a: "b"}];
 
   it("validates good values for identifier", () => {
     anyValues.forEach((value) =>

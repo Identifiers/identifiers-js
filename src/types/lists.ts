@@ -8,7 +8,6 @@ export function createListCodec(itemCodec: IdentifierCodec): IdentifierCodec {
   const listType = `${itemCodec.type}-list`;
   const forIdentifierListSpec = S.spec.and(`${listType} spec`,
     S.spec.array, // must be an array, not a Set
-    //todo consider applying itemCodec.specForIdentifier fn. Will it generate a good error message?
     S.spec.collection(`${listType} item spec`, itemCodec.specForIdentifier, {
       [S.symbol.minCount]: 1
     }));
