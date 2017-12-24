@@ -3,6 +3,5 @@
 node_modules
 lib
 es
-.DS_Store
 .nyc_output
 coverage
