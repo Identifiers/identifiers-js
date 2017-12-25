@@ -15,7 +15,7 @@ export type DatetimeInput = number | Date;
 /**
  * Encoded value is the unix epoch time value. Base type is long.
  */
-export const datetimeCodec: IdentifierCodec = {
+export const datetimeCodec: IdentifierCodec<DatetimeInput, Date, number> = {
   type: "datetime",
   typeCode: longCodec.typeCode | SEMANTIC_MASKS.SLOT_1,
   specForIdentifier: datetimeSpec,

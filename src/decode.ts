@@ -12,14 +12,12 @@ import {existsPredicate, codecSymbol} from "./shared";
  * @param encoded the encoded string
  * @returns the identifier object
  */
-export function decodeFromString<T>(encoded: any): Identifier<T> {
-
+export function decodeFromString<INPUT, VALUE, ENCODED>(encoded: string): Identifier<VALUE> {
   const bytes = decodeString(encoded);
-  const decoded = decodeBytes(bytes);
-  const codec = codecForTypeCode(decoded[0]);
-  const value = decodeWithCodec(codec, decoded[1]);
-
-  return createIdentifier(codec, value);
+  const [typeCode, decoded] = decodeBytes(bytes);
+  const codec: IdentifierCodec<INPUT, VALUE, ENCODED> = codecForTypeCode(typeCode);
+  const value = decodeWithCodec(codec, decoded);
+  return createIdentifier<INPUT, VALUE, ENCODED>(codec, value);
 }
 
 
@@ -41,12 +39,12 @@ export function decodeBytes(bytes: Uint8Array): [number, any] {
   return decoded;
 }
 
-export function decodeWithCodec(codec: IdentifierCodec, decoded: any): Identifier<any> {
-  S.assert(codec.specForDecoding, decoded);
-  return codec.decode(decoded);
+export function decodeWithCodec<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<INPUT, VALUE, ENCODED>, encoded: ENCODED): VALUE {
+  S.assert(codec.specForDecoding, encoded);
+  return codec.decode(encoded);
 }
 
-export function createIdentifier(codec: IdentifierCodec, value: any): Identifier<any> {
+export function createIdentifier<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<INPUT, VALUE, ENCODED>, value: VALUE): Identifier<VALUE> {
   return {
     type: codec.type,
     value: value,

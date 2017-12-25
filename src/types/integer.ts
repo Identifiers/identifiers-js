@@ -13,7 +13,7 @@ export const integerSpec = S.spec.and("integer value",
   integerRangeSpec
 );
 
-export const integerCodec: IdentifierCodec = {
+export const integerCodec: IdentifierCodec<number> = {
   ...asIsCodec,
   type: "integer",
   typeCode: 0x3,

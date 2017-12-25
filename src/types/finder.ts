@@ -5,13 +5,13 @@ import {Identifier, IdentifierCodec} from "../identifier";
 import {SEMANTIC_TYPE_MASK} from "./shared-types";
 
 
-const codecs: IdentifierCodec[] = [];
+const codecs: IdentifierCodec<any, any, any>[] = [];
 
-export function registerCodec(codec: IdentifierCodec): void {
+export function registerCodec(codec): void {
   codecs[codec.typeCode] = codec;
 }
 
-export function codecForTypeCode(typeCode: number): IdentifierCodec {
+export function codecForTypeCode<INPUT, VALUE, ENCODED>(typeCode: number): IdentifierCodec<INPUT, VALUE, ENCODED> {
   const codec = codecs[typeCode];
   if (codec) {
     return codec;
@@ -35,7 +35,7 @@ export const identifierSpec = S.spec.and("identifier",
   })
 );
 
-export function findCodec(identifier: Identifier<any>): IdentifierCodec {
+export function findCodec<INPUT, VALUE, ENCODED>(identifier: Identifier<VALUE>): IdentifierCodec<INPUT, VALUE, ENCODED> {
   S.assert(identifierSpec, identifier);
   const codec = identifier[codecSymbol];
   if (codec === codecs[codec.typeCode]) {

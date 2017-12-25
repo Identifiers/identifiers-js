@@ -1,30 +1,30 @@
 import * as S from "js.spec";
 
-import {Identifier, IdentifierCodec} from "../identifier";
+import {Identifier} from "../identifier";
 import {createIdentifier} from "../decode";
 
 
-export interface ItemFactory<IN, OUT> {
-  (value: IN): Identifier<OUT>;
+export interface ItemFactory<INPUT, VALUE> {
+  (input: INPUT): Identifier<VALUE>;
 }
 
-export interface ListFactory<IN, OUT> {
-  (...values: IN[]): Identifier<OUT[]>
+export interface ListFactory<INPUT, VALUE> {
+  (...inputs: INPUT[]): Identifier<VALUE[]>
 };
 
-export type Factory<IN, OUT, F extends ItemFactory<IN, OUT> = ItemFactory<IN, OUT>> =
+export type Factory<INPUT, VALUE, F extends ItemFactory<INPUT, VALUE> = ItemFactory<INPUT, VALUE>> =
   F & {
-    list: ListFactory<IN, OUT>
+    list: ListFactory<INPUT, VALUE>
   };
 
 
-export function createFactory<IN, OUT>(itemCodec, listCodec): Factory<IN, OUT> {
-  const factory = ((v: IN) => newIdentifier(itemCodec, v)) as Factory<IN, OUT>;
-  factory.list = (...values: IN[]): Identifier<OUT[]> => newIdentifier(listCodec, values);
+export function createFactory<INPUT, VALUE>(itemCodec, listCodec): Factory<INPUT, VALUE> {
+  const factory = ((input: INPUT) => newIdentifier(itemCodec, input)) as Factory<INPUT, VALUE>;
+  factory.list = (...inputs: INPUT[]): Identifier<VALUE[]> => newIdentifier(listCodec, inputs);
   return factory;
 };
 
-function newIdentifier<T>(codec: IdentifierCodec, value: any): Identifier<T> {
-  S.assert(codec.specForIdentifier, value);
-  return createIdentifier(codec, codec.forIdentifier(value));
+function newIdentifier<INPUT, VALUE, ENCODED>(codec, input) {
+  S.assert(codec.specForIdentifier, input);
+  return createIdentifier(codec, codec.forIdentifier(input));
 };

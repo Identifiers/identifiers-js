@@ -5,7 +5,7 @@ import {Spec} from "js.spec";
 
 export interface Identifier<T> {
   /**
-   * Short string name the type of the Identifier. Examples include 'uuid', 'date', 'u-id'.
+   * Short string name the type of the Identifier. Examples include 'uuid', 'date', 'geo'.
    */
   readonly type: string;
 
@@ -19,7 +19,7 @@ export interface Identifier<T> {
 /**
  * Codec that prepares an Identifier for encoding as well as creates an Identifier from a decoded object.
  */
-export interface IdentifierCodec {
+export interface IdentifierCodec<INPUT, VALUE = INPUT, ENCODED = VALUE> {
 
   /**
    * A code (< 128) marking the type of the identifier. Used to re-identify the Codec from an encoded string.
@@ -48,22 +48,23 @@ export interface IdentifierCodec {
 
   /**
    * Convert a value into a value that can be used in an Identifier.
-   * @param value the value to prepare
+   * @param input the input value to prepare
    * @returns the prepared value
    */
-  forIdentifier(value: any): any;
+  forIdentifier(input: INPUT): VALUE;
 
   /**
    * Convert an Identifier's value into a value that can be encoded.
    * @param value the value to prepare
    * @returns the prepared value
    */
-  encode(value: any): any;
+  encode(value: VALUE): ENCODED;
 
   /**
-   * Converts a decoded value into an Identifier's value. This function should throw an Error if the decoded type is wrong.
-   * @param the decoded value
+   * Converts a encoded value into an Identifier's value. This function should throw an Error if the
+   * decoded type is wrong.
+   * @param the encoded value
    * @returns The identifier value
    */
-  decode(decoded: any): any;
+  decode(decoded: ENCODED): VALUE;
 }

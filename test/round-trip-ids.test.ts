@@ -3,9 +3,10 @@ import * as Long from "long";
 
 import * as ids from "../src";
 import {factory} from "../src";
+import {Identifier} from "../src/identifier";
 
 
-function roundTrip(id) {
+function roundTrip<T>(id: Identifier<T>) {
   const encoded = ids.encodeToString(id);
   const decoded = ids.decodeFromString(encoded);
   expect(decoded).to.deep.equal(id);
@@ -21,6 +22,7 @@ describe("round-trip identifiers to strings using factory functions", () => {
   });
 
   it("string", () => {
+    const id = factory.string("matt");
     roundTrip(factory.string("hello"));
     roundTrip(factory.string.list("bye", "for", "now"));
   });

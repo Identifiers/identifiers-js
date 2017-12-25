@@ -11,7 +11,7 @@ export const anySpec = S.spec.or("any primitive identifier type", {
   "number": S.spec.finite
 });
 
-export const anyCodec: IdentifierCodec = {
+export const anyCodec: IdentifierCodec<AnyType> = {
   ...asIsCodec,
   type: "any",
   typeCode: 0x0,

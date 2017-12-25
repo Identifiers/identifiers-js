@@ -3,17 +3,16 @@ import {decodeFromString} from "./decode";
 import {Factory, createFactory} from "./types/factory";
 import {createListCodec} from "./types/lists";
 import {registerCodec} from "./types/finder";
-import {anyCodec, AnyType} from "./types/any";
+import {anyCodec} from "./types/any";
 import {stringCodec} from "./types/string";
 import {booleanCodec} from "./types/boolean";
 import {integerCodec} from "./types/integer";
 import {floatCodec} from "./types/float";
-import {longCodec, LongInput, LongLike} from "./types/long";
-import {datetimeCodec, DatetimeInput} from "./types/datetime";
-import {IdentifierCodec} from "./identifier";
+import {longCodec} from "./types/long";
+import {datetimeCodec} from "./types/datetime";
 
 
-function processCodec<IN, OUT>(itemCodec: IdentifierCodec): Factory<IN, OUT> {
+function processCodec<INPUT, VALUE>(itemCodec): Factory<INPUT, VALUE> {
   const listCodec = createListCodec(itemCodec);
   registerCodec(itemCodec);
   registerCodec(listCodec);
@@ -24,13 +23,13 @@ function processCodec<IN, OUT>(itemCodec: IdentifierCodec): Factory<IN, OUT> {
  * Factories for identifiers.
  */
 const factory = {
-  any: processCodec<AnyType, AnyType>(anyCodec),
-  string: processCodec<string, string>(stringCodec),
-  boolean: processCodec<boolean, boolean>(booleanCodec),
-  integer: processCodec<number, number>(integerCodec),
-  float: processCodec<number, number>(floatCodec),
-  long: processCodec<LongInput, LongLike>(longCodec),
-  datetime: processCodec<DatetimeInput, Date>(datetimeCodec)
+  any: processCodec(anyCodec),
+  string: processCodec(stringCodec),
+  boolean: processCodec(booleanCodec),
+  integer: processCodec(integerCodec),
+  float: processCodec(floatCodec),
+  long: processCodec(longCodec),
+  datetime: processCodec(datetimeCodec)
 }
 
 export {
