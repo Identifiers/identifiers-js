@@ -39,7 +39,7 @@ export type LongInput = number | LongLikeWithUnsigned;
  */
 export type EncodedLong = Int64BE | number;
 
-export const longLikeSpec = S.spec.map("long value", {
+const longLikeSpec = S.spec.map("long value", {
   high: integerSpec,
   low: integerSpec,
   [S.symbol.optional]: {
@@ -71,9 +71,12 @@ const decodeSpec = S.spec.or("decoded long", {
 });
 
 function isLongLike(input: LongInput): input is LongLike {
-  return (<LongLike>input).high !== undefined && (<LongLike>input).low !== undefined;
+  return typeof input === "object";
 }
 
+/*
+ Convert the input into a plain LongLike object, either from number or another LongLike object.
+ */
 function forIdentifierValue(input: LongInput): LongLike {
   if (isLongLike(input)) {
     return {high: input.high, low: input.low};
