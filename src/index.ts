@@ -10,9 +10,10 @@ import {integerCodec} from "./types/integer";
 import {floatCodec} from "./types/float";
 import {longCodec} from "./types/long";
 import {datetimeCodec} from "./types/datetime";
+import {IdentifierCodec} from "./identifier";
 
 
-function processCodec<INPUT, VALUE>(itemCodec): Factory<INPUT, VALUE> {
+function processCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>): Factory<INPUT, VALUE> {
   const listCodec = createListCodec(itemCodec);
   registerCodec(itemCodec);
   registerCodec(listCodec);

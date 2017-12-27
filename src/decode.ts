@@ -28,14 +28,14 @@ export function decodeString(encoded: string): Uint8Array {
 
 // decodes int64 to buffer instead of number
 const int64Codec = msgpack.createCodec({int64: true});
-const arraySpec = S.spec.tuple("decoded identifier array",
+const decodedBytesSpec = S.spec.tuple("decoded bytes array",
   Number.isInteger,
   existsPredicate
 );
 
 export function decodeBytes(bytes: Uint8Array): [number, any] {
-  const decoded: [number, any] = msgpack.decode(bytes, {codec: int64Codec});
-  S.assert(arraySpec, decoded);
+  const decoded = msgpack.decode(bytes, {codec: int64Codec});
+  S.assert(decodedBytesSpec, decoded);
   return decoded;
 }
 

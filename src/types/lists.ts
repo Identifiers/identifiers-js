@@ -30,7 +30,7 @@ export function createListCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCode
 }
 
 /*
-export function createFixedListCodec(...itemCodecs: IdentifierCodec[]): IdentifierCodec {
+export function createFixedListCodec(...itemCodecs): IdentifierCodec {
 }
 */
 

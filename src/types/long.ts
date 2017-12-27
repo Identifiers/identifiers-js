@@ -7,12 +7,6 @@ import {integerSpec} from "./integer";
 import {existsPredicate} from "../shared";
 
 /**
- * Input type for long identifier that takes either a number or a LongLike object. Some Long-like objects
- * have an unsigned field.
- */
-export type LongInput = number | (LongLike & { unsigned?: boolean });
-
-/**
  * 64 bit two's-complement integer, given its low and high 32 bit values as signed integers. Looks like a
  * Google Closure Long:
  * https://google.github.io/closure-library/api/goog.math.Long.html
@@ -30,6 +24,16 @@ export interface LongLike {
   readonly low: number;
 }
 
+export type LongLikeWithUnsigned = LongLike & {
+  unsigned?: boolean
+};
+
+/**
+ * Input type for long identifier that takes either a number or a LongLike object. Some Long-like objects
+ * have an unsigned field.
+ */
+export type LongInput = number | LongLikeWithUnsigned;
+
 /**
  * Encoded type of long. Can be either a number or a byte array
  */
@@ -46,8 +50,11 @@ export const longLikeSpec = S.spec.map("long value", {
   }
 });
 
-// spec map [optional] will assert if key exists, but value is undefined
-function toLongLike({high, low, unsigned}): object {
+/*
+  Convert a long-like input into a plain object. Must explicitly mask out 'unsigned' as js.spec will fail
+  if key is defined, but value is undefined.
+ */
+function toPlainLongLike({high, low, unsigned}: LongLikeWithUnsigned): LongLikeWithUnsigned {
   return existsPredicate(unsigned)
     ? {high, low, unsigned}
     : {high, low};
@@ -55,7 +62,7 @@ function toLongLike({high, low, unsigned}): object {
 
 const longInputSpec = S.spec.or("long input", {
   "number": Number.isInteger,
-  "LongLike": (value) => S.valid(longLikeSpec, toLongLike(value))
+  "LongLike": (value) => S.valid(longLikeSpec, toPlainLongLike(value))
 });
 
 const decodeSpec = S.spec.or("decoded long", {
@@ -63,11 +70,15 @@ const decodeSpec = S.spec.or("decoded long", {
   "Int64BE": Int64BE.isInt64BE
 });
 
-function forIdentifierValue(value): LongLike {
-  let long = value;
-  if (typeof value === 'number') {
-    long = Long.fromNumber(value);
+function isLongLike(input: LongInput): input is LongLike {
+  return (<LongLike>input).high !== undefined && (<LongLike>input).low !== undefined;
+}
+
+function forIdentifierValue(input: LongInput): LongLike {
+  if (isLongLike(input)) {
+    return {high: input.high, low: input.low};
   }
+  const long = Long.fromNumber(input);
   return {high: long.high, low: long.low};
 }
 

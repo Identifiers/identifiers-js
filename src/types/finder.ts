@@ -7,7 +7,7 @@ import {SEMANTIC_TYPE_MASK} from "./shared-types";
 
 const codecs: IdentifierCodec<any, any, any>[] = [];
 
-export function registerCodec(codec): void {
+export function registerCodec<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<INPUT, VALUE, ENCODED>): void {
   codecs[codec.typeCode] = codec;
 }
 
@@ -23,11 +23,11 @@ export function codecForTypeCode<INPUT, VALUE, ENCODED>(typeCode: number): Ident
 }
 
 
-function hasCodecSymbol(id: any): boolean {
+function hasCodecSymbol<VALUE>(id: Identifier<VALUE>): boolean {
   return S.valid(S.spec.object, id[codecSymbol]);
 }
 
-export const identifierSpec = S.spec.and("identifier",
+const identifierSpec = S.spec.and("identifier",
   hasCodecSymbol,
   S.spec.map("identifier structure", {
     type: S.spec.string,

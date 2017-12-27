@@ -1,8 +1,7 @@
 import * as msgpack from "msgpack-lite";
-import * as S from "js.spec";
 
 import * as base128 from "./base128/encode";
-import {Identifier} from "./identifier";
+import {Identifier, IdentifierCodec} from "./identifier";
 import {findCodec} from "./types/finder";
 
 /**
@@ -17,10 +16,8 @@ export function encodeToString<VALUE>(identifier: Identifier<VALUE>): string {
   return base128.encode(bytes);
 }
 
-export function encodeWithCodec<INPUT, VALUE, ENCODED>(codec, value): ENCODED {
-  // Don't trust the identifier was constructed with the factories
-  S.assert(codec.specForIdentifier, value);
-  return codec.encode(codec.forIdentifier(value));
+export function encodeWithCodec<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<INPUT, VALUE, ENCODED>, value: VALUE): ENCODED {
+  return codec.encode(value);
 }
 
 export function encodeBytes<VALUE>(typeCode: number, value: VALUE): Uint8Array {

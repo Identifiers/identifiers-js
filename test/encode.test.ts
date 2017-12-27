@@ -15,26 +15,18 @@ describe("encode tests", () => {
     specForDecoding: S.spec.nil
   };
 
-  it("encodeWithCodec() throws an error when a codec cannot encode a value", () => {
-    expect(() => encode.encodeWithCodec(codec, "22")).to.throw();
-  });
-
-
   it("encodeWithCodec() calls a codec's encoding methods", () => {
     const value = 768;
 
     const spyCodec = {
       ...codec,
-      forIdentifier: (value) => {
-        return value + 10;
-      },
       encode: (value) => value + 1
     };
 
     const actual = encode.encodeWithCodec(spyCodec, value);
 
     // value changed by correct amount means the encoding function used the return values of the codec
-    expect(actual).to.equal(value + 11);
+    expect(actual).to.equal(value + 1);
   });
 
 
