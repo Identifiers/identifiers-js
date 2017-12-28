@@ -2,10 +2,10 @@ import * as S from "js.spec";
 
 import {codecSymbol, existsPredicate} from "../shared";
 import {Identifier, IdentifierCodec} from "../identifier";
-import {SEMANTIC_TYPE_MASK} from "./shared-types";
+import {SEMANTIC_TYPE_FLAG, SEMANTIC_TYPE_MASK} from "./shared-types";
 
 
-const codecs: IdentifierCodec<any, any, any>[] = [];
+const codecs: IdentifierCodec<any>[] = [];
 
 export function registerCodec<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<INPUT, VALUE, ENCODED>): void {
   codecs[codec.typeCode] = codec;
@@ -16,7 +16,7 @@ export function codecForTypeCode<INPUT, VALUE, ENCODED>(typeCode: number): Ident
   if (codec) {
     return codec;
   }
-  if (typeCode <= SEMANTIC_TYPE_MASK) {
+  if (typeCode < SEMANTIC_TYPE_FLAG) {
     throw new Error(`No codec for typeCode '${typeCode}' found.`);
   }
   return codecForTypeCode(typeCode & SEMANTIC_TYPE_MASK);

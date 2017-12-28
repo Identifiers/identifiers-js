@@ -10,6 +10,7 @@ import {booleanCodec} from "../../src/types/boolean";
 import {stringCodec} from "../../src/types/string";
 import {integerCodec} from "../../src/types/integer";
 import {floatCodec} from "../../src/types/float";
+import {calculateSemanticTypeCode} from "../../src/types/shared-types";
 
 
 describe("codec finder", () => {
@@ -85,7 +86,7 @@ describe("codec finder", () => {
     });
 
     it("downgrades to a baser codec", () => {
-      const actual = codecForTypeCode(integerCodec.typeCode + 192);
+      const actual = codecForTypeCode(calculateSemanticTypeCode(integerCodec.typeCode, 1000));
       expect(actual).to.equal(integerCodec);
     });
   });

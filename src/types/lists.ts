@@ -2,7 +2,7 @@ import * as S from "js.spec";
 
 import {IdentifierCodec} from "../identifier";
 
-export const LIST_TYPE_CODE = 0x8;
+export const LIST_TYPE_CODE = 0x10;
 
 export function createListCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>): IdentifierCodec<INPUT[], VALUE[], ENCODED[]> {
   const listType = `${itemCodec.type}-list`;
@@ -29,8 +29,11 @@ export function createListCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCode
   }
 }
 
+
 /*
-export function createFixedListCodec(...itemCodecs): IdentifierCodec {
+export function createFixedListCodec<INPUT, VALUE, ENCODED>(...itemCodecs: IdentifierCodec<INPUT, VALUE, ENCODED>[]): IdentifierCodec<INPUT[], VALUE[], ENCODED[]> {
+  // each codec is the positional codec
+  // todo how to separate this from plain listCodec? How do I indicate optional?
 }
 */
 

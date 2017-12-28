@@ -2,7 +2,7 @@ import * as S from "js.spec";
 
 import {IdentifierCodec} from "../identifier";
 import {longCodec} from "./long";
-import {SEMANTIC_MASKS} from "./shared-types";
+import {calculateSemanticTypeCode} from "./shared-types";
 
 
 const datetimeSpec = S.spec.or("datetime spec", {
@@ -17,7 +17,7 @@ export type DatetimeInput = number | Date;
  */
 export const datetimeCodec: IdentifierCodec<DatetimeInput, Date, number> = {
   type: "datetime",
-  typeCode: longCodec.typeCode | SEMANTIC_MASKS.SLOT_1,
+  typeCode: calculateSemanticTypeCode(longCodec.typeCode, 1),
   specForIdentifier: datetimeSpec,
   // copy value to prevent modification outside this identifier from mutating it's internal state
   forIdentifier: (value) => new Date(typeof value === "number" ? value : value.getTime()),
