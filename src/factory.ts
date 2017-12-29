@@ -1,7 +1,7 @@
 import * as S from "js.spec";
 
-import {Identifier, IdentifierCodec} from "../identifier";
-import {createIdentifier} from "../decode";
+import {Identifier, IdentifierCodec} from "./identifier";
+import {createIdentifier} from "./decode";
 
 
 export interface ItemFactory<INPUT, VALUE> {

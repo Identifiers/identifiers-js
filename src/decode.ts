@@ -3,7 +3,7 @@ import * as S from "js.spec";
 
 import * as base128 from "./base128/decode";
 import {Identifier, IdentifierCodec} from "./identifier";
-import {codecForTypeCode} from "./types/finder";
+import {codecForTypeCode} from "./finder";
 import {existsPredicate, codecSymbol} from "./shared";
 
 

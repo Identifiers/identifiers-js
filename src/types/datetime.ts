@@ -2,7 +2,7 @@ import * as S from "js.spec";
 
 import {IdentifierCodec} from "../identifier";
 import {longCodec} from "./long";
-import {calculateSemanticTypeCode} from "./shared-types";
+import {calculateSemanticTypeCode} from "../semantic";
 
 
 const datetimeSpec = S.spec.or("datetime spec", {

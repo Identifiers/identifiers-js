@@ -2,7 +2,7 @@ import * as msgpack from "msgpack-lite";
 
 import * as base128 from "./base128/encode";
 import {Identifier, IdentifierCodec} from "./identifier";
-import {findCodec} from "./types/finder";
+import {findCodec} from "./finder";
 
 /**
  * Convert an Identifier into an encoded identifier string.

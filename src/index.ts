@@ -1,8 +1,8 @@
 import {encodeToString} from "./encode";
 import {decodeFromString} from "./decode";
-import {Factory, createFactory} from "./types/factory";
+import {Factory, createFactory} from "./factory";
+import {registerCodec} from "./finder";
 import {createListCodec} from "./types/lists";
-import {registerCodec} from "./types/finder";
 import {anyCodec} from "./types/any";
 import {stringCodec} from "./types/string";
 import {booleanCodec} from "./types/boolean";
