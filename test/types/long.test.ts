@@ -29,7 +29,8 @@ describe("long codec", () => {
 
     it("supports encoding larger numbers", () => {
       const value = {high: 4221, low: 3};
-      const actual = longCodec.encode(value);
+      const actual = longCodec.encode(value) as Int64BE;
+      expect(Int64BE.isInt64BE(actual)).to.be.true;
       expect(actual.toArray()).to.contain.ordered.members([0, 0, 16, 125, 0, 0, 0, 3]);
     });
 

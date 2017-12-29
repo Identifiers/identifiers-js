@@ -1,16 +1,16 @@
 import {expect} from "chai";
 
-import {Identifier} from "../../src/identifier";
-import {codecSymbol} from "../../src/shared";
-import {codecForTypeCode, findCodec} from "../../src/finder";
-import {longCodec} from "../../src/types/long";
-import {datetimeCodec} from "../../src/types/datetime";
-import {anyCodec} from "../../src/types/any";
-import {booleanCodec} from "../../src/types/boolean";
-import {stringCodec} from "../../src/types/string";
-import {integerCodec} from "../../src/types/integer";
-import {floatCodec} from "../../src/types/float";
-import {calculateSemanticTypeCode} from "../../src/semantic";
+import {Identifier} from "../src/identifier";
+import {codecSymbol} from "../src/shared";
+import {codecForTypeCode, findCodec} from "../src/finder";
+import {longCodec} from "../src/types/long";
+import {datetimeCodec} from "../src/types/datetime";
+import {anyCodec} from "../src/types/any";
+import {booleanCodec} from "../src/types/boolean";
+import {stringCodec} from "../src/types/string";
+import {integerCodec} from "../src/types/integer";
+import {floatCodec} from "../src/types/float";
+import {calculateSemanticTypeCode} from "../src/semantic";
 
 
 describe("codec finder", () => {

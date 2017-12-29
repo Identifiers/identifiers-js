@@ -3,10 +3,10 @@ import * as Long from "long";
 import * as chai from "chai";
 import jsSpecChai from "js.spec-chai";
 
-import {factory} from "../../src";
-import {Identifier} from "../../src/identifier";
-import {identifierSpec} from "../test-shared";
-import {LongLike} from "../../src/types/long";
+import {factory} from "../src";
+import {Identifier} from "../src/identifier";
+import {identifierSpec} from "./test-shared";
+import {LongLike} from "../src/types/long";
 
 chai.use(jsSpecChai);
 
