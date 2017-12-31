@@ -25,4 +25,4 @@ export const datetimeCodec: IdentifierCodec<DatetimeInput, Date, number> = {
   // JS number has sufficient space for Dates; don't need to use Long
   specForDecoding: S.spec.integer, // todo: S.spec.predicate("datetime", Number.isInteger) as spec.integer is slow
   decode: (decoded) => new Date(decoded)
-}
+};

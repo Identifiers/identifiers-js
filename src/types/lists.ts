@@ -2,6 +2,7 @@ import * as S from "js.spec";
 
 import {IdentifierCodec} from "../identifier";
 
+
 export const LIST_TYPE_CODE = 0x10;
 
 export function createListCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>): IdentifierCodec<INPUT[], VALUE[], ENCODED[]> {
@@ -26,8 +27,8 @@ export function createListCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCode
     encode: (list) => list.map(itemCodec.encode),
     specForDecoding: forDecodingListSpec,
     decode: (list) => list.map(itemCodec.decode)
-  }
-}
+  };
+};
 
 
 /*

@@ -9,4 +9,4 @@ export const booleanCodec: IdentifierCodec<boolean> = {
   typeCode: 0x2,
   specForIdentifier: S.spec.boolean,
   specForDecoding: S.spec.boolean
-}
+};

@@ -9,4 +9,4 @@ export const floatCodec: IdentifierCodec<number> = {
   typeCode: 0x4,
   specForIdentifier: S.spec.finite,
   specForDecoding: S.spec.finite
-}
+};

@@ -3,6 +3,7 @@ import * as S from "js.spec";
 import {IdentifierCodec} from "../identifier";
 import {asIsCodec} from "./shared-types";
 
+
 //32-bit signed value
 const MAX_INT = 2 ** 31;
 const MIN_INT = -MAX_INT;
@@ -22,4 +23,4 @@ export const integerCodec: IdentifierCodec<number> = {
   typeCode: 0x3,
   specForIdentifier: integerSpec,
   specForDecoding: integerSpec
-}
+};

@@ -5,14 +5,14 @@ import jsSpecChai from "js.spec-chai";
 
 import {factory} from "../src";
 import {Identifier} from "../src/identifier";
-import {identifierSpec} from "./test-shared";
+import {identifierSpec} from "./tests-shared";
 import {LongLike} from "../src/types/long";
 
 chai.use(jsSpecChai);
 
 
 function validateCreatedIdentifier(expectedValue: any, actualId: Identifier<any>): void {
-  expect(actualId).to.conform(identifierSpec);
+  expect(actualId).to.be.frozen.and.conform(identifierSpec);
   expect(actualId.value).to.deep.equal(expectedValue);
 }
 

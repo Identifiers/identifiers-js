@@ -6,6 +6,7 @@ import {IdentifierCodec} from "../identifier";
 import {integerSpec} from "./integer";
 import {existsPredicate} from "../shared";
 
+
 /**
  * 64 bit two's-complement integer, given its low and high 32 bit values as signed integers. Looks like a
  * Google Closure Long:
@@ -117,4 +118,4 @@ export const longCodec: IdentifierCodec<LongInput, LongLike, EncodedLong> = {
   encode: encodeValue,
   specForDecoding: decodeSpec,
   decode: decodeValue
-}
+};

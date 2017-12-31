@@ -6,7 +6,7 @@ import * as base128 from "../src/base128/encode";
 import * as decode from "../src/decode";
 import jsSpecChai from "js.spec-chai";
 import {anyCodec} from "../src/types/any";
-import {identifierSpec} from "./test-shared";
+import {identifierSpec} from "./tests-shared";
 import {asIsCodec} from "../src/types/shared-types";
 import * as S from "js.spec";
 
