@@ -4,6 +4,7 @@ import jsSpecChai from "js.spec-chai";
 chai.use(jsSpecChai);
 
 import {datetimeCodec} from "../../src/types/datetime";
+import {createImmutableDate} from "../../src/types/immutable-date";
 
 
 describe("datetime codec", () => {
@@ -18,9 +19,9 @@ describe("datetime codec", () => {
   });
 
   it("supports encoding", () => {
-    const value = new Date();
+    const value = createImmutableDate(new Date());
     const actual = datetimeCodec.encode(value);
-    expect(actual).to.equal(value.getTime());
+    expect(actual).to.equal(value.time);
   });
 
   it("validates good decoded values", () => {
@@ -36,6 +37,6 @@ describe("datetime codec", () => {
   it("supports decoding", () => {
     const value = new Date().getTime();
     const actual = datetimeCodec.decode(value);
-    expect(actual.getTime()).to.deep.equal(value);
+    expect(actual.time).to.equal(value);
   });
 });

@@ -1,70 +1,54 @@
-export class ImmutableDate extends Date {
+/**
+ * Identifier-centric immutable wrapper around a Date instance. It provides the Date methods often used in system that
+ * treat dates as identifiers. One can get a Date instance for other cases.
+ */
+export interface ImmutableDate {
 
-  constructor(ts: number) {
-    super(ts);
-  }
+  /**
+   * The time value.
+   */
+  readonly time: number;
 
-  private immutableError(): Error {
-    return new Error("this Date instance is immutable.");
-  }
+  /**
+   * Same as Date.toString()
+   */
+  toString(): string;
 
-  setDate(date: number): never {
-    throw this.immutableError();
-  }
+  /**
+   * Same as Date.toUTCString()
+   */
+  toUTCString(): string;
 
-  setFullYear(year: number, month?: number, date?: number): never {
-    throw this.immutableError();
-  }
+  /**
+   * Same as Date.toISOString()
+   */
+  toISOString(): string;
 
-  setHours(hours: number, min?: number, sec?: number, ms?: number): never {
-    throw this.immutableError();
-  }
+  /**
+   * Same as Date.toJSON()
+   */
+  toJSON(key?: string): string;
 
-  setMilliseconds(ms: number): never {
-    throw this.immutableError();
-  }
+  /**
+   * Returns a copy of the wrapped Date instance
+   */
+  toDate(): Date;
+}
 
-  setMinutes(min: number, sec?: number, ms?: number): never {
-    throw this.immutableError();
-  }
-
-  setMonth(month: number, date?: number): never {
-    throw this.immutableError();
-  }
-
-  setSeconds(sec: number, ms?: number): never {
-    throw this.immutableError();
-  }
-
-  setTime(time: number): never {
-    throw this.immutableError();
-  }
-
-  setUTCDate(date: number): never {
-    throw this.immutableError();
-  }
-
-  setUTCFullYear(year: number, month?: number, date?: number): never {
-    throw this.immutableError();
-  }
-
-  setUTCHours(hours: number, min?: number, sec?: number, ms?: number): never {
-    throw this.immutableError();
-  }
-
-  setUTCMilliseconds(ms: number): never {
-    throw this.immutableError();
-  }
-
-  setUTCMinutes(min: number, sec?: number, ms?: number): never {
-    throw this.immutableError();
-  }
-
-  setUTCMonth(month: number, date?: number): never {
-    throw this.immutableError();
-  }
-
-  setUTCSeconds(sec: number, ms?: number): never {
-    throw this.immutableError();
-  }
+/**
+ * Creates an immutable date instance.
+ * @param value can be either a timestamp number or a Date instance
+ * @returns an ImmutableDate instance
+ */
+export function createImmutableDate(value: number| Date): ImmutableDate {
+  const time = typeof value === "number" ? value : value.getTime();
+  const date = new Date(time);
+  return Object.freeze({
+    time: time,
+    toString: () => date.toString(),
+    toUTCString: () => date.toUTCString(),
+    toISOString: () => date.toISOString(),
+    toJSON: () => date.toJSON(),
+    toDate: () => new Date(time)
+  });
 }

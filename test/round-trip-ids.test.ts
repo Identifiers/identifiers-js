@@ -6,10 +6,14 @@ import {factory} from "../src";
 import {Identifier} from "../src/identifier";
 
 
-function roundTrip<T>(id: Identifier<T>) {
+function roundTrip<T>(id: Identifier<T>, comparator?: (encoded: Identifier<T>, decoded: Identifier<T>) => boolean) {
   const encoded = ids.encodeToString(id);
-  const decoded = ids.decodeFromString(encoded);
-  expect(decoded).to.deep.equal(id);
+  const decoded: Identifier<T> = ids.decodeFromString(encoded);
+  if (comparator) {
+    expect(comparator(id, decoded)).to.be.true;
+  } else {
+    expect(decoded).to.deep.equal(id);
+  }
 }
 
 describe("round-trip identifiers to strings using factory functions", () => {
@@ -52,8 +56,13 @@ describe("round-trip identifiers to strings using factory functions", () => {
   });
 
   it("datetime", () => {
-    roundTrip(factory.datetime(7785646));
-    roundTrip(factory.datetime(new Date()));
-    roundTrip(factory.datetime.list(new Date(), 118275));
+    const compareImmutableDates = (id, decoded) => id.value.time === decoded.value.time;
+    roundTrip(factory.datetime(7785646), compareImmutableDates);
+    roundTrip(factory.datetime(new Date()), compareImmutableDates);
+    roundTrip(factory.datetime.list(new Date(), 118275), (idList, decodedList) => {
+      const l1 = idList.value.map(id => id.time);
+      const l2 = decodedList.value.map(id => id.time);
+      return l1.filter(t => l2.indexOf(t) < 0).length === 0;
+    });
   });
 });
