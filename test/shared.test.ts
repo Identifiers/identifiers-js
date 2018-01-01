@@ -13,4 +13,16 @@ describe("deep freeze", () => {
     expect(actual.a).to.be.frozen;
     expect(actual.a.b).to.be.frozen;
   });
+
+  it("deep-freezes arrays of complex objects", () => {
+    const array = [{
+      a: {
+        b: {},
+      }
+    }];
+    const actual = deepFreeze(array);
+    expect(actual).to.be.frozen;
+    expect(actual[0].a).to.be.frozen;
+    expect(actual[0].a.b).to.be.frozen;
+  });
 });
