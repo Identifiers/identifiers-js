@@ -6,10 +6,12 @@ import {calculateSemanticTypeCode} from "../semantic";
 import {createImmutableDate, ImmutableDate} from "./immutable-date";
 
 
-const datetimeSpec = S.spec.or("datetime spec", {
+const datetimeInputSpec = S.spec.or("DatetimeInput spec", {
   "Date": S.spec.date,
   "number": Number.isInteger
 });
+
+const decodeSpec = S.spec.predicate("datetime decoded", Number.isInteger);
 
 export type DatetimeInput = number | Date;
 
@@ -19,10 +21,10 @@ export type DatetimeInput = number | Date;
 export const datetimeCodec: IdentifierCodec<DatetimeInput, ImmutableDate, number> = {
   type: "datetime",
   typeCode: calculateSemanticTypeCode(longCodec.typeCode, 1),
-  specForIdentifier: datetimeSpec,
+  specForIdentifier: datetimeInputSpec,
   forIdentifier: createImmutableDate,
   encode: (date) => date.time,
   // JS number has sufficient space for Dates; don't need to use Long
-  specForDecoding: S.spec.integer, // todo: S.spec.predicate("datetime", Number.isInteger) as spec.integer is slow
+  specForDecoding: decodeSpec,
   decode: createImmutableDate
 };

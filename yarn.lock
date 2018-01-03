@@ -14,9 +14,9 @@
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@types/faker/-/faker-4.1.2.tgz#f8ab50c9f9af68c160dd71b63f83e24b712d0df5"
 
-"@types/js.spec@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@types/js.spec/-/js.spec-1.0.2.tgz#d1c4451e06623981d7035a7fbe2b3afbdf3d0d81"
+"@types/js.spec@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@types/js.spec/-/js.spec-1.0.3.tgz#1714a723c02db7f8f82a5c93ddfe1b0ae2c081a2"
 
 "@types/long@3.0.32":
   version "3.0.32"
