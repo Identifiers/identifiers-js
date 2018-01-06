@@ -49,7 +49,7 @@ describe("codec finder", () => {
     it("throws error if it can't find a codec for a codeType", () => {
       expect(() => codecForTypeCode(-200)).to.throw();
     });
-
+//TODO not sure these codec-specific tests are actually needed after registration design
     it("finds the any codec", () => {
       const actual = codecForTypeCode(anyCodec.typeCode);
       expect(actual).to.equal(anyCodec);

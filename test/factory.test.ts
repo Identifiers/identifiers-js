@@ -152,6 +152,8 @@ describe("identifier factory methods", () => {
     });
   });
 
+//todo bytes
+
   describe("datetime", () => {
     const compareImmutableDates = (expected, actual) => expected.time === actual.time;
 

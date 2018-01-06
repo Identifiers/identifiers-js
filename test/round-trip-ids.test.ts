@@ -55,6 +55,8 @@ describe("round-trip identifiers to strings using factory functions", () => {
     roundTrip(factory.long.list(1987, 2 ** 58, Long.fromNumber(-100), {low: -50, high: 5564}));
   });
 
+//todo bytes
+
   it("datetime", () => {
     const compareImmutableDates = (id, decoded) => id.value.time === decoded.value.time;
     roundTrip(factory.datetime(7785646), compareImmutableDates);

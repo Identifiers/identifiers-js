@@ -1,3 +1,17 @@
+import * as msgpack from "msgpack-lite";
+
+/**
+ * Msgpack codec configured to make life easier for codecs.
+ */
+export const msgpackCodec = msgpack.createCodec({
+  // decodes int64 to buffer instead of number
+  int64: true,
+  // use UInt8Array instead of Buffer
+  uint8array: true,
+  // uses ArrayBuffer instead of Buffer for bin types
+  binarraybuffer: true
+});
+
 /**
  * Symbol key to store codec in an identifier instance.
  */

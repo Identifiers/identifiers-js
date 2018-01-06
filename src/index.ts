@@ -11,6 +11,7 @@ import {floatCodec} from "./types/float";
 import {longCodec} from "./types/long";
 import {datetimeCodec} from "./types/datetime";
 import {IdentifierCodec} from "./identifier";
+import {bytesCodec} from "./types/bytes";
 
 
 function processCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>): Factory<INPUT, VALUE> {
@@ -30,6 +31,7 @@ const factory = {
   integer: processCodec(integerCodec),
   float: processCodec(floatCodec),
   long: processCodec(longCodec),
+  bytes: processCodec(bytesCodec),
   datetime: processCodec(datetimeCodec)
 }
 
