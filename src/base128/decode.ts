@@ -10,9 +10,9 @@ import {
   ZERO
 } from "./constants";
 
-const TABLE = new Int8Array(ALPHABET.length << 1).fill(-1);
+const CODES = new Array(ALPHABET.length * 2).fill(-1);
 for (let i = 0; i < ALPHABET.length; i++) {
-  TABLE[ALPHABET.charCodeAt(i)] = i;
+  CODES[ALPHABET.charCodeAt(i)] = i;
 }
 
 function validateInput(encoded: string): void {
@@ -77,7 +77,7 @@ export function decode(encoded: string): Uint8Array {
 
 function unpackChar(encoded: string, charPos: number, packed: long, shift: number): long {
   const charCode = encoded.charCodeAt(charPos);
-  const value = charCode < TABLE.length ? TABLE[charCode] : -1;
+  const value = charCode < CODES.length ? CODES[charCode] : -1;
   if (value < 0) {
     throw new Error(`invalid character code: '${charCode}' at position ${charPos}`);
   }

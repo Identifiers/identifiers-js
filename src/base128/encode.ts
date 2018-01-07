@@ -13,7 +13,7 @@ import {
 const BYTE_SIGN_MASK = 0xff;
 const BITS_MASK = 0x7f;
 const TERMINATOR_CODE = TERMINATOR.charCodeAt(0);
-const CODES: number[] = [];
+const CODES: number[] = new Array(ALPHABET.length);
 
 for (let i = 0; i < ALPHABET.length; i++) {
   CODES[i] = ALPHABET.charCodeAt(i);
