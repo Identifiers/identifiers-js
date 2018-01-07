@@ -2,7 +2,7 @@ import * as S from "js.spec";
 
 import {IdentifierCodec} from "../identifier";
 
-export type BytesInput = ArrayLike<number> | ArrayBuffer;
+export type BytesInput = ArrayLike<number> | ArrayBuffer | Buffer;
 
 function isArray(input: BytesInput): input is number[] {
   return Array.isArray(input);
@@ -21,8 +21,7 @@ function forIdentifier(input: BytesInput): number[] {
 }
 
 function isValidType(input: BytesInput): boolean {
-  return Array.isArray(input)
-    || input instanceof ArrayBuffer
+  return input instanceof ArrayBuffer
     || isArrayLike(input);
 }
 
@@ -39,8 +38,8 @@ function isValidLength(input: BytesInput): boolean {
 }
 
 function containsOnlyBytes(input: ArrayLike<number>): boolean {
-  for (const p in input) {
-    const byte = input[p];
+  for (let pos = 0; pos < input.length; pos++) {
+    const byte = input[pos];
     if (!Number.isInteger(byte) || (byte < 0 || byte > 255)) {
       return false;
     }

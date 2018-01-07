@@ -3,7 +3,7 @@
  */
 import {Spec} from "js.spec";
 
-export interface Identifier<T> {
+export interface Identifier<VALUE> {
   /**
    * Short string name the type of the Identifier. Examples include 'uuid', 'date', 'geo'.
    */
@@ -12,7 +12,7 @@ export interface Identifier<T> {
   /**
    * The value of the Identifier.
    */
-  readonly value: T;
+  readonly value: VALUE;
 }
 
 

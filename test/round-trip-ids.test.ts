@@ -58,9 +58,14 @@ describe("round-trip identifiers to strings using factory functions", () => {
   it("bytes", () => {
     roundTrip(factory.bytes([]));
     roundTrip(factory.bytes([255, 0, 127]));
-    roundTrip(factory.bytes(new Uint8Array([1, 0]).buffer));
-    roundTrip(factory.bytes(new Uint8Array([99, 43])));
-    roundTrip(factory.bytes(new Uint8ClampedArray([100, 200])));
+    roundTrip(factory.bytes({length: 1, 0: 250}));
+    roundTrip(factory.bytes(Buffer.from([255, 0, 127])));
+    roundTrip(factory.bytes(Uint8Array.from([1, 0]).buffer));
+    roundTrip(factory.bytes(Uint8Array.from([99, 43])));
+    roundTrip(factory.bytes(Uint8ClampedArray.from([100, 200])));
+    roundTrip(factory.bytes.list([]));
+    roundTrip(factory.bytes.list([1], [2, 3]));
+    roundTrip(factory.bytes.list([1], Uint8Array.from([2, 3]), Buffer.from([4, 5, 6]), Uint8Array.from([7, 8]).buffer));
   });
 
   it("datetime", () => {
