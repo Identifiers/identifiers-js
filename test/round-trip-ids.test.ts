@@ -18,13 +18,6 @@ function roundTrip<T>(id: Identifier<T>, comparator?: (encoded: Identifier<T>, d
 
 describe("round-trip identifiers to strings using factory functions", () => {
 
-  it("any", () => {
-    roundTrip(factory.any("a string"));
-    roundTrip(factory.any(false));
-    roundTrip(factory.any(33.456));
-    roundTrip(factory.any.list("another", true, 14.44, -100));
-  });
-
   it("string", () => {
     const id = factory.string("matt");
     roundTrip(factory.string("hello"));

@@ -6,7 +6,7 @@ import {asIsCodec} from "./shared-types";
 export const booleanCodec: IdentifierCodec<boolean> = {
   ...asIsCodec,
   type: "boolean",
-  typeCode: 0x2,
+  typeCode: 0x1,
   specForIdentifier: S.spec.boolean,
   specForDecoding: S.spec.boolean
 };

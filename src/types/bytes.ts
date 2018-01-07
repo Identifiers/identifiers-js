@@ -57,7 +57,7 @@ const decodingSpec = S.spec.predicate("bytes decoding", isArrayBuffer);
 // msgpack sees ArrayBuffer and that triggers bin encoding.
 export const bytesCodec: IdentifierCodec<BytesInput, number[], ArrayBuffer> = {
   type: "bytes",
-  typeCode: 0x6,
+  typeCode: 0x5,
   specForIdentifier: bytesInputSpec,
   forIdentifier: forIdentifier,
   encode: (value) => new Uint8Array(value).buffer,

@@ -111,7 +111,7 @@ function readLong(encoded: Int64BE): LongLike {
 
 export const longCodec: IdentifierCodec<LongInput, LongLike, EncodedLong> = {
   type: "long",
-  typeCode: 0x5,
+  typeCode: 0x4,
   specForIdentifier: longInputSpec,
   forIdentifier: forIdentifierValue,
   encode: encodeValue,

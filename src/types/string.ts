@@ -7,7 +7,7 @@ import {asIsCodec} from "./shared-types";
 export const stringCodec: IdentifierCodec<string> = {
   ...asIsCodec,
   type: "string",
-  typeCode: 0x1,
+  typeCode: 0x0,
   specForIdentifier: S.spec.string,
   specForDecoding: S.spec.string
 };

@@ -23,22 +23,6 @@ function validateCreatedIdentifier(expectedValue: any, actualId: Identifier<any>
 
 describe("identifier factory methods", () => {
 
-  describe("any", () => {
-    it("creates an identifier", () => {
-      const values = ["air", false, -443, 229573.1];
-      values.forEach((value) => {
-        const actual = factory.any(value);
-        validateCreatedIdentifier(value, actual);
-      });
-    });
-
-    it("creates a list identifier", () => {
-      const values = ["air", false, -443, 229573.1];
-      const actual = factory.any.list(...values);
-      validateCreatedIdentifier(values, actual);
-    });
-  });
-
   describe("string", () => {
     it("creates an identifier", () => {
       const value = "air";
