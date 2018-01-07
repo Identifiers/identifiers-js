@@ -4,7 +4,7 @@ import * as S from "js.spec";
 import * as base128 from "./base128/decode";
 import {Identifier, IdentifierCodec} from "./identifier";
 import {codecForTypeCode} from "./finder";
-import {codecSymbol, deepFreeze, existsPredicate} from "./shared";
+import {codecSymbol, deepFreeze, existsPredicate, msgpackCodec} from "./shared";
 
 
 /**
@@ -26,15 +26,16 @@ export function decodeString(encoded: string): Uint8Array {
   return base128.decode(encoded);
 }
 
-// decodes int64 to buffer instead of number
-const int64Codec = msgpack.createCodec({int64: true});
+const decoderOptions = {codec: msgpackCodec};
+
 const decodedBytesSpec = S.spec.tuple("decoded bytes array",
   Number.isInteger,
   existsPredicate
 );
 
+
 export function decodeBytes(bytes: Uint8Array): [number, any] {
-  const decoded = msgpack.decode(bytes, {codec: int64Codec});
+  const decoded = msgpack.decode(bytes, decoderOptions);
   S.assert(decodedBytesSpec, decoded);
   return decoded;
 }

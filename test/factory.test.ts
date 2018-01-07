@@ -152,6 +152,26 @@ describe("identifier factory methods", () => {
     });
   });
 
+  describe("bytes", () => {
+    it("creates an identifier from an array of numbers", () => {
+      const value = [1, 2, 3];
+      const actual = factory.bytes(value);
+      validateCreatedIdentifier(value, actual);
+    });
+
+    it("creates an identifier from a TypedArray", () => {
+      const value = Uint8ClampedArray.of(1, 2, 3);
+      const actual = factory.bytes(value);
+      validateCreatedIdentifier(Array.from(value), actual);
+    });
+
+    it("creates an identifier from an ArrayBuffer", () => {
+      const value = Uint8Array.of(1, 2, 3);
+      const actual = factory.bytes(value.buffer);
+      validateCreatedIdentifier(Array.from(value), actual);
+    });
+  });
+
   describe("datetime", () => {
     const compareImmutableDates = (expected, actual) => expected.time === actual.time;
 

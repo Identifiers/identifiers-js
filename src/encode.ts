@@ -3,6 +3,7 @@ import * as msgpack from "msgpack-lite";
 import * as base128 from "./base128/encode";
 import {Identifier, IdentifierCodec} from "./identifier";
 import {findCodec} from "./finder";
+import {msgpackCodec} from "./shared";
 
 /**
  * Convert an Identifier into an encoded identifier string.
@@ -20,9 +21,11 @@ export function encodeWithCodec<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<IN
   return codec.encode(value);
 }
 
+const encoderOptions = {codec: msgpackCodec};
+
 export function encodeBytes<VALUE>(typeCode: number, value: VALUE): Uint8Array {
   return msgpack.encode([
     typeCode,
     value
-  ]);
+  ], encoderOptions);
 }

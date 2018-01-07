@@ -55,6 +55,19 @@ describe("round-trip identifiers to strings using factory functions", () => {
     roundTrip(factory.long.list(1987, 2 ** 58, Long.fromNumber(-100), {low: -50, high: 5564}));
   });
 
+  it("bytes", () => {
+    roundTrip(factory.bytes([]));
+    roundTrip(factory.bytes([255, 0, 127]));
+    roundTrip(factory.bytes({length: 1, 0: 250}));
+    roundTrip(factory.bytes(Buffer.from([255, 0, 127])));
+    roundTrip(factory.bytes(Uint8Array.from([1, 0]).buffer));
+    roundTrip(factory.bytes(Uint8Array.from([99, 43])));
+    roundTrip(factory.bytes(Uint8ClampedArray.from([100, 200])));
+    roundTrip(factory.bytes.list([]));
+    roundTrip(factory.bytes.list([1], [2, 3]));
+    roundTrip(factory.bytes.list([1], Uint8Array.from([2, 3]), Buffer.from([4, 5, 6]), Uint8Array.from([7, 8]).buffer));
+  });
+
   it("datetime", () => {
     const compareImmutableDates = (id, decoded) => id.value.time === decoded.value.time;
     roundTrip(factory.datetime(7785646), compareImmutableDates);
