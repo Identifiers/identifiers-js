@@ -1,25 +1,16 @@
 import {expect} from "chai";
 import * as msgpack from "msgpack-lite";
-import * as S from "js.spec";
 
 import * as encode from "../src/encode";
-import {asIsCodec} from "../src/types/shared-types";
+import {testCodec} from "./tests-shared";
 
 describe("encode tests", () => {
-
-  const codec = {
-    ...asIsCodec,
-    typeCode: 0,
-    type: "test",
-    specForIdentifier: S.spec.number,
-    specForDecoding: S.spec.nil
-  };
 
   it("encodeWithCodec() calls a codec's encoding methods", () => {
     const value = 768;
 
     const spyCodec = {
-      ...codec,
+      ...testCodec,
       encode: (value) => value + 1
     };
 

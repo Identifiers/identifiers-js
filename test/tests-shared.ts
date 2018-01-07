@@ -1,6 +1,8 @@
 import * as S from "js.spec";
 
 import {codecSymbol, existsPredicate} from "../src/shared";
+import {asIsCodec} from "../src/types/shared-types";
+import {registerCodec} from "../src/finder";
 
 
 export const codecSpec = S.spec.map("codec", {
@@ -21,3 +23,15 @@ export const identifierSpec = S.spec.and("identifier",
     type: S.spec.string,
     value: existsPredicate
   }));
+
+export const testCodec = {
+  ...asIsCodec,
+  type: "test-positive",
+  typeCode: 0xf,  // largest reserved primitive type
+  specForIdentifier: S.spec.positive,
+  specForDecoding: S.spec.positive
+}
+
+before("set up test codec", () => {
+  registerCodec(testCodec);
+});

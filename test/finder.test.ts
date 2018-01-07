@@ -2,25 +2,12 @@ import {expect} from "chai";
 
 import {Identifier} from "../src/identifier";
 import {codecSymbol} from "../src/shared";
-import {codecForTypeCode, findCodec, registerCodec} from "../src/finder";
+import {codecForTypeCode, findCodec} from "../src/finder";
 import {calculateSemanticTypeCode} from "../src/semantic";
-import {asIsCodec} from "../src/types/shared-types";
-import * as S from "js.spec";
+import {testCodec} from "./tests-shared";
 
 
 describe("codec finder", () => {
-
-  const testCodec = {
-      ...asIsCodec,
-      type: "test-positive",
-      typeCode: 0xf,  // largest reserved primitive type
-      specForIdentifier: S.spec.positive,
-      specForDecoding: S.spec.positive
-  }
-
-  before("set up test codec", () => {
-    registerCodec(testCodec);
-  });
 
   describe("findCodec()", () => {
     it("throws an error with an identifier that is missing a codec", () => {

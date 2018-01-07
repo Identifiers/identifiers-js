@@ -5,8 +5,7 @@ import * as msgpack from "msgpack-lite";
 import * as base128 from "../src/base128/encode";
 import * as decode from "../src/decode";
 import jsSpecChai from "js.spec-chai";
-import {anyCodec} from "../src/types/any";
-import {identifierSpec} from "./tests-shared";
+import {identifierSpec, testCodec} from "./tests-shared";
 import {asIsCodec} from "../src/types/shared-types";
 import * as S from "js.spec";
 
@@ -65,9 +64,9 @@ describe("decode tests", () => {
 
 
   it("creates an identifier with the correct shape", () => {
-    const value = "banana";
-    const actual = decode.createIdentifier(anyCodec, value);
+    const value = 3;
+    const actual = decode.createIdentifier(testCodec, value);
     expect(actual).to.conform(identifierSpec);
-    expect(actual).to.include({type: anyCodec.type, value: value});
+    expect(actual).to.include({type: testCodec.type, value: value});
   });
 });
