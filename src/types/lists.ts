@@ -29,12 +29,3 @@ export function createListCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCode
     decode: (list) => list.map(itemCodec.decode)
   };
 };
-
-
-/*
-export function createFixedListCodec<INPUT, VALUE, ENCODED>(...itemCodecs: IdentifierCodec<INPUT, VALUE, ENCODED>[]): IdentifierCodec<INPUT[], VALUE[], ENCODED[]> {
-  // each codec is the positional codec
-  // todo how to separate this from plain listCodec? How do I indicate optional?
-}
-*/
-
