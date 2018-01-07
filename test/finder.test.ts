@@ -2,18 +2,25 @@ import {expect} from "chai";
 
 import {Identifier} from "../src/identifier";
 import {codecSymbol} from "../src/shared";
-import {codecForTypeCode, findCodec} from "../src/finder";
-import {longCodec} from "../src/types/long";
-import {datetimeCodec} from "../src/types/datetime";
-import {anyCodec} from "../src/types/any";
-import {booleanCodec} from "../src/types/boolean";
-import {stringCodec} from "../src/types/string";
-import {integerCodec} from "../src/types/integer";
-import {floatCodec} from "../src/types/float";
+import {codecForTypeCode, findCodec, registerCodec} from "../src/finder";
 import {calculateSemanticTypeCode} from "../src/semantic";
+import {asIsCodec} from "../src/types/shared-types";
+import * as S from "js.spec";
 
 
 describe("codec finder", () => {
+
+  const testCodec = {
+      ...asIsCodec,
+      type: "test-positive",
+      typeCode: 0xf,  // largest reserved primitive type
+      specForIdentifier: S.spec.positive,
+      specForDecoding: S.spec.positive
+  }
+
+  before("set up test codec", () => {
+    registerCodec(testCodec);
+  });
 
   describe("findCodec()", () => {
     it("throws an error with an identifier that is missing a codec", () => {
@@ -36,10 +43,10 @@ describe("codec finder", () => {
     });
 
     it("successfully finds a codec on an identifier", () => {
-      const id: Identifier<string> = {
-        type: "string",
-        value: "boo",
-        [codecSymbol]: anyCodec
+      const id: Identifier<number> = {
+        type: "test-positive",
+        value: 55,
+        [codecSymbol]: testCodec
       };
       expect(() => findCodec(id)).to.not.throw();
     });
@@ -49,45 +56,15 @@ describe("codec finder", () => {
     it("throws error if it can't find a codec for a codeType", () => {
       expect(() => codecForTypeCode(-200)).to.throw();
     });
-//TODO not sure these codec-specific tests are actually needed after registration design
-    it("finds the any codec", () => {
-      const actual = codecForTypeCode(anyCodec.typeCode);
-      expect(actual).to.equal(anyCodec);
+
+    it("finds a registered codec", () => {
+      const actual = codecForTypeCode(testCodec.typeCode);
+      expect(actual).to.equal(testCodec);
     });
 
-    it("finds string codec", () => {
-      const actual = codecForTypeCode(stringCodec.typeCode);
-      expect(actual).to.equal(stringCodec);
-    });
-
-    it("finds boolean codec", () => {
-      const actual = codecForTypeCode(booleanCodec.typeCode);
-      expect(actual).to.equal(booleanCodec);
-    });
-
-    it("finds float codec", () => {
-      const actual = codecForTypeCode(floatCodec.typeCode);
-      expect(actual).to.equal(floatCodec);
-    });
-
-    it("finds integer codec", () => {
-      const actual = codecForTypeCode(integerCodec.typeCode);
-      expect(actual).to.equal(integerCodec);
-    });
-
-    it("finds long codec", () => {
-      const actual = codecForTypeCode(longCodec.typeCode);
-      expect(actual).to.equal(longCodec);
-    });
-
-    it("finds datetime codec", () => {
-      const actual = codecForTypeCode(datetimeCodec.typeCode);
-      expect(actual).to.equal(datetimeCodec);
-    });
-
-    it("downgrades to a baser codec", () => {
-      const actual = codecForTypeCode(calculateSemanticTypeCode(integerCodec.typeCode, 1000));
-      expect(actual).to.equal(integerCodec);
+    it("downgrades to a base codec", () => {
+      const actual = codecForTypeCode(calculateSemanticTypeCode(testCodec.typeCode, 1000));
+      expect(actual).to.equal(testCodec);
     });
   });
 });

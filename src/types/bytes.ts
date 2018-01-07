@@ -53,7 +53,7 @@ export const bytesInputSpec = S.spec.and("bytes identifier",
   isValidLength,
   containsOnlyBytes);
 
-const decodingSpec = S.spec.predicate("bytes decoding", (decoded) => decoded instanceof Uint8Array);
+const decodingSpec = S.spec.predicate("bytes decoding", isArrayBuffer);
 
 // msgpack sees ArrayBuffer and that triggers bin encoding.
 export const bytesCodec: IdentifierCodec<BytesInput, number[], ArrayBuffer> = {
