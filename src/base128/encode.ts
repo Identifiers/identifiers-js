@@ -38,11 +38,11 @@ export function encode(unencoded: Uint8Array): string {
     let packed = ZERO;
 
     for (let shift = BYTE_SHIFT_START; shift > -1; shift -= BYTE_SHIFT) {
-      packed = packByte(unencoded, bytePos++, packed, shift);
+      packed = packByte(unencoded[bytePos++], packed, shift);
     }
 
     for (let shift = WORD_SHIFT_START; shift > -1; shift -= WORD_SHIFT) {
-      packIntoResult(packed, shift, result, charPos++);
+      result[charPos++] = packChar(packed, shift);
     }
   }
 
@@ -51,12 +51,12 @@ export function encode(unencoded: Uint8Array): string {
     let packed = ZERO;
 
     for (let shift = BYTE_SHIFT_START; bytePos < unencoded.length; shift -= BYTE_SHIFT) {
-      packed = packByte(unencoded, bytePos++, packed, shift);
+      packed = packByte(unencoded[bytePos++], packed, shift);
     }
 
     let remainder = unencoded.length - fullWords;
     for (let shift = WORD_SHIFT_START; remainder > -1; remainder--) {
-      packIntoResult(packed, shift, result, charPos++);
+      result[charPos++] = packChar(packed, shift);
       shift -= WORD_SHIFT;
     }
   }
@@ -65,10 +65,10 @@ export function encode(unencoded: Uint8Array): string {
   return String.fromCharCode(...result);
 }
 
-function packByte(unencoded: Uint8Array, pos: number, packed: long, shift: number): long {
-  return packed.or(long.fromInt(unencoded[pos] & BYTE_SIGN_MASK, true).shiftLeft(shift));
+function packByte(byte: number, packed: long, shift: number): long {
+  return packed.or(long.fromInt(byte & BYTE_SIGN_MASK, true).shiftLeft(shift));
 }
 
-function packIntoResult(packed: long, shift: number, result: number[], pos: number): void {
-  result[pos] = CODES[packed.shiftRight(shift).low & BITS_MASK];
+function packChar(packed: long, shift: number): number {
+  return CODES[packed.shiftRight(shift).low & BITS_MASK];
 }

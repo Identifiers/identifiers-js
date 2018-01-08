@@ -54,7 +54,7 @@ export function decode(encoded: string): Uint8Array {
     }
 
     for (let shift = BYTE_SHIFT_START; shift > -1; shift -= BYTE_SHIFT) {
-      unpackIntoResult(unpacked, shift, result, bytePos++);
+      result[bytePos++] = unpackByte(unpacked, shift);
     }
   }
 
@@ -67,7 +67,7 @@ export function decode(encoded: string): Uint8Array {
     }
 
     for (let shift = BYTE_SHIFT_START; bytePos < bytesCount; shift -= BYTE_SHIFT) {
-      unpackIntoResult(unpacked, shift, result, bytePos++);
+      result[bytePos++] = unpackByte(unpacked, shift);
     }
   }
 
@@ -84,6 +84,6 @@ function unpackChar(encoded: string, charPos: number, packed: long, shift: numbe
   return packed.or(long.fromInt(value, true).shiftLeft(shift));
 }
 
-function unpackIntoResult(unpacked: long, shift: number, result: Uint8Array, bytePos: number): void {
-  result[bytePos] = unpacked.shiftRight(shift).low;
+function unpackByte(unpacked: long, shift: number): number {
+  return unpacked.shiftRight(shift).low;
 }
