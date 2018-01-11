@@ -1,8 +1,8 @@
 import * as long from "long";
 import {
-  ALPHABET,
-  BYTE_SHIFT,
   BYTE_SHIFT_START,
+  BYTE_SHIFT,
+  SYMBOLS,
   TERMINATOR,
   WORD_SHIFT,
   WORD_SHIFT_START,
@@ -11,8 +11,8 @@ import {
 } from "./constants";
 
 const CODES = new Array(256).fill(-1);
-for (let i = 0; i < ALPHABET.length; i++) {
-  CODES[ALPHABET.charCodeAt(i)] = i;
+for (let i = 0; i < SYMBOLS.length; i++) {
+  CODES[SYMBOLS.charCodeAt(i)] = i;
 }
 
 function validateInput(encoded: string): void {

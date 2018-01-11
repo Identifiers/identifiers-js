@@ -1,6 +1,6 @@
 import * as Long from "long";
 import {
-  ALPHABET,
+  SYMBOLS,
   BYTE_SHIFT,
   BYTE_SHIFT_START,
   PREFIX,
@@ -13,10 +13,10 @@ import {
 const BYTE_SIGN_MASK = 0xff;
 const BITS_MASK = 0x1f;
 const PREFIX_CODE = PREFIX.charCodeAt(0);
-const CODES: number[] = new Array(ALPHABET.length);
+const CODES: number[] = new Array(SYMBOLS.length);
 
-for (let i = 0; i < ALPHABET.length; i++) {
-  CODES[i] = ALPHABET.charCodeAt(i);
+for (let i = 0; i < SYMBOLS.length; i++) {
+  CODES[i] = SYMBOLS.charCodeAt(i);
 }
 
 
@@ -55,26 +55,22 @@ export function encode(unencoded: Uint8Array): string {
       packed = packByte(unencoded[bytePos++], packed, shift);
     }
 
-/*
-    let remainder = unencoded.length - fullWords;
-    for (let shift = WORD_SHIFT_START; remainder > -1; remainder--) {
-      result[charPos++] = packChar(packed, shift);
-      shift -= WORD_SHIFT;
-    }
-*/
-    // this is different from Base128 because it is possible to have more than one numeral in a byte.
-    // todo create a loop.
+    // this is different from Base128 because it is possible to have more than one symbol in a byte.
     let remainder = unencoded.length - fullWordsEnd;
     let shift = WORD_SHIFT_START;
+
     result[charPos++] = packChar(packed, shift);
     result[charPos++] = packChar(packed, shift -= WORD_SHIFT);
+
     if (remainder > 1) {
       result[charPos++] = packChar(packed, shift -= WORD_SHIFT);
       result[charPos++] = packChar(packed, shift -= WORD_SHIFT);
     }
+
     if (remainder > 2) {
       result[charPos++] = packChar(packed, shift -= WORD_SHIFT);
     }
+
     if (remainder > 3) {
       result[charPos++] = packChar(packed, shift -= WORD_SHIFT);
       result[charPos++] = packChar(packed, WORD_SIZE);

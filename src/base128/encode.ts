@@ -1,6 +1,6 @@
 import * as long from "long";
 import {
-  ALPHABET,
+  SYMBOLS,
   BYTE_SHIFT,
   BYTE_SHIFT_START,
   TERMINATOR,
@@ -13,10 +13,10 @@ import {
 const BYTE_SIGN_MASK = 0xff;
 const BITS_MASK = 0x7f;
 const TERMINATOR_CODE = TERMINATOR.charCodeAt(0);
-const CODES: number[] = new Array(ALPHABET.length);
+const CODES: number[] = new Array(SYMBOLS.length);
 
-for (let i = 0; i < ALPHABET.length; i++) {
-  CODES[i] = ALPHABET.charCodeAt(i);
+for (let i = 0; i < SYMBOLS.length; i++) {
+  CODES[i] = SYMBOLS.charCodeAt(i);
 }
 
 

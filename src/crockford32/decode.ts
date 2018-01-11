@@ -1,5 +1,5 @@
 import {
-  ALPHABET,
+  SYMBOLS,
   BYTE_SHIFT,
   BYTE_SHIFT_START,
   DECODE_ALIASES,
@@ -12,8 +12,8 @@ import {
 import * as Long from "long";
 
 const CODES = new Array(256).fill(-1);
-for (let i = 0; i < ALPHABET.length; i++) {
-  const charCode = ALPHABET.charCodeAt(i);
+for (let i = 0; i < SYMBOLS.length; i++) {
+  const charCode = SYMBOLS.charCodeAt(i);
   CODES[charCode] = i;
   const upperCode = String.fromCharCode(charCode).toUpperCase().charCodeAt(0);
   if (charCode != upperCode) {
