@@ -2,7 +2,8 @@ import * as Long from "long";
 import {
   ALPHABET,
   BYTE_SHIFT,
-  BYTE_SHIFT_START, PREFIX,
+  BYTE_SHIFT_START,
+  PREFIX,
   WORD_SHIFT,
   WORD_SHIFT_START,
   WORD_SIZE,
@@ -62,7 +63,7 @@ export function encode(unencoded: Uint8Array): string {
     }
 */
     // this is different from Base128 because it is possible to have more than one numeral in a byte.
-    // todo create a loop
+    // todo create a loop.
     let remainder = unencoded.length - fullWordsEnd;
     let shift = WORD_SHIFT_START;
     result[charPos++] = packChar(packed, shift);

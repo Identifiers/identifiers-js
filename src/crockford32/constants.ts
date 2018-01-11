@@ -1,12 +1,20 @@
 import * as long from "long";
 
-export const ALPHABET = "abcdefghijklmnopqrstuvwxyz234567"; // this is Guava's alphabet
-export const REGEXP = /_[2-7a-z]/;
-//todo http://www.crockford.com/wrmg/base32.html
+export const ALPHABET = "0123456789abcdefghjkmnpqrstvwxyz"; // this is Crockford's alphabet
+
+//regex contains the decode alias numerals too
+export const DECODE_REGEXP = /_[0-9A-VW-Za-vw-z]{2,}/;
+export const DECODE_ALIASES = {
+  "0": "oO",
+  "1": "iIlL"
+};
+
+
+//todo consider checksums: http://www.crockford.com/wrmg/base32.html
 //https://github.com/mediascience/java-crockford32/tree/master/src/main/java/com/msiops/ground/crockford32
 //https://gist.github.com/markov/5206312
 /*
- where does WORD_SIZE of ?? come from?
+ where does WORD_SIZE of 5 come from?
    • base-32 numbers have 32 digits in their alphabet
    • a byte is an 8-character word of base-2 numbers
    * a base-32 character needs 5 bits. That leaves 3 spare bits per byte.

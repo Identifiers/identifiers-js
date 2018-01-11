@@ -2,6 +2,7 @@ import {
   ALPHABET,
   BYTE_SHIFT,
   BYTE_SHIFT_START,
+  DECODE_ALIASES,
   PREFIX,
   WORD_SHIFT,
   WORD_SHIFT_START,
@@ -12,7 +13,21 @@ import * as Long from "long";
 
 const CODES = new Array(256).fill(-1);
 for (let i = 0; i < ALPHABET.length; i++) {
-  CODES[ALPHABET.charCodeAt(i)] = i;
+  const charCode = ALPHABET.charCodeAt(i);
+  CODES[charCode] = i;
+  const upperCode = String.fromCharCode(charCode).toUpperCase().charCodeAt(0);
+  if (charCode != upperCode) {
+    CODES[upperCode] = i;
+  }
+}
+
+for (const key in DECODE_ALIASES) {
+  const keyCode = CODES[key.charCodeAt(0)];
+  const aliases = DECODE_ALIASES[key];
+  for (let pos = 0; pos < aliases.length; pos++) {
+    const aliasCode = aliases.charCodeAt(pos);
+    CODES[aliasCode] = keyCode;
+  }
 }
 
 function validateInput(encoded: string): void {
