@@ -33,11 +33,11 @@ describe("base128 round-trip", () => {
 
   it("converts a known string value to and from base 128", () => {
     const bytes = Uint8Array.from(
-      "Matt Bishop"
+      "greener"
         .split("")
         .map(char => char.charCodeAt(0)));
     const testEnc = encode(bytes);
-    expect(testEnc).to.equal("ZÖhÅU03çsØAõ/þ");
+    expect(testEnc).to.equal("mÚÊÔesÈðþ");
     const testDec = decode(testEnc);
     expect(testDec).to.deep.equal(bytes);
   });

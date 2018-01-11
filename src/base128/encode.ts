@@ -28,13 +28,13 @@ export function encode(unencoded: Uint8Array): string {
 
   const wordCount = unencoded.length / WORD_SIZE;
   const charCount = Math.ceil(wordCount * BYTE_SHIFT) + 1;
-  const fullWords = Math.trunc(wordCount) * WORD_SIZE;
+  const fullWordsEnd = Math.trunc(wordCount) * WORD_SIZE;
   const result = new Array(charCount);
 
   let charPos = 0;
   let bytePos = 0;
 
-  while (bytePos < fullWords) {
+  while (bytePos < fullWordsEnd) {
     let packed = ZERO;
 
     for (let shift = BYTE_SHIFT_START; shift > -1; shift -= BYTE_SHIFT) {
@@ -54,7 +54,7 @@ export function encode(unencoded: Uint8Array): string {
       packed = packByte(unencoded[bytePos++], packed, shift);
     }
 
-    let remainder = unencoded.length - fullWords;
+    let remainder = unencoded.length - fullWordsEnd;
     for (let shift = WORD_SHIFT_START; remainder > -1; remainder--) {
       result[charPos++] = packChar(packed, shift);
       shift -= WORD_SHIFT;
@@ -62,6 +62,7 @@ export function encode(unencoded: Uint8Array): string {
   }
 
   result[charPos] = TERMINATOR_CODE;
+
   return String.fromCharCode(...result);
 }
 

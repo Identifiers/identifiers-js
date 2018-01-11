@@ -10,7 +10,7 @@ import {
   ZERO
 } from "./constants";
 
-const CODES = new Array(ALPHABET.length * 2).fill(-1);
+const CODES = new Array(256).fill(-1);
 for (let i = 0; i < ALPHABET.length; i++) {
   CODES[ALPHABET.charCodeAt(i)] = i;
 }
@@ -40,13 +40,13 @@ export function decode(encoded: string): Uint8Array {
 
   const length = encoded.length - 1;
   const bytesCount = Math.trunc(length * WORD_SIZE / BYTE_SHIFT);
-  const fullWords = Math.trunc(bytesCount / WORD_SIZE) * WORD_SIZE;
+  const fullWordsEnd = Math.trunc(bytesCount / WORD_SIZE) * WORD_SIZE;
   const result = new Uint8Array(bytesCount);
 
   let charPos = 0;
   let bytePos = 0;
 
-  while (bytePos < fullWords) {
+  while (bytePos < fullWordsEnd) {
     let unpacked = ZERO;
 
     for (let shift = WORD_SHIFT_START; shift > -1; shift -= WORD_SHIFT) {
@@ -75,13 +75,13 @@ export function decode(encoded: string): Uint8Array {
 }
 
 
-function unpackChar(encoded: string, charPos: number, packed: long, shift: number): long {
+function unpackChar(encoded: string, charPos: number, unpacked: long, shift: number): long {
   const charCode = encoded.charCodeAt(charPos);
   const value = charCode < CODES.length ? CODES[charCode] : -1;
   if (value < 0) {
     throw new Error(`invalid character code: '${charCode}' at position ${charPos}`);
   }
-  return packed.or(long.fromInt(value, true).shiftLeft(shift));
+  return unpacked.or(long.fromInt(value, true).shiftLeft(shift));
 }
 
 function unpackByte(unpacked: long, shift: number): number {
