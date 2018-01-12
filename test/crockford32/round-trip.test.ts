@@ -51,8 +51,8 @@ describe("crockford32 tests", () => {
   });
 
   it("understands the crockford32 alias characters", () => {
-    const testEnc = "_00011111";
-    const aliasedEnc = "_0Oo1iIlL";
+    const testEnc = "_00011111abcdefghjkmnpqrstvwxyzabcdefghjkmnpqrstvwxyz";
+    const aliasedEnc = "_0Oo1iIlLabcdefghjkmnpqrstvwxyzABCDEFGHJKMNPQRSTVWXYZ";
     const testDec = decode(testEnc);
     const aliasedDec = decode(aliasedEnc);
     expect(testDec).to.deep.equal(aliasedDec);
