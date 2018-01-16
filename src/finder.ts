@@ -24,8 +24,8 @@ export function codecForTypeCode<INPUT, VALUE, ENCODED>(typeCode: number): Ident
 }
 
 
-function hasCodecSymbol<VALUE>(id: Identifier<VALUE>): boolean {
-  return S.valid(S.spec.object, id[codecSymbol]);
+function hasCodecSymbol<VALUE>(identifier: Identifier<VALUE>): boolean {
+  return S.valid(S.spec.object, identifier[codecSymbol]);
 }
 
 const identifierSpec = S.spec.and("identifier",
