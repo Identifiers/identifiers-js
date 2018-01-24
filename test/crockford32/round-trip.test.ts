@@ -1,7 +1,7 @@
-import {PREFIX, DECODE_REGEXP, DECODE_ALIASES} from "../../src/crockford32/constants";
+import {PREFIX, DECODE_ALIASES} from "../../src/crockford32/constants";
 import {expect} from "chai";
 
-import {decode} from "../../src/crockford32/decode";
+import {decode, REGEXP} from "../../src/crockford32/decode";
 import {encode} from "../../src/crockford32/encode";
 
 
@@ -77,7 +77,7 @@ function roundTrip(bytes: Uint8Array): void {
   // note these expectation checks take up 95% of the time in this test
   expect(testEnc).to.be.a("string");
   expect(testDec).to.be.a("uint8array");
-  expect(testEnc).to.match(DECODE_REGEXP);
+  expect(testEnc).to.match(REGEXP);
   expect(testDec).to.deep.equal(bytes);
 }
 

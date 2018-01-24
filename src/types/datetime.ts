@@ -1,6 +1,6 @@
 import * as S from "js.spec";
 
-import {IdentifierCodec} from "../identifier";
+import {Identifier, IdentifierCodec} from "../identifier";
 import {longCodec} from "./long";
 import {calculateSemanticTypeCode} from "../semantic";
 import {createImmutableDate, ImmutableDate} from "./immutable-date";
@@ -28,3 +28,13 @@ export const datetimeCodec: IdentifierCodec<DatetimeInput, ImmutableDate, number
   specForDecoding: decodeSpec,
   decode: createImmutableDate
 };
+
+export class DatetimeIdentifier extends Identifier<ImmutableDate> {
+  constructor(value: ImmutableDate) {
+    super(value);
+  }
+
+  protected codec(): IdentifierCodec {
+    return datetimeCodec;
+  }
+}

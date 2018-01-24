@@ -1,15 +1,7 @@
-import {
-  SYMBOLS,
-  BYTE_SHIFT,
-  BYTE_SHIFT_START,
-  DECODE_ALIASES,
-  PREFIX,
-  WORD_SHIFT,
-  WORD_SHIFT_START,
-  WORD_SIZE,
-  ZERO
-} from "./constants";
+import {BYTE_SHIFT, BYTE_SHIFT_START, DECODE_ALIASES, PREFIX, SYMBOLS, WORD_SHIFT, WORD_SHIFT_START, WORD_SIZE, ZERO} from "./constants";
 import * as Long from "long";
+
+export const REGEXP = /_[0-9A-VW-Za-vw-z]{2,}/;
 
 const CODES = new Array(256).fill(-1);
 for (let i = 0; i < SYMBOLS.length; i++) {
@@ -30,25 +22,10 @@ for (const key in DECODE_ALIASES) {
   }
 }
 
-function validateInput(encoded: string): void {
-
-  if (!encoded.startsWith(PREFIX)) {
-    throw new Error(`Expected '${PREFIX}' at beginning of URI-safe encoded string: '${encoded}'`);
-  }
-
-  // length of 2 means string is prefixed OK, but missing chars
-  if (encoded.length === 2) {
-    throw new Error(`URI-safe encoded string ${encoded} is too short (${encoded.length} chars)`);
-  }
-}
-
 /**
  * Expects a string value.
  */
 export function decode(encoded: string): Uint8Array {
-
-  validateInput(encoded);
-
   if (encoded === PREFIX) {
     return new Uint8Array(0);
   }

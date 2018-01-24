@@ -8,11 +8,17 @@ import {Identifier} from "../src/identifier";
 
 function roundTrip<T>(id: Identifier<T>, comparator?: (encoded: Identifier<T>, decoded: Identifier<T>) => boolean) {
   const encoded = ids.encodeToString(id);
-  const decoded: Identifier<T> = ids.decodeFromString(encoded);
-  if (comparator) {
-    expect(comparator(id, decoded)).to.be.true;
+  const json = JSON.stringify(id);  //just for now
+  const str = id.toString();
+  const decoded: undefined | Identifier<T> = ids.decodeFromString(encoded);
+  if (decoded) {
+    if (comparator) {
+      expect(comparator(id, decoded)).to.be.true;
+    } else {
+      expect(decoded).to.deep.equal(id); //toJSON not the same. What if it were a class?
+    }
   } else {
-    expect(decoded).to.deep.equal(id);
+    expect.fail();
   }
 }
 

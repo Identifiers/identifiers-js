@@ -1,6 +1,6 @@
 import * as S from "js.spec";
 
-import {IdentifierCodec} from "../identifier";
+import {Identifier, IdentifierCodec} from "../identifier";
 
 
 export const LIST_TYPE_CODE = 0x10;
@@ -29,3 +29,10 @@ export function createListCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCode
     decode: (list) => list.map(itemCodec.decode)
   };
 };
+
+//is this even useful?
+export abstract class ListIdentifier<VALUE> extends Identifier<VALUE[]> {
+  constructor(values: VALUE[]) {
+    super(values);
+  }
+}

@@ -1,39 +1,17 @@
 import * as long from "long";
-import {
-  BYTE_SHIFT_START,
-  BYTE_SHIFT,
-  SYMBOLS,
-  TERMINATOR,
-  WORD_SHIFT,
-  WORD_SHIFT_START,
-  WORD_SIZE,
-  ZERO
-} from "./constants";
+import {BYTE_SHIFT, BYTE_SHIFT_START, SYMBOLS, TERMINATOR, WORD_SHIFT, WORD_SHIFT_START, WORD_SIZE, ZERO} from "./constants";
+
+export const REGEXP = /[/-9?-Za-z¿-ý]{2,}þ/;
 
 const CODES = new Array(256).fill(-1);
 for (let i = 0; i < SYMBOLS.length; i++) {
   CODES[SYMBOLS.charCodeAt(i)] = i;
 }
 
-function validateInput(encoded: string): void {
-
-  if (!encoded.endsWith(TERMINATOR)) {
-    throw new Error(`Expected '${TERMINATOR}' at end of encoded string: '${encoded}'`);
-  }
-
-  // length of 2 means string is terminated OK, but missing chars beforehand
-  if (encoded.length === 2) {
-    throw new Error(`Encoded string ${encoded} is too short (${encoded.length} chars)`);
-  }
-}
-
 /**
  * Expects a string value.
  */
 export function decode(encoded: string): Uint8Array {
-
-  validateInput(encoded);
-
   if (encoded === TERMINATOR) {
     return new Uint8Array(0);
   }

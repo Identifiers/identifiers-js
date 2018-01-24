@@ -5,7 +5,7 @@
 import * as long from "long";
 
 export const SYMBOLS = "/0123456789?@ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüý";
-export const REGEXP = /[/-9?-Za-z¿-ý]{2,}þ/;
+
 /*
  where does WORD_SIZE of 7 come from?
    • base-128 numbers need 128 letters in their alphabet

@@ -1,4 +1,4 @@
-import {REGEXP} from "../../src/base128/constants";
+import {REGEXP} from "../../src/base128/decode";
 import {expect} from "chai";
 
 import {decode} from "../../src/base128/decode";

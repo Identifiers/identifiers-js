@@ -2,7 +2,7 @@ import * as S from "js.spec";
 import {Int64BE} from "int64-buffer";
 import * as Long from "long";
 
-import {IdentifierCodec} from "../identifier";
+import {Identifier, IdentifierCodec} from "../identifier";
 import {integerSpec} from "./integer";
 import {existsPredicate} from "../shared";
 
@@ -118,3 +118,13 @@ export const longCodec: IdentifierCodec<LongInput, LongLike, EncodedLong> = {
   specForDecoding: decodeSpec,
   decode: decodeValue
 };
+
+export class LongIdentifier extends Identifier<LongLike> {
+  constructor(value: LongLike) {
+    super(value);
+  }
+
+  protected codec(): IdentifierCodec {
+    return longCodec;
+  }
+}

@@ -2,6 +2,7 @@
  * Identifier-centric immutable wrapper around a Date instance. It provides the Date methods often used in system that
  * treat dates as identifiers. One can get a Date instance for other cases.
  */
+ //todo consider class instead of interface
 export interface ImmutableDate {
 
   /**

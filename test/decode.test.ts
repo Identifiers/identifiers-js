@@ -8,6 +8,7 @@ import jsSpecChai from "js.spec-chai";
 import {identifierSpec, testCodec} from "./tests-shared";
 import {asIsCodec} from "../src/types/shared-types";
 import * as S from "js.spec";
+import {createIdentifier} from "../src/factory";
 
 chai.use(jsSpecChai);
 
@@ -65,7 +66,7 @@ describe("decode tests", () => {
 
   it("creates an identifier with the correct shape", () => {
     const value = 3;
-    const actual = decode.createIdentifier(testCodec, value);
+    const actual = createIdentifier(testCodec, value);
     expect(actual).to.conform(identifierSpec);
     expect(actual).to.include({type: testCodec.type, value: value});
   });

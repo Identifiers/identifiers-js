@@ -1,6 +1,6 @@
 import * as S from "js.spec";
 
-import {IdentifierCodec} from "../identifier";
+import {Identifier, IdentifierCodec} from "../identifier";
 import {asIsCodec} from "./shared-types";
 
 
@@ -24,3 +24,13 @@ export const integerCodec: IdentifierCodec<number> = {
   specForIdentifier: integerSpec,
   specForDecoding: integerSpec
 };
+
+export class IntegerIdentifier extends Identifier<number> {
+  constructor(value: number) {
+    super(value);
+  }
+
+  protected codec(): IdentifierCodec {
+    return integerCodec;
+  }
+}

@@ -2,24 +2,65 @@
  * Contains the value and type of an Identifier value.
  */
 import {Spec} from "js.spec";
+import {encodeToString} from "./encode";
 
-export interface Identifier<VALUE> {
-  /**
-   * Short string name the type of the Identifier. Examples include 'uuid', 'date', 'geo'.
-   */
-  readonly type: string;
-
+/*
+The case of an Identifier class:
+  1. easier to compare? Does JS have .equals()?
+  2. Shared behavior. toString, toJSON the same.
+  3. js.spec?
+  4. Is immutability more possible? https://www.everythingfrontend.com/posts/immutable-classes-in-javascript.html
+ */
+export abstract class Identifier<VALUE> {
   /**
    * The value of the Identifier.
    */
   readonly value: VALUE;
+
+/*
+Codec is causing generics problems. What if instead of passing in IdentifierCodec, We extend Identifier with types,
+like BooleanCodec and such? That way they could hide their codec internally and we wouldn't have so much trouble with
+the generic declaration.
+
+Also might be able to move encodeToString() into this class? If so then it would not need to be exported. Public interface
+would just be:
+
+  factory...
+  decodeFromString()
+  jsonParserReviver (passed into JSON.parse()
+ */
+  constructor(value: VALUE) {
+    this.value = value;
+  }
+
+  protected abstract codec(): IdentifierCodec;
+
+  /**
+   * Short string name the type of the Identifier. Examples include 'uuid', 'date', 'geo'.
+   */
+  type(): string {
+    return this.codec().type;
+  }
+
+
+  toUriString(): string {
+    return encodeToString(this, true, this.codec());
+  }
+
+  toString(): string {
+    return encodeToString(this, false, this.codec());
+  }
+
+  toJSON(key: string): string {
+    return this.toString();
+  }
 }
 
 
 /**
  * Codec that prepares an Identifier for encoding as well as creates an Identifier from a decoded object.
  */
-export interface IdentifierCodec<INPUT, VALUE = INPUT, ENCODED = VALUE> {
+export interface IdentifierCodec<INPUT = INPUT, VALUE = INPUT, ENCODED = VALUE> {
 
   /**
    * A code (< 128) marking the type of the identifier. Used to re-identify the Codec from an encoded string.

@@ -1,8 +1,8 @@
 import * as S from "js.spec";
 
 import {Identifier, IdentifierCodec} from "./identifier";
-import {createIdentifier} from "./decode";
-
+import {codecSymbol, deepFreeze} from "./shared";
+import {encodeToString} from "./encode";
 
 export interface ItemFactory<INPUT, VALUE> {
   (input: INPUT): Identifier<VALUE>;
@@ -28,3 +28,10 @@ function newIdentifier<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<INPUT, VALU
   S.assert(codec.specForIdentifier, input);
   return createIdentifier(codec, codec.forIdentifier(input));
 };
+
+export function createIdentifier<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<INPUT, VALUE, ENCODED>, value: VALUE): Identifier<VALUE> {
+  // Where does the class come from?
+
+  const identifier = new Identifier(value, codec);
+  return deepFreeze(identifier);
+}
