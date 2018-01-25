@@ -4,8 +4,8 @@ import * as S from "js.spec";
 import * as base128 from "./base128/decode";
 import {Identifier, IdentifierCodec} from "./identifier";
 import {codecForTypeCode} from "./finder";
-import {codecSymbol, deepFreeze, existsPredicate, msgpackCodec} from "./shared";
-
+import {existsPredicate, msgpackCodec} from "./shared";
+import {createIdentifier} from "./factory";
 
 /**
  * Convert an encoded identifier string into an Identifier.
@@ -45,10 +45,3 @@ export function decodeWithCodec<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<IN
   return codec.decode(encoded);
 }
 
-export function createIdentifier<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<INPUT, VALUE, ENCODED>, value: VALUE): Identifier<VALUE> {
-  return deepFreeze({
-    type: codec.type,
-    value: value,
-    [codecSymbol]: codec
-  });
-}

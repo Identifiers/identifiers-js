@@ -5,23 +5,34 @@ import jsSpecChai from "js.spec-chai";
 
 import {factory} from "../src";
 import {Identifier} from "../src/identifier";
-import {identifierSpec} from "./tests-shared";
+import {identifierSpec, testCodec} from "./tests-shared";
 import {LongLike} from "../src/types/long";
 import {createImmutableDate} from "../src/types/immutable-date";
+import {createIdentifier} from "../src/factory";
 
 chai.use(jsSpecChai);
 
 
-function validateCreatedIdentifier(expectedValue: any, actualId: Identifier<any>, comparator?: (exected, actual) => boolean): void {
-  expect(actualId).to.be.frozen.and.conform(identifierSpec);
-  if (comparator) {
-    expect(comparator(expectedValue, actualId.value)).to.be.true;
-  } else {
-    expect(actualId.value).to.deep.equal(expectedValue);
-  }
-}
+describe("createIdentifier method", () => {
+  it("creates an identifier with the correct shape", () => {
+    const value = 3;
+    const actual = createIdentifier(testCodec, value);
+    expect(actual).to.conform(identifierSpec);
+    expect(actual).to.include({type: testCodec.type, value: value});
+  });
+
+});
 
 describe("identifier factory methods", () => {
+
+  function validateCreatedIdentifier(expectedValue: any, actualId: Identifier<any>, comparator?: (exected, actual) => boolean): void {
+    expect(actualId).to.be.frozen.and.conform(identifierSpec);
+    if (comparator) {
+      expect(comparator(expectedValue, actualId.value)).to.be.true;
+    } else {
+      expect(actualId.value).to.deep.equal(expectedValue);
+    }
+  }
 
   describe("string", () => {
     it("creates an identifier", () => {

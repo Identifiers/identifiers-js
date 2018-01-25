@@ -5,7 +5,6 @@ import * as msgpack from "msgpack-lite";
 import * as base128 from "../src/base128/encode";
 import * as decode from "../src/decode";
 import jsSpecChai from "js.spec-chai";
-import {identifierSpec, testCodec} from "./tests-shared";
 import {asIsCodec} from "../src/types/shared-types";
 import * as S from "js.spec";
 
@@ -43,14 +42,14 @@ describe("decode tests", () => {
   });
 
 
-    const codec = {
-      ...asIsCodec,
-      typeCode: 0,
-      type: "test",
-      specForIdentifier: S.spec.nil,
-      specForDecoding: S.spec.number,
-      decode: (value) => value + 1
-    };
+  const codec = {
+    ...asIsCodec,
+    typeCode: 0,
+    type: "test",
+    specForIdentifier: S.spec.nil,
+    specForDecoding: S.spec.number,
+    decode: (value) => value + 1
+  };
 
   it("decodeWithCodec() throws error on invalid decode value", () => {
     expect(()=> decode.decodeWithCodec(codec, "beetle")).to.throw();
@@ -60,13 +59,5 @@ describe("decode tests", () => {
     const value = 22;
     const actual = decode.decodeWithCodec(codec, value);
     expect(actual).to.equal(value + 1);
-  });
-
-
-  it("creates an identifier with the correct shape", () => {
-    const value = 3;
-    const actual = decode.createIdentifier(testCodec, value);
-    expect(actual).to.conform(identifierSpec);
-    expect(actual).to.include({type: testCodec.type, value: value});
   });
 });
