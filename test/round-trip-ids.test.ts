@@ -3,10 +3,11 @@ import * as Long from "long";
 
 import * as ID from "../src";
 import {codecSymbol} from "../src/shared";
+import {Identifier} from "../src/identifier";
 
-type IdComparator<T> =  (encoded: ID.Identifier<T>, decoded: ID.Identifier<T>) => boolean;
+type IdComparator<T> =  (encoded: Identifier<T>, decoded: Identifier<T>) => boolean;
 
-function compareIDs<T>(id: ID.Identifier<T>, decoded: ID.Identifier<T>, comparator?: IdComparator<T>): void {
+function compareIDs<T>(id: Identifier<T>, decoded: Identifier<T>, comparator?: IdComparator<T>): void {
   if (comparator) {
     expect(comparator(id, decoded)).to.be.true;
   } else {
@@ -19,9 +20,9 @@ function compareIDs<T>(id: ID.Identifier<T>, decoded: ID.Identifier<T>, comparat
   }
 };
 
-function roundTrip<T>(id: ID.Identifier<T>, comparator?: IdComparator<T>): void {
+function roundTrip<T>(id: Identifier<T>, comparator?: IdComparator<T>): void {
   let encoded = id.toString();
-  let decoded: ID.Identifier<T> = ID.decodeFromString(encoded);
+  let decoded: Identifier<T> = ID.decodeFromString(encoded);
   compareIDs(id, decoded, comparator);
 
   encoded = id.toBase32String();
