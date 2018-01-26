@@ -1,19 +1,10 @@
-import {REGEXP} from "../../src/base128/constants";
 import {expect} from "chai";
 
-import {decode} from "../../src/base128/decode";
+import {decode, REGEXP} from "../../src/base128/decode";
 import {encode} from "../../src/base128/encode";
 
 
 describe("base128 round-trip", () => {
-
-  it("throws error decoding incorrect values", () => {
-    expect(() => decode("")).to.throw();
-    expect(() => decode("Not an encoded string")).to.throw();
-    expect(() => decode("messed-upþ")).to.throw();
-    expect(() => decode("qþ")).to.throw();
-    expect(() => decode("1þþ")).to.throw();
-  });
 
   it("handles empty values", () => {
     const empty = Uint8Array.of();

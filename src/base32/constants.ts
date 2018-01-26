@@ -6,12 +6,6 @@ import * as long from "long";
 
 export const SYMBOLS = "0123456789abcdefghjkmnpqrstvwxyz";
 
-//regex contains the decode alias symbols too
-export const DECODE_REGEXP = /_[0-9A-VW-Za-vw-z]{2,}/;
-export const DECODE_ALIASES = {
-  "0": "oO",
-  "1": "iIlL"
-};
 /*
  where does WORD_SIZE of 5 come from?
    • base-32 numbers have 32 digits in their alphabet

@@ -13,6 +13,21 @@ export interface Identifier<VALUE> {
    * The value of the Identifier.
    */
   readonly value: VALUE;
+
+  /**
+   * Returns the identifier encoded as a base-128 string.
+   */
+  toString(): string;
+
+  /**
+   * Returns the identifier encoded in a base-32 format. This string is URI safe and case-insensitive.
+   */
+  toBase32String(): string;
+
+  /**
+   * Converts the identifier to a base-128 JSON string.
+   */
+  toJSON(key?: string): string;
 }
 
 

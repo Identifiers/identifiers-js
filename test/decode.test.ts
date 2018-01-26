@@ -8,9 +8,21 @@ import jsSpecChai from "js.spec-chai";
 import {asIsCodec} from "../src/types/shared-types";
 import * as S from "js.spec";
 
+
 chai.use(jsSpecChai);
 
 describe("decode tests", () => {
+
+  it("throws error decoding incorrect values", () => {
+    expect(() => decode.decodeString("")).to.throw();
+    expect(() => decode.decodeString("Not an encoded string")).to.throw();
+    expect(() => decode.decodeString("messed-upþ")).to.throw();
+    expect(() => decode.decodeString("qþ")).to.throw();
+    expect(() => decode.decodeString("1þþ")).to.throw();
+    expect(() => decode.decodeString("_messed-up")).to.throw();
+    expect(() => decode.decodeString("_p")).to.throw();
+    expect(() => decode.decodeString("__12")).to.throw();
+  });
 
   it("decodes base128 string input", () => {
     const bytes = Uint8Array.from([1, 2, 3]);

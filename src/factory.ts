@@ -2,6 +2,7 @@ import * as S from "js.spec";
 
 import {Identifier, IdentifierCodec} from "./identifier";
 import {codecSymbol, deepFreeze} from "./shared";
+import {encodeToBase128String, encodeToBase32String} from "./encode";
 
 export interface ItemFactory<INPUT, VALUE> {
   (input: INPUT): Identifier<VALUE>;
@@ -29,10 +30,14 @@ function newIdentifier<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<INPUT, VALU
 };
 
 export function createIdentifier<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<INPUT, VALUE, ENCODED>, value: VALUE): Identifier<VALUE> {
-  return deepFreeze({
+  const identifier = {
     type: codec.type,
     value: value,
-    [codecSymbol]: codec
-  });
+    [codecSymbol]: codec,
+    toString: () => encodeToBase128String(identifier),
+    toBase32String: () => encodeToBase32String(identifier),
+    toJSON: (key) => encodeToBase128String(identifier)
+  };
+  return deepFreeze(identifier);
 }
 

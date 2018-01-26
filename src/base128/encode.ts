@@ -1,8 +1,8 @@
 import * as long from "long";
 import {
-  SYMBOLS,
   BYTE_SHIFT,
   BYTE_SHIFT_START,
+  SYMBOLS,
   TERMINATOR,
   WORD_SHIFT,
   WORD_SHIFT_START,

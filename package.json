@@ -55,6 +55,7 @@
       "src/**/*.ts"
     ],
     "exclude": [
+      "src/base32/benchmark.ts",
       "src/base128/benchmark.ts",
       "src/base128/generate-table.ts"
     ],

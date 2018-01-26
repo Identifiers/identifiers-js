@@ -1,15 +1,17 @@
 import {
-  SYMBOLS,
   BYTE_SHIFT,
   BYTE_SHIFT_START,
-  DECODE_ALIASES,
   PREFIX,
+  SYMBOLS,
   WORD_SHIFT,
   WORD_SHIFT_START,
   WORD_SIZE,
   ZERO
 } from "./constants";
 import * as Long from "long";
+
+//regex contains the decode alias symbols too
+export const REGEXP = /_[0-9A-VW-Za-vw-z]{2,}/;
 
 const CODES = new Array(256).fill(-1);
 for (let i = 0; i < SYMBOLS.length; i++) {
@@ -21,34 +23,29 @@ for (let i = 0; i < SYMBOLS.length; i++) {
   }
 }
 
+export const DECODE_ALIASES = {
+  "0": ["o", "O"],
+  "1": ["i", "I", "l", "L"]
+};
+
 for (const key in DECODE_ALIASES) {
   const keyCode = CODES[key.charCodeAt(0)];
   const aliases = DECODE_ALIASES[key];
-  for (let pos = 0; pos < aliases.length; pos++) {
-    const aliasCode = aliases.charCodeAt(pos);
+  for (const alias of aliases) {
+    const aliasCode = alias.charCodeAt(0);
     CODES[aliasCode] = keyCode;
   }
 }
 
-function validateInput(encoded: string): void {
-
-  if (!encoded.startsWith(PREFIX)) {
-    throw new Error(`Expected '${PREFIX}' at beginning of URI-safe encoded string: '${encoded}'`);
-  }
-
-  // length of 2 means string is prefixed OK, but missing chars
-  if (encoded.length === 2) {
-    throw new Error(`URI-safe encoded string ${encoded} is too short (${encoded.length} chars)`);
-  }
+//faster than a full regex test
+export function maybe(encoded: string): boolean {
+  return encoded.length != 2 && encoded.startsWith(PREFIX);
 }
 
 /**
  * Expects a string value.
  */
 export function decode(encoded: string): Uint8Array {
-
-  validateInput(encoded);
-
   if (encoded === PREFIX) {
     return new Uint8Array(0);
   }

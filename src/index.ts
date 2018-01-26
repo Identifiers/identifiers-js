@@ -1,6 +1,7 @@
-import {encodeToString} from "./encode";
 import {decodeFromString} from "./decode";
 import {Factory, createFactory} from "./factory";
+import {JSON_reviver} from "./jsonReviver";
+import {IdentifierCodec} from "./identifier";
 import {registerCodec} from "./finder";
 import {createListCodec} from "./types/lists";
 import {stringCodec} from "./types/string";
@@ -9,9 +10,7 @@ import {integerCodec} from "./types/integer";
 import {floatCodec} from "./types/float";
 import {longCodec} from "./types/long";
 import {datetimeCodec} from "./types/datetime";
-import {IdentifierCodec} from "./identifier";
 import {bytesCodec} from "./types/bytes";
-
 
 function processCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>): Factory<INPUT, VALUE> {
   const listCodec = createListCodec(itemCodec);
@@ -34,7 +33,7 @@ const factory = {
 }
 
 export {
-  encodeToString,
+  factory,
   decodeFromString,
-  factory
+  JSON_reviver
 };

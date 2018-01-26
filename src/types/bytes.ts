@@ -4,9 +4,6 @@ import {IdentifierCodec} from "../identifier";
 
 export type BytesInput = ArrayLike<number> | ArrayBuffer | Buffer;
 
-function isArray(input: BytesInput): input is number[] {
-  return Array.isArray(input);
-}
 
 function isArrayBuffer(input: BytesInput): input is ArrayBuffer {
   return input instanceof ArrayBuffer;

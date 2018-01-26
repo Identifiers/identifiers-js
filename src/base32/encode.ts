@@ -1,9 +1,9 @@
 import * as Long from "long";
 import {
-  SYMBOLS,
   BYTE_SHIFT,
   BYTE_SHIFT_START,
   PREFIX,
+  SYMBOLS,
   WORD_SHIFT,
   WORD_SHIFT_START,
   WORD_SIZE,

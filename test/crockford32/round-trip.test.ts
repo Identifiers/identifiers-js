@@ -1,19 +1,11 @@
-import {PREFIX, DECODE_REGEXP, DECODE_ALIASES} from "../../src/crockford32/constants";
+import {PREFIX} from "../../src/base32/constants";
 import {expect} from "chai";
 
-import {decode} from "../../src/crockford32/decode";
-import {encode} from "../../src/crockford32/encode";
+import {decode, DECODE_ALIASES, REGEXP} from "../../src/base32/decode";
+import {encode} from "../../src/base32/encode";
 
 
-describe("crockford32 tests", () => {
-
-  it("throws error decoding incorrect values", () => {
-    expect(() => decode("")).to.throw();
-    expect(() => decode("Not an encoded string")).to.throw();
-    expect(() => decode(`${PREFIX}messed-up`)).to.throw();
-    expect(() => decode(`${PREFIX}p`)).to.throw();
-    expect(() => decode(`${PREFIX}${PREFIX}12`)).to.throw();
-  });
+describe("base32 tests", () => {
 
   it("handles empty values", () => {
     const empty = Uint8Array.of();
@@ -23,7 +15,7 @@ describe("crockford32 tests", () => {
     expect(testDec).to.deep.equal(empty);
   });
 
-  it("converts a known single-character value to and from crockford32", () => {
+  it("converts a known single-character value to and from base32", () => {
     const m = Uint8Array.of("m".charCodeAt(0));
     const testEnc = encode(m);
     expect(testEnc).to.equal("_dm");
@@ -31,7 +23,7 @@ describe("crockford32 tests", () => {
     expect(testDec).to.deep.equal(m);
   });
 
-  it("converts a known small single-byte array to and from crockford32", () => {
+  it("converts a known small single-byte array to and from base32", () => {
     const one = Uint8Array.of(1);
     const testEnc = encode(one);
     expect(testEnc).to.equal("_04");
@@ -39,7 +31,7 @@ describe("crockford32 tests", () => {
     expect(testDec).to.deep.equal(one);
   });
 
-  it("converts a known string value to and from crockford32", () => {
+  it("converts a known string value to and from base32", () => {
     const bytes = Uint8Array.from(
       "green"
         .split("")
@@ -50,7 +42,7 @@ describe("crockford32 tests", () => {
     expect(testDec).to.deep.equal(bytes);
   });
 
-  it("understands the crockford32 alias characters", () => {
+  it("understands the base32 alias characters", () => {
     const testEnc = "_00011111abcdefghjkmnpqrstvwxyzabcdefghjkmnpqrstvwxyz";
     const aliasedEnc = "_0Oo1iIlLabcdefghjkmnpqrstvwxyzABCDEFGHJKMNPQRSTVWXYZ";
     const testDec = decode(testEnc);
@@ -58,7 +50,7 @@ describe("crockford32 tests", () => {
     expect(testDec).to.deep.equal(aliasedDec);
   });
 
-  it("converts random byte arrays to and from crockford32", () => {
+  it("converts random byte arrays to and from base32", () => {
     const bytes: Uint8Array[] = [];
     for (let i = 1; i < 1000; i++) {
       const byteArray: number[] = [];
@@ -77,7 +69,7 @@ function roundTrip(bytes: Uint8Array): void {
   // note these expectation checks take up 95% of the time in this test
   expect(testEnc).to.be.a("string");
   expect(testDec).to.be.a("uint8array");
-  expect(testEnc).to.match(DECODE_REGEXP);
+  expect(testEnc).to.match(REGEXP);
   expect(testDec).to.deep.equal(bytes);
 }
 
@@ -87,7 +79,7 @@ function randomizeAliases(original: string): string {
     const aliasPos = Math.floor(Math.random() * (aliases.length + 1));
     //Don't always return an alias
     return aliasPos < aliases.length
-      ? String.fromCharCode(aliases.charCodeAt(aliasPos))
+      ? aliases[aliasPos]
       : match;
   });
 }
