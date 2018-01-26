@@ -1,4 +1,4 @@
-import * as long from "long";
+import * as Long from "long";
 import {
   toCharCode,
   BYTE_SHIFT,
@@ -62,10 +62,10 @@ export function encode(unencoded: Uint8Array): string {
   return String.fromCharCode(...result);
 }
 
-function packByte(byte: number, packed: long, shift: number): long {
-  return packed.or(long.fromInt(byte & BYTE_SIGN_MASK, true).shiftLeft(shift));
+function packByte(byte: number, packed: Long, shift: number): Long {
+  return packed.or(Long.fromInt(byte & BYTE_SIGN_MASK, true).shiftLeft(shift));
 }
 
-function packChar(packed: long, shift: number): number {
+function packChar(packed: Long, shift: number): number {
   return CODES[packed.shiftRight(shift).low & BITS_MASK];
 }

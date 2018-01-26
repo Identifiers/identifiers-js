@@ -1,4 +1,4 @@
-import * as long from "long";
+import * as Long from "long";
 import {
   toCharCode,
   BYTE_SHIFT,
@@ -15,7 +15,7 @@ export const REGEXP = /[/-9?-Za-z¿-ý]{2,}þ/;
 
 const CODES = new Array(256).fill(-1);
 Array.from(SYMBOLS, toCharCode)
-    .forEach((code, i) => CODES[code] = i);
+  .forEach((code, i) => CODES[code] = i);
 
 
 //faster than a full regex test
@@ -68,15 +68,15 @@ export function decode(encoded: string): Uint8Array {
 }
 
 
-function unpackChar(encoded: string, charPos: number, unpacked: long, shift: number): long {
+function unpackChar(encoded: string, charPos: number, unpacked: Long, shift: number): Long {
   const charCode = encoded.charCodeAt(charPos);
   const value = charCode < CODES.length ? CODES[charCode] : -1;
   if (value < 0) {
     throw new Error(`invalid character code: '${charCode}' at position ${charPos}`);
   }
-  return unpacked.or(long.fromInt(value, true).shiftLeft(shift));
+  return unpacked.or(Long.fromInt(value, true).shiftLeft(shift));
 }
 
-function unpackByte(unpacked: long, shift: number): number {
+function unpackByte(unpacked: Long, shift: number): number {
   return unpacked.shiftRight(shift).low;
 }
