@@ -29,7 +29,7 @@ export function encode(unencoded: Uint8Array): string {
   }
 
   const wordCount = unencoded.length / WORD_SIZE;
-  const charCount = Math.ceil(wordCount * BYTE_SHIFT) + 2; // + 2 is prefix, checkChar
+  const charCount = Math.ceil(wordCount * BYTE_SHIFT) + 2; // + 2 is prefix, check digit
   const fullWordsEnd = Math.trunc(wordCount) * WORD_SIZE;
   const result = new Array(charCount);
 
@@ -43,8 +43,9 @@ export function encode(unencoded: Uint8Array): string {
     let packed = ZERO;
 
     for (let shift = BYTE_SHIFT_START; shift > -1; shift -= BYTE_SHIFT) {
-      checksum += unencoded[bytePos];
-      packed = packByte(unencoded[bytePos++], packed, shift);
+      const byte = unencoded[bytePos++];
+      packed = packByte(byte, packed, shift);
+      checksum += byte;
     }
 
     for (let shift = WORD_SHIFT_START; shift > -1; shift -= WORD_SHIFT) {
@@ -56,8 +57,9 @@ export function encode(unencoded: Uint8Array): string {
   if (bytePos < unencoded.length) {
     let packed = ZERO;
     for (let shift = BYTE_SHIFT_START; bytePos < unencoded.length; shift -= BYTE_SHIFT) {
-      checksum += unencoded[bytePos];
-      packed = packByte(unencoded[bytePos++], packed, shift);
+      const byte = unencoded[bytePos++];
+      packed = packByte(byte, packed, shift);
+      checksum += byte;
     }
 
     // this is different from Base128 because it is possible to have more than one symbol in a byte.
