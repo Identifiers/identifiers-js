@@ -26,3 +26,7 @@ export const WORD_SHIFT = 7;
 export const WORD_SHIFT_START = WORD_SIZE * CHARS_PER_WORD - WORD_SHIFT;
 export const TERMINATOR = "þ";
 export const ZERO = long.fromInt(0, true);
+
+export function toCharCode(char: string): number {
+  return char.charCodeAt(0);
+}

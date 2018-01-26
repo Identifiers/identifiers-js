@@ -1,5 +1,6 @@
 import * as long from "long";
 import {
+  toCharCode,
   BYTE_SHIFT,
   BYTE_SHIFT_START,
   SYMBOLS,
@@ -12,13 +13,8 @@ import {
 
 const BYTE_SIGN_MASK = 0xff;
 const BITS_MASK = 0x7f;
-const TERMINATOR_CODE = TERMINATOR.charCodeAt(0);
-const CODES: number[] = new Array(SYMBOLS.length);
-
-for (let i = 0; i < SYMBOLS.length; i++) {
-  CODES[i] = SYMBOLS.charCodeAt(i);
-}
-
+const TERMINATOR_CODE = toCharCode(TERMINATOR);
+const CODES = Array.from(SYMBOLS, toCharCode);
 
 export function encode(unencoded: Uint8Array): string {
 

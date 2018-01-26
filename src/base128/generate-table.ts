@@ -1,4 +1,4 @@
-import { SYMBOLS } from "./constants";
+import {toCharCode, SYMBOLS, TERMINATOR} from "./constants";
 
 // creates a Markdown table of the symbols, plus the regexp
 let tbl = `
@@ -23,7 +23,7 @@ for (let i = 0; i < SYMBOLS.length; i++) {
   if (startBlock === "") {
     startBlock = char;
     lastChar = char;
-  } else if (lastChar.charCodeAt(0) + 1 < char.charCodeAt(0)) {
+  } else if (toCharCode(lastChar) + 1 < toCharCode(char)) {
     //mark a block, start a new one
     regexStr += `${startBlock}-${lastChar}`;
     startBlock = char;
@@ -32,7 +32,7 @@ for (let i = 0; i < SYMBOLS.length; i++) {
   }
   lastChar = char;
 }
-regexStr += "]{2,}$";
+regexStr += "]{2,}" + TERMINATOR + "$";
 console.log(regexStr);
 
 if (SYMBOLS.length != 128) throw new Error(`SYMBOLS is wrong length: ${SYMBOLS.length}`);

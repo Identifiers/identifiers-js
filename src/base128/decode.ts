@@ -1,5 +1,6 @@
 import * as long from "long";
 import {
+  toCharCode,
   BYTE_SHIFT,
   BYTE_SHIFT_START,
   SYMBOLS,
@@ -13,9 +14,9 @@ import {
 export const REGEXP = /[/-9?-Za-z¿-ý]{2,}þ/;
 
 const CODES = new Array(256).fill(-1);
-for (let i = 0; i < SYMBOLS.length; i++) {
-  CODES[SYMBOLS.charCodeAt(i)] = i;
-}
+Array.from(SYMBOLS, toCharCode)
+    .forEach((code, i) => CODES[code] = i);
+
 
 //faster than a full regex test
 export function maybe(encoded: string): boolean {
