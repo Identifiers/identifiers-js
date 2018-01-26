@@ -4,6 +4,10 @@
  */
 import * as long from "long";
 
+/**
+ * Douglas Crockford's base-32 symbols.
+ * @see http://www.crockford.com/wrmg/base32.html
+ */
 export const SYMBOLS = "0123456789abcdefghjkmnpqrstvwxyz";
 
 /*
