@@ -1,5 +1,6 @@
 import * as Long from "long";
 import {
+  toCharCode,
   BYTE_MASK,
   BYTE_SHIFT,
   BYTE_SHIFT_START,
@@ -16,14 +17,14 @@ import {
 export const REGEXP = /_[0-9A-VW-Za-vw-z]{2,}[0-9A-Za-z*~$=]/;
 
 const CODES = new Array(256).fill(-1);
-for (let i = 0; i < SYMBOLS.length; i++) {
-  const charCode = SYMBOLS.charCodeAt(i);
-  CODES[charCode] = i;
-  const upperCode = String.fromCharCode(charCode).toUpperCase().charCodeAt(0);
-  if (charCode != upperCode) {
-    CODES[upperCode] = i;
-  }
-}
+Array.from(SYMBOLS, toCharCode)
+  .forEach((charCode, i) => {
+    CODES[charCode] = i;
+    const upperCode = toCharCode(String.fromCharCode(charCode).toUpperCase());
+    if (charCode != upperCode) {
+      CODES[upperCode] = i;
+    }
+  });
 
 /**
  * Douglas Crockford's base-32 symbol aliases.
@@ -35,21 +36,18 @@ export const DECODE_ALIASES = {
 };
 
 for (const key in DECODE_ALIASES) {
-  const keyCode = CODES[key.charCodeAt(0)];
+  const keyCode = CODES[toCharCode(key)];
   const aliases = DECODE_ALIASES[key];
-  for (const alias of aliases) {
-    const aliasCode = alias.charCodeAt(0);
-    CODES[aliasCode] = keyCode;
-  }
+  aliases.map(toCharCode)
+    .forEach((aliasCode) => CODES[aliasCode] = keyCode);
 }
 
 const CHECK_CODES = [...CODES];
-for (let i = 0; i < CHECK_EXTRAS.length; i++) {
-  const charCode = CHECK_EXTRAS.charCodeAt(i)
-  CHECK_CODES[charCode] = 32 + i;
-}
+Array.from(CHECK_EXTRAS, toCharCode)
+  .forEach((code, i) => CHECK_CODES[code] = 32 + i);
+
 //alias the 'u'
-CHECK_CODES["U".charCodeAt(0)] = CHECK_CODES["u".charCodeAt(0)];
+CHECK_CODES[toCharCode("U")] = CHECK_CODES[toCharCode("u")];
 
 
 //faster than a full regex test

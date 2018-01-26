@@ -1,5 +1,6 @@
 import * as Long from "long";
 import {
+  toCharCode,
   BYTE_MASK,
   BYTE_SHIFT,
   BYTE_SHIFT_START,
@@ -14,17 +15,12 @@ import {
 } from "./constants";
 
 const BITS_MASK = 0x1f;
-const PREFIX_CODE = PREFIX.charCodeAt(0);
-const CODES = new Array(SYMBOLS.length);
+const PREFIX_CODE = toCharCode(PREFIX);
+const CODES = Array.from(SYMBOLS, toCharCode);
+const CHECK_CODES = [
+  ...CODES,
+  ...Array.from(CHECK_EXTRAS, toCharCode)];
 
-for (let i = 0; i < SYMBOLS.length; i++) {
-  CODES[i] = SYMBOLS.charCodeAt(i);
-}
-
-const CHECK_CODES = [...CODES];
-for (let i = 0; i < CHECK_EXTRAS.length; i++) {
-  CHECK_CODES.push(CHECK_EXTRAS.charCodeAt(i));
-}
 
 export function encode(unencoded: Uint8Array): string {
 

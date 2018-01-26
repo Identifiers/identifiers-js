@@ -23,6 +23,9 @@ base-32  11111222|22333334|44445555|56666677|77788888
 
    * 5 bytes needed to pack 8 base-32 numerals without gaps. That means a 5-byte word.
  */
+export function toCharCode(char: string): number {
+  return char.charCodeAt(0);
+}
 export const PREFIX = "_";
 export const CHECK_PRIME = 37;
 export const WORD_SIZE = 5;
