@@ -24,8 +24,7 @@ describe("base128 round-trip", () => {
 
   it("converts a known string value to and from base 128", () => {
     const bytes = Uint8Array.from(
-      "greener"
-        .split("")
+      Array.from("greener")
         .map(char => char.charCodeAt(0)));
     const testEnc = encode(bytes);
     expect(testEnc).to.equal("mÚÊÔesÈðþ");

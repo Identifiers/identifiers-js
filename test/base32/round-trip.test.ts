@@ -18,7 +18,7 @@ describe("base32 tests", () => {
   it("converts a known single-character value to and from base32", () => {
     const m = Uint8Array.of("m".charCodeAt(0));
     const testEnc = encode(m);
-    expect(testEnc).to.equal("_dm");
+    expect(testEnc).to.equal("_dm=");
     const testDec = decode(testEnc);
     expect(testDec).to.deep.equal(m);
   });
@@ -26,25 +26,24 @@ describe("base32 tests", () => {
   it("converts a known small single-byte array to and from base32", () => {
     const one = Uint8Array.of(1);
     const testEnc = encode(one);
-    expect(testEnc).to.equal("_04");
+    expect(testEnc).to.equal("_041");
     const testDec = decode(testEnc);
     expect(testDec).to.deep.equal(one);
   });
 
   it("converts a known string value to and from base32", () => {
     const bytes = Uint8Array.from(
-      "green"
-        .split("")
+      Array.from("green")
         .map(char => char.charCodeAt(0)));
     const testEnc = encode(bytes);
-    expect(testEnc).to.equal("_cxs6asbe");
+    expect(testEnc).to.equal("_cxs6asbeb");
     const testDec = decode(testEnc);
     expect(testDec).to.deep.equal(bytes);
   });
 
   it("understands the base32 alias characters", () => {
-    const testEnc = "_00011111abcdefghjkmnpqrstvwxyzabcdefghjkmnpqrstvwxyz";
-    const aliasedEnc = "_0Oo1iIlLabcdefghjkmnpqrstvwxyzABCDEFGHJKMNPQRSTVWXYZ";
+    const testEnc = "_00011111abcdefghjkmnpqrstvwxyzabcdefghjkmnpqrstvwxyzh";
+    const aliasedEnc = "_0Oo1iIlLabcdefghjkmnpqrstvwxyzABCDEFGHJKMNPQRSTVWXYZH";
     const testDec = decode(testEnc);
     const aliasedDec = decode(aliasedEnc);
     expect(testDec).to.deep.equal(aliasedDec);
