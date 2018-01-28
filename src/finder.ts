@@ -20,9 +20,21 @@ export function codecForTypeCode<INPUT, VALUE, ENCODED>(typeCode: number): Ident
   if (typeCode < SEMANTIC_TYPE_FLAG) {
     throw new Error(`No codec for typeCode '${typeCode}' found.`);
   }
-  return codecForTypeCode(typeCode & SEMANTIC_TYPE_MASK);
+  return createUnknownCodec(typeCode);
 }
 
+function createUnknownCodec<INPUT, VALUE, ENCODED>(typeCode: number): IdentifierCodec<INPUT, VALUE, ENCODED> {
+  const baseTypeCode = typeCode & SEMANTIC_TYPE_MASK;
+  const baseCodec = codecForTypeCode(baseTypeCode);
+  const unknownCodec = {
+    ...baseCodec,
+    type: `unknown-${baseCodec.type}`,
+    typeCode: typeCode
+  };
+  registerCodec(unknownCodec);
+
+  return codecForTypeCode(typeCode);
+};
 
 function hasCodecSymbol<VALUE>(identifier: Identifier<VALUE>): boolean {
   return S.valid(S.spec.object, identifier[codecSymbol]);

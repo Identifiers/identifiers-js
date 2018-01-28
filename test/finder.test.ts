@@ -1,10 +1,10 @@
 import {expect} from "chai";
 
-import {Identifier} from "../src";
 import {codecSymbol} from "../src/shared";
 import {codecForTypeCode, findCodec} from "../src/finder";
 import {calculateSemanticTypeCode} from "../src/semantic";
 import {testCodec} from "./tests-shared";
+import {Identifier} from "../src/identifier";
 
 
 describe("codec finder", () => {
@@ -57,9 +57,14 @@ describe("codec finder", () => {
       expect(actual).to.equal(testCodec);
     });
 
-    it("downgrades to a base codec", () => {
-      const actual = codecForTypeCode(calculateSemanticTypeCode(testCodec.typeCode, 1000));
-      expect(actual).to.equal(testCodec);
+    it("creates an unknown codec for an unknown semantic type", () => {
+      const semanticTypeCode = calculateSemanticTypeCode(testCodec.typeCode, 1000);
+      const actual = codecForTypeCode(semanticTypeCode);
+      expect(actual).to.include({
+        ...testCodec,
+        type: `unknown-${testCodec.type}`,
+        typeCode: semanticTypeCode
+      });
     });
   });
 });
