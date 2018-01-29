@@ -19,7 +19,7 @@ function mapSpec(itemSpec: S.Spec): S.Spec {
     S.spec.predicate("not empty", (map) => Object.keys(map).length > 0),
     S.spec.predicate("input values Spec", (map) => {
     for (const key in map) {
-      if (typeof key !== "string" || !S.valid(itemSpec, map[key])) {
+      if (!S.valid(itemSpec, map[key])) {
         return false;
       }
     }

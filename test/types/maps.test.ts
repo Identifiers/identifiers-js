@@ -21,7 +21,9 @@ describe("create a map codec from an item codec", () => {
     const itemCodec: IdentifierCodec<number> =  {
       typeCode: 1000,
       type: "test",
-      specForIdentifier: S.spec.and("spy forIdentifier", (value) => {spy.sfi++; return true;}),
+      specForIdentifier: S.spec.and("spy forIdentifier",
+        (value) => value !== Number.MAX_VALUE,
+        (value) => {spy.sfi++; return true;}),
       forIdentifier: (value) => {spy.fi++; return value + 1;},
       encode: (value) => {spy.e++; return value + 1;},
       specForDecoding: S.spec.and("spy forDecoding", (value) => {spy.sfd++; return true;}),
@@ -41,6 +43,11 @@ describe("create a map codec from an item codec", () => {
       spy.reset();
       expect(S.valid(codecUnderTest.specForIdentifier, null)).to.equal(false);
       expect(S.valid(codecUnderTest.specForIdentifier, {})).to.equal(false);
+    });
+
+    it("rejects maps with invalid values", () => {
+      spy.reset();
+      expect(S.valid(codecUnderTest.specForIdentifier, {a: Number.MAX_VALUE})).to.equal(false);
     });
 
     it("validates a map of values for identifier", () => {
