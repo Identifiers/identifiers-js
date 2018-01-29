@@ -5,11 +5,11 @@ import * as ID from "../src";
 import {codecSymbol} from "../src/shared";
 import {Identifier} from "../src/identifier";
 
-type IdComparator<T> =  (encoded: Identifier<T>, decoded: Identifier<T>) => boolean;
+type IdExpectation<T> =  (encoded: Identifier<T>, decoded: Identifier<T>) => void;
 
-function compareIDs<T>(id: Identifier<T>, decoded: Identifier<T>, comparator?: IdComparator<T>): void {
-  if (comparator) {
-    expect(comparator(id, decoded)).to.be.true;
+function compareIDs<T>(id: Identifier<T>, decoded: Identifier<T>, expectation?: IdExpectation<T>): void {
+  if (expectation) {
+    expectation(id, decoded);
   } else {
     //don't check for functions here
     expect(decoded).to.deep.include({
@@ -20,7 +20,7 @@ function compareIDs<T>(id: Identifier<T>, decoded: Identifier<T>, comparator?: I
   }
 };
 
-function roundTrip<T>(id: Identifier<T>, comparator?: IdComparator<T>): void {
+function roundTrip<T>(id: Identifier<T>, comparator?: IdExpectation<T>): void {
   let encoded = id.toString();
   let decoded: Identifier<T> = ID.decodeFromString(encoded);
   compareIDs(id, decoded, comparator);
@@ -40,21 +40,25 @@ describe("round-trip identifiers to strings using factory functions", () => {
     const id = ID.factory.string("matt");
     roundTrip(ID.factory.string("hello"));
     roundTrip(ID.factory.string.list("bye", "for", "now"));
+    roundTrip(ID.factory.string.map({a: "one", b: "two"}));
   });
 
   it("boolean", () => {
     roundTrip(ID.factory.boolean(true));
     roundTrip(ID.factory.boolean.list(true, false, true, false));
+    roundTrip(ID.factory.boolean.map({a: true, b: false}));
   });
 
   it("integer", () => {
     roundTrip(ID.factory.integer(99));
     roundTrip(ID.factory.integer.list(-7483, 0, 448, -9));
+    roundTrip(ID.factory.integer.map({a: 100, b: -4543}));
   });
 
   it("float", () => {
     roundTrip(ID.factory.float(0.009));
     roundTrip(ID.factory.float.list(0.08, 67664, -0.009917764));
+    roundTrip(ID.factory.float.map({a: 22.12, b: -0.6}));
   });
 
   it("long", () => {
@@ -64,6 +68,7 @@ describe("round-trip identifiers to strings using factory functions", () => {
     roundTrip(ID.factory.long({low: 766745, high: 2900}));
     roundTrip(ID.factory.long({low: 89, high: 420, unsigned: false}));
     roundTrip(ID.factory.long.list(1987, 2 ** 58, Long.fromNumber(-100), {low: -50, high: 5564}));
+    roundTrip(ID.factory.long.map({a: 20, b: 2 ** 62, c: Long.fromNumber(-400), d: {low: -10, high: 33}}));
   });
 
   it("bytes", () => {
@@ -77,16 +82,29 @@ describe("round-trip identifiers to strings using factory functions", () => {
     roundTrip(ID.factory.bytes.list([]));
     roundTrip(ID.factory.bytes.list([1], [2, 3]));
     roundTrip(ID.factory.bytes.list([1], Uint8Array.from([2, 3]), Buffer.from([4, 5, 6]), Uint8Array.from([7, 8]).buffer));
+    roundTrip(ID.factory.bytes.map({a: []}));
+    roundTrip(ID.factory.bytes.map({a: [1], b: [2, 3]}));
+    roundTrip(ID.factory.bytes.map({a: [1], b: Uint8Array.from([2, 3]), c: Buffer.from([4, 5, 6]), d: Uint8Array.from([7, 8]).buffer}));
   });
 
   it("datetime", () => {
     const compareImmutableDates = (id, decoded) => id.value.time === decoded.value.time;
     roundTrip(ID.factory.datetime(7785646), compareImmutableDates);
     roundTrip(ID.factory.datetime(new Date()), compareImmutableDates);
-    roundTrip(ID.factory.datetime.list(new Date(), 118275), (idList, decodedList) => {
+    roundTrip(ID.factory.datetime.list(new Date(), 118275), (idList, decodedList): void => {
       const l1 = idList.value.map(id => id.time);
       const l2 = decodedList.value.map(id => id.time);
-      return l1.filter(t => l2.indexOf(t) < 0).length === 0;
+      expect(l1).to.contain.ordered.members(l2);
+    });
+    roundTrip(ID.factory.datetime.map({a: new Date(), b: 23779545}), (idMap, decodedMap): void => {
+      const m1 = idMap.value;
+      const m2 = decodedMap.value;
+      const k1 = Object.keys(m1);
+      const k2 = Object.keys(m2);
+      expect(k1).to.contain.members(k2);
+      for (const key in m1) {
+        expect(m1[key].time).to.equal(m2[key].time);
+      }
     });
   });
 });

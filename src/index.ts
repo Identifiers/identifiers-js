@@ -4,6 +4,7 @@ import {JSON_reviver} from "./jsonReviver";
 import {IdentifierCodec} from "./identifier";
 import {registerCodec} from "./finder";
 import {createListCodec} from "./types/lists";
+import {createMapCodec} from "./types/maps";
 import {stringCodec} from "./types/string";
 import {booleanCodec} from "./types/boolean";
 import {integerCodec} from "./types/integer";
@@ -14,9 +15,11 @@ import {bytesCodec} from "./types/bytes";
 
 function processCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>): Factory<INPUT, VALUE> {
   const listCodec = createListCodec(itemCodec);
+  const mapCodec = createMapCodec(itemCodec);
   registerCodec(itemCodec);
   registerCodec(listCodec);
-  return createFactory(itemCodec, listCodec);
+  registerCodec(mapCodec);
+  return createFactory(itemCodec, listCodec, mapCodec);
 }
 
 /**
