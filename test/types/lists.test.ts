@@ -30,6 +30,7 @@ describe("create a list codec from an item codec", () => {
     const codecUnderTest = createListCodec(itemCodec);
 
     const values = [1, 2, 3];
+    const expected = [2, 3, 4];
 
     it("has the correct type and typeCode", () => {
       expect(codecUnderTest.type).to.equal(`${itemCodec.type}-list`);
@@ -52,14 +53,14 @@ describe("create a list codec from an item codec", () => {
       spy.reset();
       const actual = codecUnderTest.forIdentifier(values);
       expect(spy.fi).to.equal(3);
-      expect(actual).to.contain.ordered.members([2, 3, 4]);
+      expect(actual).to.contain.ordered.members(expected);
     });
 
     it("encodes a list of values", () => {
       spy.reset();
       const actual = codecUnderTest.encode(values);
       expect(spy.e).to.equal(3);
-      expect(actual).to.contain.ordered.members([2, 3, 4]);
+      expect(actual).to.contain.ordered.members(expected);
     });
 
     it("validates a list of values for decoding", () => {

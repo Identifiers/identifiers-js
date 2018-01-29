@@ -15,14 +15,16 @@ function mapValues<IN, OUT>(map: MAP<IN>, mapFn: (value: IN) => OUT): MAP<OUT> {
 }
 
 function mapSpec(itemSpec: S.Spec): S.Spec {
-  return S.spec.predicate("input values Spec", (map) => {
+  return S.spec.and("map spec",
+    S.spec.predicate("not empty", (map) => Object.keys(map).length > 0),
+    S.spec.predicate("input values Spec", (map) => {
     for (const key in map) {
       if (typeof key !== "string" || !S.valid(itemSpec, map[key])) {
         return false;
       }
     }
     return true;
-  });
+  }));
 }
 
 export function createMapCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>): IdentifierCodec<MAP<INPUT>, MAP<VALUE>, MAP<ENCODED>> {

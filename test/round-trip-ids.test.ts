@@ -92,11 +92,20 @@ describe("round-trip identifiers to strings using factory functions", () => {
     roundTrip(ID.factory.datetime(7785646), compareImmutableDates);
     roundTrip(ID.factory.datetime(new Date()), compareImmutableDates);
     roundTrip(ID.factory.datetime.list(new Date(), 118275), (idList, decodedList): void => {
+      expect(decodedList).to.deep.include({
+        type: idList.type,
+        [codecSymbol]: idList[codecSymbol]
+      });
       const l1 = idList.value.map(id => id.time);
       const l2 = decodedList.value.map(id => id.time);
       expect(l1).to.contain.ordered.members(l2);
     });
     roundTrip(ID.factory.datetime.map({a: new Date(), b: 23779545}), (idMap, decodedMap): void => {
+      expect(decodedMap).to.deep.include({
+        type: idMap.type,
+        [codecSymbol]: idMap[codecSymbol]
+      });
+
       const m1 = idMap.value;
       const m2 = decodedMap.value;
       const k1 = Object.keys(m1);
