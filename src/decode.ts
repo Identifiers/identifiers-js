@@ -5,7 +5,7 @@ import * as decode128 from "./base128/decode";
 import * as decode32 from "./base32/decode";
 import {Identifier, IdentifierCodec} from "./identifier";
 import {codecForTypeCode} from "./finder";
-import {existsPredicate, msgpackCodec} from "./shared";
+import {existsPredicate, IDTuple, msgpackCodec} from "./shared";
 import {createIdentifier} from "./factory";
 
 /**
@@ -40,7 +40,7 @@ const decodedBytesSpec = S.spec.tuple("decoded bytes array",
 );
 
 
-export function decodeBytes(bytes: Uint8Array): [number, any] {
+export function decodeBytes<VALUE>(bytes: Uint8Array): IDTuple<VALUE> {
   const decoded = msgpack.decode(bytes, decoderOptions);
   S.assert(decodedBytesSpec, decoded);
   return decoded;

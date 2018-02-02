@@ -4,7 +4,7 @@ import * as base128 from "./base128/encode";
 import * as base32 from "./base32/encode";
 import {Identifier, IdentifierCodec} from "./identifier";
 import {findCodec} from "./finder";
-import {msgpackCodec} from "./shared";
+import {IDTuple, msgpackCodec} from "./shared";
 
 /**
  * Convert an Identifier into a base-128 encoded identifier string.
@@ -29,7 +29,7 @@ export function encodeToBase32String<VALUE>(identifier: Identifier<VALUE>): stri
 function encodeToBytes<VALUE>(identifier: Identifier<VALUE>): Uint8Array {
   const codec = findCodec(identifier);
   const value = encodeWithCodec(codec, identifier.value);
-  return encodeBytes(codec.typeCode, value);
+  return encodeBytes([codec.typeCode, value]);
 }
 
 export function encodeWithCodec<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<INPUT, VALUE, ENCODED>, value: VALUE): ENCODED {
@@ -38,9 +38,6 @@ export function encodeWithCodec<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<IN
 
 const encoderOptions = {codec: msgpackCodec};
 
-export function encodeBytes<VALUE>(typeCode: number, value: VALUE): Uint8Array {
-  return msgpack.encode([
-    typeCode,
-    value
-  ], encoderOptions);
+export function encodeBytes<VALUE>(tuple: IDTuple<VALUE>): Uint8Array {
+  return msgpack.encode(tuple, encoderOptions);
 }

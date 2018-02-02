@@ -50,3 +50,9 @@ export function deepFreeze<T>(obj: T): T {
 export function toCharCode(char: string): number {
   return char.charCodeAt(0);
 }
+
+//msgPack tuple
+export interface IDTuple<VALUE> extends Array<number | VALUE> {
+  0: number,
+  1: VALUE
+}
