@@ -17,7 +17,7 @@ describe("bytes codec", () => {
 
   it("rejects bad identifier values", () => {
     expect("fail").to.not.conform(bytesCodec.specForIdentifier);
-    expect(["F", "a", "i", "l"]).to.not.conform(bytesCodec.specForIdentifier);
+    expect(Array.from("Fail")).to.not.conform(bytesCodec.specForIdentifier);
     expect([-11, 66]).to.not.conform(bytesCodec.specForIdentifier);
     // huge array cannot be converted to JSON so need to test with S.valid
     expect(S.valid(bytesCodec.specForIdentifier, new Array(2 ** 31))).to.be.false;
