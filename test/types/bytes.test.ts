@@ -43,6 +43,7 @@ describe("bytes codec", () => {
     expect(Buffer.from(value)).to.not.conform(bytesCodec.specForDecoding);
     expect(Uint8Array.from(value)).to.not.conform(bytesCodec.specForDecoding);
   });
+
   it("supports decoding", () => {
     const value = [77, 66, 55];
     const actual = bytesCodec.decode(Uint8Array.from(value).buffer);

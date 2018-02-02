@@ -1,4 +1,5 @@
-import {toCharCode, SYMBOLS, TERMINATOR} from "./constants";
+import {SYMBOLS, TERMINATOR} from "./constants";
+import {toCharCode} from "../shared";
 
 // creates a Markdown table of the symbols, plus the regexp
 let tbl = `
