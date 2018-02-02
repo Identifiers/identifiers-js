@@ -12,6 +12,7 @@ import {floatCodec} from "./types/float";
 import {longCodec} from "./types/long";
 import {datetimeCodec} from "./types/datetime";
 import {bytesCodec} from "./types/bytes";
+import {uuidCodec} from "./types/uuid";
 
 function processCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>): Factory<INPUT, VALUE> {
   const listCodec = createListCodec(itemCodec);
@@ -32,7 +33,8 @@ const factory = {
   float: processCodec(floatCodec),
   long: processCodec(longCodec),
   bytes: processCodec(bytesCodec),
-  datetime: processCodec(datetimeCodec)
+  datetime: processCodec(datetimeCodec),
+  uuid: processCodec(uuidCodec)
 }
 
 export {

@@ -33,7 +33,3 @@ export const BYTE_SHIFT_START = WORD_SIZE * CHARS_PER_WORD - BYTE_SHIFT;
 export const WORD_SHIFT = 5;
 export const WORD_SHIFT_START = WORD_SIZE * CHARS_PER_WORD - WORD_SHIFT;
 export const ZERO = Long.fromInt(0, true);
-
-export function toCharCode(char: string): number {
-  return char.charCodeAt(0);
-}

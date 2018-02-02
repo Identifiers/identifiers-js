@@ -1,6 +1,5 @@
 import * as Long from "long";
 import {
-  toCharCode,
   BYTE_MASK,
   BYTE_SHIFT,
   BYTE_SHIFT_START,
@@ -13,6 +12,7 @@ import {
   WORD_SIZE,
   ZERO
 } from "./constants";
+import {toCharCode} from "../shared";
 
 const BITS_MASK = 0x1f;
 const PREFIX_CODE = toCharCode(PREFIX);

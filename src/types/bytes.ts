@@ -9,7 +9,7 @@ function isArrayBuffer(input: BytesInput): input is ArrayBuffer {
   return input instanceof ArrayBuffer;
 }
 
-function forIdentifier(input: BytesInput): number[] {
+export function forBytesIdentifier(input: BytesInput): number[] {
   // copies the input content
   return Array.from(
     isArrayBuffer(input)
@@ -27,11 +27,11 @@ function isArrayLike(input: ArrayLike<number>): boolean {
     && typeof input.length === "number";
 }
 
-function isValidLength(input: BytesInput): boolean {
+export function isValidLength(input: BytesInput, minLen: number, maxLen: number): boolean {
   const len = isArrayBuffer(input)
     ? input.byteLength
     : input.length;
-  return len < 2 ** 31;
+  return len >= minLen && len <= maxLen;
 }
 
 function containsOnlyBytes(input: ArrayLike<number>): boolean {
@@ -44,20 +44,24 @@ function containsOnlyBytes(input: ArrayLike<number>): boolean {
   return true;
 }
 
+function isLessThanTwoGb(input: ArrayLike<number>): boolean {
+  return isValidLength(input, 0, 2 ** 31);
+}
+
 export const bytesInputSpec = S.spec.and("bytes identifier",
   isValidType,
-  isValidLength,
+  isLessThanTwoGb,
   containsOnlyBytes);
 
-const decodingSpec = S.spec.predicate("bytes decoding", isArrayBuffer);
+export const bytesDecodingSpec = S.spec.predicate("bytes decoding", isArrayBuffer);
 
 // msgpack sees ArrayBuffer and that triggers bin encoding.
 export const bytesCodec: IdentifierCodec<BytesInput, number[], ArrayBuffer> = {
   type: "bytes",
   typeCode: 0x5,
   specForIdentifier: bytesInputSpec,
-  forIdentifier: forIdentifier,
+  forIdentifier: forBytesIdentifier,
   encode: (value) => new Uint8Array(value).buffer,
-  specForDecoding: decodingSpec,
+  specForDecoding: bytesDecodingSpec,
   decode: (decoded) => Array.from(new Uint8Array(decoded))
 };

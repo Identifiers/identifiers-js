@@ -9,7 +9,7 @@ describe("semantic typeCode", () => {
   });
 
   it("does not allow duplicate semantic values in the same slot", () => {
-    calculateSemanticTypeCode(4, 0);
-    expect(() => calculateSemanticTypeCode(5, 0)).to.throw();
+    calculateSemanticTypeCode(4, 256);
+    expect(() => calculateSemanticTypeCode(5, 256)).to.throw();
   });
 });

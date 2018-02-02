@@ -44,7 +44,7 @@ export function createImmutableDate(value: number| Date): ImmutableDate {
   const time = typeof value === "number" ? value : value.getTime();
   const date = new Date(time);
   return Object.freeze({
-    time: time,
+    time,
     toString: () => date.toString(),
     toUTCString: () => date.toUTCString(),
     toISOString: () => date.toISOString(),

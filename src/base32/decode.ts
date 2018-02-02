@@ -1,6 +1,5 @@
 import * as Long from "long";
 import {
-  toCharCode,
   BYTE_MASK,
   BYTE_SHIFT,
   BYTE_SHIFT_START,
@@ -13,8 +12,9 @@ import {
   WORD_SIZE,
   ZERO
 } from "./constants";
+import {toCharCode} from "../shared";
 
-export const REGEXP = /_[0-9A-VW-Za-vw-z]{2,}[0-9A-Za-z*~$=]/;
+export const REGEXP = /^_[0-9A-VW-Za-vw-z]{2,}[0-9A-Za-z*~$=]$/;
 
 const CODES = new Array(256).fill(-1);
 Array.from(SYMBOLS, toCharCode)

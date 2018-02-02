@@ -43,3 +43,10 @@ export function deepFreeze<T>(obj: T): T {
   }
   return obj;
 }
+
+/**
+ * Convenience function to extract the first character code from a string.
+ */
+export function toCharCode(char: string): number {
+  return char.charCodeAt(0);
+}
