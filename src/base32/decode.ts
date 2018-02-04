@@ -35,12 +35,12 @@ export const DECODE_ALIASES: TypedObject<string[]> = {
   "1": ["i", "I", "l", "L"]
 };
 
-for (const key in DECODE_ALIASES) {
+Object.keys(DECODE_ALIASES).forEach((key) => {
   const keyCode = CODES[toCharCode(key)];
   const aliases = DECODE_ALIASES[key];
   aliases.map(toCharCode)
     .forEach((aliasCode) => CODES[aliasCode] = keyCode);
-}
+});
 
 const CHECK_CODES = [...CODES];
 Array.from(CHECK_EXTRAS, toCharCode)

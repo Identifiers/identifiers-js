@@ -7,7 +7,9 @@ export const MAP_TYPE_CODE = 0x20;
 
 function mapValues<IN, OUT>(map: TypedObject<IN>, mapFn: (value: IN) => OUT): TypedObject<OUT> {
   const mapped: TypedObject<OUT> = {};
-  for (const key in map) {
+  const keys = Object.keys(map);
+  for (let k = 0; k < keys.length; k++) {
+    const key = keys[k];
     mapped[key] = mapFn(map[key]);
   }
   return mapped;
