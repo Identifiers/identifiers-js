@@ -1,33 +1,39 @@
 import * as S from "js.spec";
 
 import {IdentifierCodec} from "../identifier";
+import {TypedObject} from "../shared";
 
 export const MAP_TYPE_CODE = 0x20;
 
-export type MAP<T> = { [key: string]: T };
-
-function mapValues<IN, OUT>(map: MAP<IN>, mapFn: (value: IN) => OUT): MAP<OUT> {
-  const mapped: MAP<OUT> = {};
+function mapValues<IN, OUT>(map: TypedObject<IN>, mapFn: (value: IN) => OUT): TypedObject<OUT> {
+  const mapped: TypedObject<OUT> = {};
   for (const key in map) {
     mapped[key] = mapFn(map[key]);
   }
   return mapped;
 }
 
-function mapSpec(itemSpec: S.Spec): S.Spec {
-  return S.spec.and("map spec",
-    S.spec.predicate("not empty", (map) => Object.keys(map).length > 0),
-    S.spec.predicate("input values Spec", (map) => {
-    for (const key in map) {
-      if (!S.valid(itemSpec, map[key])) {
-        return false;
-      }
+function mapValuesAreValid<T>(map: TypedObject<T>, itemSpec: S.Spec): boolean {
+  const keys = Object.keys(map);
+  if (keys.length === 0) {
+    return false;
+  }
+  for (let k = 0; k < keys.length; k++) {
+    const key = keys[k];
+    if (!S.valid(itemSpec, map[key])) {
+      return false;
     }
-    return true;
-  }));
+  }
+  return true;
 }
 
-export function createMapCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>): IdentifierCodec<MAP<INPUT>, MAP<VALUE>, MAP<ENCODED>> {
+function mapSpec(itemSpec: S.Spec): S.Spec {
+  return S.spec.predicate("input values Spec", (map) => mapValuesAreValid(map, itemSpec));
+}
+
+export function createMapCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>)
+  : IdentifierCodec<TypedObject<INPUT>, TypedObject<VALUE>, TypedObject<ENCODED>> {
+
   const mapType = `${itemCodec.type}-map`;
   const forIdentifierMapSpec = S.spec.and(`${mapType} forIdentifier spec`,
     S.spec.object,

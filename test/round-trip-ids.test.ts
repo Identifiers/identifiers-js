@@ -4,6 +4,7 @@ import * as Long from "long";
 import * as ID from "../src";
 import {codecSymbol} from "../src/shared";
 import {Identifier} from "../src/identifier";
+import {ImmutableDate} from "../src/types/immutable-date";
 
 type IdExpectation<T> =  (encoded: Identifier<T>, decoded: Identifier<T>) => void;
 
@@ -15,10 +16,11 @@ function compareIDs<T>(id: Identifier<T>, decoded: Identifier<T>, expectation?: 
     expect(decoded).to.deep.include({
       type: id.type,
       value: id.value,
+      // @ts-ignore
       [codecSymbol]: id[codecSymbol]
     });
   }
-};
+}
 
 function roundTrip<T>(id: Identifier<T>, comparator?: IdExpectation<T>): void {
   let encoded = id.toString();
@@ -37,7 +39,6 @@ function roundTrip<T>(id: Identifier<T>, comparator?: IdExpectation<T>): void {
 describe("round-trip identifiers to strings using factory functions", () => {
 
   it("string", () => {
-    const id = ID.factory.string("matt");
     roundTrip(ID.factory.string("hello"));
     roundTrip(ID.factory.string.list("bye", "for", "now"));
     roundTrip(ID.factory.string.map({a: "one", b: "two"}));
@@ -99,12 +100,13 @@ describe("round-trip identifiers to strings using factory functions", () => {
   });
 
   it("datetime", () => {
-    const compareImmutableDates = (id, decoded) => id.value.time === decoded.value.time;
+    const compareImmutableDates = (id: Identifier<ImmutableDate>, decoded: Identifier<ImmutableDate>) => id.value.time === decoded.value.time;
     roundTrip(ID.factory.datetime(7785646), compareImmutableDates);
     roundTrip(ID.factory.datetime(new Date()), compareImmutableDates);
     roundTrip(ID.factory.datetime.list(new Date(), 118275), (idList, decodedList): void => {
       expect(decodedList).to.deep.include({
         type: idList.type,
+        // @ts-ignore
         [codecSymbol]: idList[codecSymbol]
       });
       const l1 = idList.value.map(id => id.time);
@@ -114,6 +116,7 @@ describe("round-trip identifiers to strings using factory functions", () => {
     roundTrip(ID.factory.datetime.map({a: new Date(), b: 23779545}), (idMap, decodedMap): void => {
       expect(decodedMap).to.deep.include({
         type: idMap.type,
+        // @ts-ignore
         [codecSymbol]: idMap[codecSymbol]
       });
 

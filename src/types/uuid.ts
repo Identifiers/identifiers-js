@@ -8,7 +8,7 @@ import {IdentifierCodec} from "../identifier";
 import {bytesCodec, bytesDecodingSpec, BytesInput, bytesInputSpec, forBytesIdentifier, isValidLength} from "./bytes";
 import {calculateSemanticTypeCode} from "../semantic";
 import {longCodec} from "./long";
-import {toCharCode} from "../shared";
+import {toCharCode, TypedObject} from "../shared";
 
 export interface UuidLike {
   readonly hex: string;
@@ -40,10 +40,10 @@ export const uuidInputSpec = S.spec.or("uuid input spec", {
 export const uuidDecodingSpec = S.spec.and("uuid decoding spec",
   bytesDecodingSpec,
   is16Bytes
-)
+);
 
 const bytesToHex: string[] = [];
-const hexToBytes: {[key: string]: number} = {};
+const hexToBytes: TypedObject<number> = {};
 for (let i = 0; i < 256; i++) {
   const hex = (i + 0x100).toString(16).substr(1);
   bytesToHex[i] = hex;

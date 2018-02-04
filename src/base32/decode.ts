@@ -12,7 +12,7 @@ import {
   WORD_SIZE,
   ZERO
 } from "./constants";
-import {toCharCode} from "../shared";
+import {toCharCode, TypedObject} from "../shared";
 
 export const REGEXP = /^_[0-9A-VW-Za-vw-z]{2,}[0-9A-Za-z*~$=]$/;
 
@@ -30,7 +30,7 @@ Array.from(SYMBOLS, toCharCode)
  * Douglas Crockford's base-32 symbol aliases.
  * @see http://www.crockford.com/wrmg/base32.html
  */
-export const DECODE_ALIASES: {[key: string]: string[]} = {
+export const DECODE_ALIASES: TypedObject<string[]> = {
   "0": ["o", "O"],
   "1": ["i", "I", "l", "L"]
 };
