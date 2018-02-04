@@ -30,7 +30,7 @@ Array.from(SYMBOLS, toCharCode)
  * Douglas Crockford's base-32 symbol aliases.
  * @see http://www.crockford.com/wrmg/base32.html
  */
-export const DECODE_ALIASES = {
+export const DECODE_ALIASES: {[key: string]: string[]} = {
   "0": ["o", "O"],
   "1": ["i", "I", "l", "L"]
 };

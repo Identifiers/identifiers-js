@@ -7,7 +7,7 @@ export const MAP_TYPE_CODE = 0x20;
 export type MAP<T> = { [key: string]: T };
 
 function mapValues<IN, OUT>(map: MAP<IN>, mapFn: (value: IN) => OUT): MAP<OUT> {
-  const mapped = {};
+  const mapped: MAP<OUT> = {};
   for (const key in map) {
     mapped[key] = mapFn(map[key]);
   }

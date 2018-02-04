@@ -31,7 +31,7 @@ export function existsPredicate(value: any): boolean {
  * @param obj the object to deep freeze
  * @returns the frozen object
  */
-export function deepFreeze<T>(obj: T): T {
+export function deepFreeze<T extends {[key: string]: any}>(obj: T): T {
   Object.freeze(obj);
   for (const prop of Object.getOwnPropertyNames(obj)) {
     const value = obj[prop];

@@ -9,10 +9,11 @@ import {stringCodec} from "./types/string";
 import {booleanCodec} from "./types/boolean";
 import {integerCodec} from "./types/integer";
 import {floatCodec} from "./types/float";
-import {longCodec} from "./types/long";
-import {datetimeCodec} from "./types/datetime";
-import {bytesCodec} from "./types/bytes";
-import {uuidCodec} from "./types/uuid";
+import {longCodec, LongInput, LongLike} from "./types/long";
+import {datetimeCodec, DatetimeInput} from "./types/datetime";
+import {bytesCodec, BytesInput} from "./types/bytes";
+import {uuidCodec, UuidInput, UuidLike} from "./types/uuid";
+import {ImmutableDate} from "./types/immutable-date";
 
 function processCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>): Factory<INPUT, VALUE> {
   const listCodec = createListCodec(itemCodec);
@@ -23,10 +24,21 @@ function processCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, V
   return createFactory(itemCodec, listCodec, mapCodec);
 }
 
+export interface Factories {
+  readonly string: Factory<string, string>
+  readonly boolean: Factory<boolean, boolean>
+  readonly integer: Factory<number, number>
+  readonly float: Factory<number, number>
+  readonly long: Factory<LongInput, LongLike>
+  readonly bytes: Factory<BytesInput, number[]>
+  readonly datetime: Factory<DatetimeInput, ImmutableDate>
+  readonly uuid: Factory<UuidInput, UuidLike>
+}
+
 /**
  * Factories for identifiers.
  */
-const factory = {
+const factory: Factories = {
   string: processCodec(stringCodec),
   boolean: processCodec(booleanCodec),
   integer: processCodec(integerCodec),

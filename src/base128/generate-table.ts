@@ -36,4 +36,4 @@ for (let i = 0; i < SYMBOLS.length; i++) {
 regexStr += "]{2,}" + TERMINATOR + "$";
 console.log(regexStr);
 
-if (SYMBOLS.length != 128) throw new Error(`SYMBOLS is wrong length: ${SYMBOLS.length}`);
+if (SYMBOLS.length !== 128) throw new Error(`SYMBOLS is wrong length: ${SYMBOLS.length}`);

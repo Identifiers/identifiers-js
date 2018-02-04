@@ -41,7 +41,7 @@ function newIdentifier<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<INPUT, VALU
 };
 
 export function createIdentifier<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<INPUT, VALUE, ENCODED>, value: VALUE): Identifier<VALUE> {
-  const identifier = {
+  const identifier: Identifier<VALUE> = {
     type: codec.type,
     value: value,
     [codecSymbol]: codec,

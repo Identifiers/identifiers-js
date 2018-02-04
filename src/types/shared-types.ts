@@ -1,5 +1,5 @@
 export const asIsCodec = {
-  forIdentifier: (value) => value,
-  encode: (value) => value,
-  decode: (value) => value
+  forIdentifier: (value: any) => value,
+  encode: (value: any) => value,
+  decode: (value: any) => value
 };

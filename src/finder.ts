@@ -37,6 +37,7 @@ function createUnknownCodec<INPUT, VALUE, ENCODED>(typeCode: number): Identifier
 };
 
 function hasCodecSymbol<VALUE>(identifier: Identifier<VALUE>): boolean {
+  // @ts-ignore: codec not part of identifier interface
   return S.valid(S.spec.object, identifier[codecSymbol]);
 }
 
@@ -50,8 +51,9 @@ const identifierSpec = S.spec.and("identifier",
 
 export function findCodec<INPUT, VALUE, ENCODED>(identifier: Identifier<VALUE>): IdentifierCodec<INPUT, VALUE, ENCODED> {
   S.assert(identifierSpec, identifier);
-  const codec = identifier[codecSymbol];
-  if (codec === codecs[codec.typeCode]) {
+  // @ts-ignore: codec not part of identifier interface
+  const codec: IdentifierCodec<INPUT, VALUE, ENCODED> = identifier[codecSymbol];
+  if (Object.is(codec, codecs[codec.typeCode])) {
     return codec;
   }
   throw new Error(`unknown codec found on ${JSON.stringify(identifier)} : ${JSON.stringify(codec)}`);

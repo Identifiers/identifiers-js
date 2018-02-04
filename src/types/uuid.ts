@@ -10,7 +10,7 @@ import {calculateSemanticTypeCode} from "../semantic";
 import {longCodec} from "./long";
 import {toCharCode} from "../shared";
 
-export interface UUIDLike {
+export interface UuidLike {
   readonly hex: string;
   readonly bytes: number[];
 }
@@ -43,7 +43,7 @@ export const uuidDecodingSpec = S.spec.and("uuid decoding spec",
 )
 
 const bytesToHex: string[] = [];
-const hexToBytes: number[] = [];
+const hexToBytes: {[key: string]: number} = {};
 for (let i = 0; i < 256; i++) {
   const hex = (i + 0x100).toString(16).substr(1);
   bytesToHex[i] = hex;
@@ -51,14 +51,14 @@ for (let i = 0; i < 256; i++) {
 }
 
 
-function forUuidIdentifier(value: UuidInput): UUIDLike {
+function forUuidIdentifier(value: UuidInput): UuidLike {
   return typeof value === "string"
     ? forStringUuid(value)
     : forBytesUuid(forBytesIdentifier(value));
 }
 
 const hexPos = [0, 2, 4, 6, 9, 11, 14, 16, 19, 21, 24, 26, 28, 30, 32, 34];
-function forStringUuid(hex: string): UUIDLike {
+function forStringUuid(hex: string): UuidLike {
   const bytes = new Array(16);
   hexPos.forEach((pos, i) => {
     const hexValue = hex.substr(pos, 2);
@@ -68,7 +68,7 @@ function forStringUuid(hex: string): UUIDLike {
 }
 
 const stringPattern: number[] = Array.from("........-....-....-....-............", toCharCode);
-function forBytesUuid(bytes: number[]): UUIDLike {
+function forBytesUuid(bytes: number[]): UuidLike {
   const chars = [...stringPattern];
   hexPos.forEach((pos, i) => {
     const hexValue = bytesToHex[bytes[i]];
@@ -79,7 +79,7 @@ function forBytesUuid(bytes: number[]): UUIDLike {
   return {hex, bytes};
 }
 
-export const uuidCodec: IdentifierCodec<UuidInput, UUIDLike, ArrayBuffer> = {
+export const uuidCodec: IdentifierCodec<UuidInput, UuidLike, ArrayBuffer> = {
   ...bytesCodec,
   type: "uuid",
   typeCode: calculateSemanticTypeCode(longCodec.typeCode, 0),

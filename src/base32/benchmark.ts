@@ -30,7 +30,7 @@ const strBytes = strings.map(str => msgpack.encode(str, encoderOptions));
 suite
     .add("random bytes", randomBytesTest)
     .add("identifier values", randomValuesTest)
-  .on("cycle", (event) => console.log(`step: ${event.target}`))
+  .on("cycle", (event: benchmark.Event) => console.log(`step: ${event.target}`))
   .run();
 
 function roundTrip(bytes: Uint8Array): void {
