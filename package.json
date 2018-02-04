@@ -34,22 +34,18 @@
     "typescript": "2.7.1"
   },
   "scripts": {
-    "clean": "rimraf es lib coverage .nyc_output yarn-error.log",
-    "build:commonjs": "rimraf lib && tsc --target es5 --outDir lib --module commonjs --declaration",
-    "build:es": "rimraf es && tsc --target es6 --outDir es --module es6",
-    "build": "yarn run build:commonjs && yarn run build:es",
+    "clean": "rimraf lib coverage .nyc_output yarn-error.log",
+    "build:commonjs": "rimraf lib && tsc --target es3 --outDir lib --module commonjs",
+    "build": "yarn run build:commonjs",
     "ts": "ts-node src/",
     "test": "mocha --opts mocha.opts",
     "coverage": "nyc mocha --opts mocha.opts",
-    "prepublishOnly": "yarn run build",
-    "alias-msgpack-ts": "ln -s \"$(pwd)/node_modules/@types/msgpack-lite\" ./node_modules/@types/msgpack-long-lite"
+    "prepublishOnly": "yarn run build"
   },
   "files": [
-    "es",
     "lib"
   ],
   "types": "./lib/index.d.ts",
-  "module": "./es/index.js",
   "nyc": {
     "include": [
       "src/**/*.ts"
