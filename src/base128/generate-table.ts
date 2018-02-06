@@ -7,10 +7,10 @@ let tbl = `
 |---:|:---:|---:|---|---:|:---:|---:|---|---:|:---:|---:|---|---:|:---:|---:|
 `;
 for (let i = 0; i < SYMBOLS.length / 4; i++) {
-  tbl += `${row(i)} ${row(i + 32)} ${row(i + 64)} ${row(i + 96)}\n`;
+  tbl += `${cell(i)} ${cell(i + 32)} ${cell(i + 64)} ${cell(i + 96)}\n`;
 }
 
-function row(pos: number): string {
+function cell(pos: number): string {
   const code = SYMBOLS.charCodeAt(pos).toString(16).toUpperCase();
   const  char = SYMBOLS.charAt(pos);
   return `|${pos}|**\`${char}\`**|0x${code}|`;
