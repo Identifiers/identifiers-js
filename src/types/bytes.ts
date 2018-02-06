@@ -9,6 +9,11 @@ function isArrayBuffer(input: BytesInput): input is ArrayBuffer {
   return input instanceof ArrayBuffer;
 }
 
+function isArrayLike(input: ArrayLike<number>): input is ArrayLike<number> {
+  return typeof input === "object"
+      && typeof input.length === "number";
+}
+
 export function forBytesIdentifier(input: BytesInput): number[] {
   // copies the input content
   return Array.from(
@@ -18,13 +23,7 @@ export function forBytesIdentifier(input: BytesInput): number[] {
 }
 
 function isValidType(input: BytesInput): boolean {
-  return input instanceof ArrayBuffer
-    || isArrayLike(input);
-}
-
-function isArrayLike(input: ArrayLike<number>): boolean {
-  return typeof input === "object"
-    && typeof input.length === "number";
+  return isArrayBuffer(input) || isArrayLike(input);
 }
 
 export function isValidLength(input: BytesInput, minLen: number, maxLen: number): boolean {

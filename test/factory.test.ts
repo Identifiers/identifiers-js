@@ -7,7 +7,7 @@ import {factory} from "../src";
 import {Identifier} from "../src/identifier";
 import {identifierSpec, testCodec} from "./tests-shared";
 import {LongLike} from "../src/types/long";
-import {createImmutableDate} from "../src/types/immutable-date";
+import {createImmutableDate, ImmutableDate} from "../src/types/immutable-date";
 import {createIdentifier} from "../src/factory";
 
 chai.use(jsSpecChai);
@@ -25,10 +25,14 @@ describe("createIdentifier method", () => {
 
 describe("identifier factory methods", () => {
 
-  function validateCreatedIdentifier(expectedValue: any, actualId: Identifier<any>, comparator?: (exected, actual) => boolean): void {
+  function validateCreatedIdentifier(
+      expectedValue: any,
+      actualId: Identifier<any>,
+      expectation?: (expected: any, actual: any) => void): void {
+
     expect(actualId).to.be.frozen.and.conform(identifierSpec);
-    if (comparator) {
-      expect(comparator(expectedValue, actualId.value)).to.be.true;
+    if (expectation) {
+      expectation(expectedValue, actualId.value);
     } else {
       expect(actualId.value).to.deep.equal(expectedValue);
     }
@@ -168,31 +172,31 @@ describe("identifier factory methods", () => {
   });
 
   describe("datetime", () => {
-    const compareImmutableDates = (expected, actual) => expected.time === actual.time;
+    const immutableDateExpectation = (expected: ImmutableDate, actual: ImmutableDate) => expected.time === actual.time;
 
     it("creates an identifier from a number", () => {
       const value = new Date().getTime();
       const actual = factory.datetime(value);
-      validateCreatedIdentifier(createImmutableDate(value), actual, compareImmutableDates);
+      validateCreatedIdentifier(createImmutableDate(value), actual, immutableDateExpectation);
     });
 
     it("creates an identifier from a Date", () => {
       const value = new Date();
       const actual = factory.datetime(value);
-      validateCreatedIdentifier(createImmutableDate(value), actual, compareImmutableDates);
+      validateCreatedIdentifier(createImmutableDate(value), actual, immutableDateExpectation);
     });
 
-    const compareImmutableDateList = (idList, decodedList) => {
-      const l1 = idList.map(id => id.time);
-      const l2 = decodedList.map(id => id.time);
-      return l1.filter(t => l2.indexOf(t) < 0).length === 0;
+    const immutableDateListExpectation = (idList: ImmutableDate[], decodedList: ImmutableDate[]) => {
+      const l1 = idList.map((id) => id.time);
+      const l2 = decodedList.map((id) => id.time);
+      expect(l1).to.contain.ordered.members(l2);
     };
 
     it("creates a date-list identifier from numbers", () => {
       const v1 = createImmutableDate(new Date());
       const v2 = createImmutableDate(new Date(v1.time + 1));
       const actual = factory.datetime.list(v1.time, v2.time);
-      validateCreatedIdentifier([v1, v2], actual, compareImmutableDateList);
+      validateCreatedIdentifier([v1, v2], actual, immutableDateListExpectation);
     });
 
     it("creates a date-list identifier from Dates", () => {
@@ -200,7 +204,7 @@ describe("identifier factory methods", () => {
       const v2 = new Date(v1.getTime() + 1);
       const actual = factory.datetime.list(v1, v2);
       const expected = [v1, v2].map(createImmutableDate);
-      validateCreatedIdentifier(expected, actual, compareImmutableDateList);
+      validateCreatedIdentifier(expected, actual, immutableDateListExpectation);
     });
 
     it("creates a list identifier from both number and Date", () => {
@@ -208,7 +212,7 @@ describe("identifier factory methods", () => {
       const v2 = new Date().getTime() + 1;
       const actual = factory.datetime.list(v1, v2);
       const expected = [v1, v2].map(createImmutableDate);
-      validateCreatedIdentifier(expected, actual, compareImmutableDateList);
+      validateCreatedIdentifier(expected, actual, immutableDateListExpectation);
     });
   });
 });

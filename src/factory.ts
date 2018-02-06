@@ -42,7 +42,7 @@ function newIdentifier<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<INPUT, VALU
 export function createIdentifier<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<INPUT, VALUE, ENCODED>, value: VALUE): Identifier<VALUE> {
   const identifier: Identifier<VALUE> = {
     type: codec.type,
-    value: value,
+    value,
     [codecSymbol]: codec,
     toString: () => encodeToBase128String(identifier),
     toBase32String: () => encodeToBase32String(identifier),

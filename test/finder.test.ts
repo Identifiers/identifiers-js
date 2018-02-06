@@ -10,7 +10,7 @@ import {Identifier} from "../src/identifier";
 describe("codec finder", () => {
   const baseIdentifier = {
     toString: () => "test-toString",
-    toJSON: (key) => "test-toJSON",
+    toJSON: (key: string) => "test-toJSON",
     toBase32String: () => "test-toBase32String"
   };
 

@@ -21,7 +21,7 @@ Array.from(SYMBOLS, toCharCode)
   .forEach((charCode, i) => {
     CODES[charCode] = i;
     const upperCode = toCharCode(String.fromCharCode(charCode).toUpperCase());
-    if (charCode != upperCode) {
+    if (charCode !== upperCode) {
       CODES[upperCode] = i;
     }
   });
@@ -52,7 +52,7 @@ CHECK_CODES[toCharCode("U")] = CHECK_CODES[toCharCode("u")];
 
 //faster than a full regex test
 export function maybe(encoded: string): boolean {
-  return encoded.length != 3 && encoded.startsWith(PREFIX);
+  return encoded.length !== 3 && encoded.startsWith(PREFIX);
 }
 
 /**
@@ -103,7 +103,7 @@ export function decode(encoded: string): Uint8Array {
 
   checksum %= CHECK_PRIME;
   const checkDigit = encoded.charCodeAt(charPos);
-  if (CHECK_CODES[checkDigit] != checksum) {
+  if (CHECK_CODES[checkDigit] !== checksum) {
     throw new Error(`Incorrect string -- check digits do not match. Expected: ${CHECK_CODES[checkDigit]}, but calculated ${checksum}`)
   }
 

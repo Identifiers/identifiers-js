@@ -60,7 +60,7 @@ describe("decode tests", () => {
     type: "test",
     specForIdentifier: S.spec.nil,
     specForDecoding: S.spec.number,
-    decode: (value) => value + 1
+    decode: (value: number) => value + 1
   };
 
   it("decodeWithCodec() throws error on invalid decode value", () => {

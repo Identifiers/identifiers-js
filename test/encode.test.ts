@@ -12,7 +12,7 @@ describe("encode tests", () => {
 
     const spyCodec = {
       ...testCodec,
-      encode: (value) => value + 1
+      encode: (value: number) => value + 1
     };
 
     const actual = encode.encodeWithCodec(spyCodec, value);

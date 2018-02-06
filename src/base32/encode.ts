@@ -79,7 +79,7 @@ export function encode(unencoded: Uint8Array): string {
     }
 
     if (remainder > 3) {
-      result[charPos++] = packChar(packed, shift -= WORD_SHIFT);
+      result[charPos++] = packChar(packed, shift - WORD_SHIFT);
       result[charPos++] = packChar(packed, WORD_SIZE);
     }
   }

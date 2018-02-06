@@ -35,7 +35,7 @@
   },
   "scripts": {
     "clean": "rimraf lib coverage .nyc_output yarn-error.log",
-    "build:commonjs": "rimraf lib && tsc --target es3 --outDir lib --module commonjs",
+    "build:commonjs": "rimraf lib && tsc --target es5 --outDir lib --module commonjs",
     "build": "yarn run build:commonjs",
     "ts": "ts-node src/",
     "test": "mocha --opts mocha.opts",

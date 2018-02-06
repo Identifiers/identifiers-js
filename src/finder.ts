@@ -36,9 +36,11 @@ function createUnknownCodec<INPUT, VALUE, ENCODED>(typeCode: number): Identifier
   return codecForTypeCode(typeCode);
 };
 
+const codecAssignedSpec = S.spec.predicate("codec assigned", S.spec.object);
+
 function hasCodecSymbol<VALUE>(identifier: Identifier<VALUE>): boolean {
   // @ts-ignore: codec not part of identifier interface
-  return S.valid(S.spec.object, identifier[codecSymbol]);
+  return S.valid(codecAssignedSpec, identifier[codecSymbol]);
 }
 
 const identifierSpec = S.spec.and("identifier",

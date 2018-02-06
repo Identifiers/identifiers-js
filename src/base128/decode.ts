@@ -20,7 +20,7 @@ Array.from(SYMBOLS, toCharCode)
 
 //faster than a full regex test
 export function maybe(encoded: string): boolean {
-  return encoded.length != 2 && encoded.endsWith(TERMINATOR);
+  return encoded.length !== 2 && encoded.endsWith(TERMINATOR);
 }
 
 /**

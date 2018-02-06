@@ -4,10 +4,14 @@ import {IdentifierCodec} from "../identifier";
 import {asIsCodec} from "./shared-types";
 
 
+const stringSpec = S.spec.predicate("string spec", S.spec.string);
+
 export const stringCodec: IdentifierCodec<string> = {
-  ...asIsCodec,
   type: "string",
   typeCode: 0x0,
-  specForIdentifier: S.spec.string,
-  specForDecoding: S.spec.string
+  specForIdentifier: stringSpec,
+  specForDecoding: stringSpec,
+  forIdentifier: asIsCodec.forIdentifier,
+  encode: asIsCodec.encode,
+  decode: asIsCodec.decode
 };

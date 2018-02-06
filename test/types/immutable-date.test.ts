@@ -18,6 +18,7 @@ describe("immutable-date", () => {
   it("immutable date cannot be modified by accessing time field", () => {
     const expected = 1000;
     const actual: object = createImmutableDate(expected);
+    // @ts-ignore
     expect(() => actual["time"] = 99999).to.throw();
   });
 

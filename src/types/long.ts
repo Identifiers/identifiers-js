@@ -87,7 +87,7 @@ function forIdentifierValue(input: LongInput): LongLike {
 
 /*
   If number is a 32-bit int value (high != 0) then just use number so msgpack will store as int32
-  If over that size use Int64BE
+  If over that size use Int64BE. todo check msgpack spec about this
 */
 function encodeValue({high, low}: LongLike): EncodedLong {
   return high === 0

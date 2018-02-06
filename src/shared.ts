@@ -20,7 +20,8 @@ export const msgpackCodec = msgpack.createCodec({
 export const codecSymbol: symbol = Symbol.for("id-codec");
 
 /**
- * Common predicate used to test if a value exists--neither undefined or null.
+ * Common predicate used to test if a value exists--neither undefined or null. Checks for boolean values so that
+ * a value of 'false' will return true fo this method because the value exists.
  * @param value the value to test
  * @returns true if the value exists, regardless of it's actual value
  */

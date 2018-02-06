@@ -20,9 +20,11 @@ export const integerSpec = S.spec.and("integer value",
 );
 
 export const integerCodec: IdentifierCodec<number> = {
-  ...asIsCodec,
   type: "integer",
   typeCode: 0x2,
   specForIdentifier: integerSpec,
-  specForDecoding: integerSpec
+  specForDecoding: integerSpec,
+  forIdentifier: asIsCodec.forIdentifier,
+  encode: asIsCodec.encode,
+  decode: asIsCodec.decode
 };

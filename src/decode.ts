@@ -21,8 +21,10 @@ export function decodeFromString<INPUT, VALUE, ENCODED>(encoded: string): Identi
   return createIdentifier<INPUT, VALUE, ENCODED>(codec, value);
 }
 
+const stringSpec = S.spec.predicate("encoded string", S.spec.string);
+
 export function decodeString(encoded: string): Uint8Array {
-  S.assert(S.spec.string, encoded);
+  S.assert(stringSpec, encoded);
   if (decode128.maybe(encoded)) {
     return decode128.decode(encoded);
   }
@@ -38,7 +40,6 @@ const decodedBytesSpec = S.spec.tuple("decoded bytes array",
   Number.isInteger,
   existsPredicate
 );
-
 
 export function decodeBytes<VALUE>(bytes: Uint8Array): IDTuple<VALUE> {
   const decoded = msgpack.decode(bytes, decoderOptions);

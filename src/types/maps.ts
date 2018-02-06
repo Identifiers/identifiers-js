@@ -29,8 +29,9 @@ function mapValuesAreValid<T>(map: TypedObject<T>, itemSpec: S.Spec): boolean {
   return true;
 }
 
-function mapSpec(itemSpec: S.Spec): S.Spec {
-  return S.spec.predicate("input values Spec", (map) => mapValuesAreValid(map, itemSpec));
+function mapValuesSpec(itemSpec: S.Spec, specName: string): S.Spec {
+  const mapValuesPredicate = (map: {}) => mapValuesAreValid(map, itemSpec);
+  return S.spec.predicate(specName, mapValuesPredicate);
 }
 
 export function createMapCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>)
@@ -39,11 +40,11 @@ export function createMapCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec
   const mapType = `${itemCodec.type}-map`;
   const forIdentifierMapSpec = S.spec.and(`${mapType} forIdentifier spec`,
     S.spec.object,
-    mapSpec(itemCodec.specForIdentifier));
+    mapValuesSpec(itemCodec.specForIdentifier, "Map identifier values"));
 
   const forDecodingMapSpec = S.spec.and(`${mapType} forDecoding spec`,
     S.spec.object,
-    mapSpec(itemCodec.specForDecoding));
+    mapValuesSpec(itemCodec.specForDecoding, "decoded Map values"));
 
   return {
     type: mapType,

@@ -22,18 +22,18 @@ function compareIDs<T>(id: Identifier<T>, decoded: Identifier<T>, expectation?: 
   }
 }
 
-function roundTrip<T>(id: Identifier<T>, comparator?: IdExpectation<T>): void {
+function roundTrip<T>(id: Identifier<T>, expectation?: IdExpectation<T>): void {
   let encoded = id.toString();
   let decoded: Identifier<T> = ID.decodeFromString(encoded);
-  compareIDs(id, decoded, comparator);
+  compareIDs(id, decoded, expectation);
 
   encoded = id.toBase32String();
   decoded = ID.decodeFromString(encoded);
-  compareIDs(id, decoded, comparator);
+  compareIDs(id, decoded, expectation);
 
   encoded = id.toJSON();
   decoded = ID.decodeFromString(encoded);
-  compareIDs(id, decoded, comparator);
+  compareIDs(id, decoded, expectation);
 }
 
 describe("round-trip identifiers to strings using factory functions", () => {
@@ -109,8 +109,8 @@ describe("round-trip identifiers to strings using factory functions", () => {
         // @ts-ignore
         [codecSymbol]: idList[codecSymbol]
       });
-      const l1 = idList.value.map(id => id.time);
-      const l2 = decodedList.value.map(id => id.time);
+      const l1 = idList.value.map((id) => id.time);
+      const l2 = decodedList.value.map((id) => id.time);
       expect(l1).to.contain.ordered.members(l2);
     });
     roundTrip(ID.factory.datetime.map({a: new Date(), b: 23779545}), (idMap, decodedMap): void => {
@@ -125,9 +125,7 @@ describe("round-trip identifiers to strings using factory functions", () => {
       const k1 = Object.keys(m1);
       const k2 = Object.keys(m2);
       expect(k1).to.contain.members(k2);
-      for (const key in m1) {
-        expect(m1[key].time).to.equal(m2[key].time);
-      }
+      k1.forEach((key) => expect(m1[key].time).to.equal(m2[key].time));
     });
   });
 });

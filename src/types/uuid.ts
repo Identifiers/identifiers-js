@@ -46,7 +46,7 @@ const bytesToHex: string[] = [];
 const hexToBytes: TypedObject<number> = {};
 for (let i = 0; i < 256; i++) {
   const hex = (i + 0x100).toString(16).substr(1);
-  bytesToHex[i] = hex;
+  bytesToHex.push(hex);
   hexToBytes[hex] = i;
 }
 
@@ -59,10 +59,10 @@ function forUuidIdentifier(value: UuidInput): UuidLike {
 
 const hexPos = [0, 2, 4, 6, 9, 11, 14, 16, 19, 21, 24, 26, 28, 30, 32, 34];
 function forStringUuid(hex: string): UuidLike {
-  const bytes = new Array(16);
-  hexPos.forEach((pos, i) => {
+  const bytes: number[] = [];
+  hexPos.forEach((pos) => {
     const hexValue = hex.substr(pos, 2);
-    bytes[i] = hexToBytes[hexValue];
+    bytes.push(hexToBytes[hexValue]);
   });
   return {hex, bytes};
 }
@@ -80,7 +80,6 @@ function forBytesUuid(bytes: number[]): UuidLike {
 }
 
 export const uuidCodec: IdentifierCodec<UuidInput, UuidLike, ArrayBuffer> = {
-  ...bytesCodec,
   type: "uuid",
   typeCode: calculateSemanticTypeCode(longCodec.typeCode, 0),
   specForIdentifier: uuidInputSpec,

@@ -28,4 +28,4 @@ export function createListCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCode
     specForDecoding: forDecodingListSpec,
     decode: (list) => list.map(itemCodec.decode)
   };
-};
+}
