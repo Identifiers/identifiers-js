@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
+    "alwaysStrict": true,
     "declaration": true,
     "lib": [
       "es6"
     ],
-    "alwaysStrict": true,
     "noImplicitAny": true,
-    "strictNullChecks": true
+    "pretty": true,
+    "strictNullChecks": true,
+    "sourceMap": true
   },
   "include": [
     "src/**/*"

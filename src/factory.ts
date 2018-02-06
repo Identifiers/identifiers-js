@@ -41,12 +41,12 @@ function newIdentifier<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<INPUT, VALU
 
 export function createIdentifier<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<INPUT, VALUE, ENCODED>, value: VALUE): Identifier<VALUE> {
   const identifier: Identifier<VALUE> = {
-    type: codec.type,
     value,
-    [codecSymbol]: codec,
+    type: codec.type,
     toString: () => encodeToBase128String(identifier),
     toBase32String: () => encodeToBase32String(identifier),
-    toJSON: (key) => encodeToBase128String(identifier)
+    toJSON: (key) => encodeToBase128String(identifier),
+    [codecSymbol]: codec
   };
   return deepFreeze(identifier);
 }

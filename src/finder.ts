@@ -28,8 +28,8 @@ function createUnknownCodec<INPUT, VALUE, ENCODED>(typeCode: number): Identifier
   const baseCodec = codecForTypeCode(baseTypeCode);
   const unknownCodec = {
     ...baseCodec,
-    type: `unknown-${baseCodec.type}`,
-    typeCode: typeCode
+    typeCode,
+    type: `unknown-${baseCodec.type}`
   };
   registerCodec(unknownCodec);
 
