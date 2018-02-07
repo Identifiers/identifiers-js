@@ -59,8 +59,8 @@ export const bytesCodec: IdentifierCodec<BytesInput, number[], ArrayBuffer> = {
   type: "bytes",
   typeCode: 0x5,
   specForIdentifier: bytesInputSpec,
+  specForDecoding: bytesDecodingSpec,
   forIdentifier: forBytesIdentifier,
   encode: (value) => new Uint8Array(value).buffer,
-  specForDecoding: bytesDecodingSpec,
   decode: (decoded) => Array.from(new Uint8Array(decoded))
 };

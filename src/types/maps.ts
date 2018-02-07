@@ -50,9 +50,9 @@ export function createMapCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec
     type: mapType,
     typeCode: MAP_TYPE_CODE | itemCodec.typeCode,
     specForIdentifier: forIdentifierMapSpec,
+    specForDecoding: forDecodingMapSpec,
     forIdentifier: (map) => mapValues(map, itemCodec.forIdentifier),
     encode: (map) => mapValues(map, itemCodec.encode),
-    specForDecoding: forDecodingMapSpec,
     decode: (map) => mapValues(map, itemCodec.decode)
   }
 }

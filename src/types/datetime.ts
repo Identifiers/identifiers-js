@@ -22,9 +22,9 @@ export const datetimeCodec: IdentifierCodec<DatetimeInput, ImmutableDate, number
   type: "datetime",
   typeCode: calculateSemanticTypeCode(longCodec.typeCode, 1),
   specForIdentifier: datetimeInputSpec,
-  forIdentifier: createImmutableDate,
-  encode: (date) => date.time,
   // JS number has sufficient space for Dates; don't need to use Long
   specForDecoding: decodeSpec,
+  forIdentifier: createImmutableDate,
+  encode: (date) => date.time,
   decode: createImmutableDate
 };

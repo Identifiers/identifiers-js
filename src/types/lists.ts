@@ -23,9 +23,9 @@ export function createListCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCode
     type: listType,
     typeCode: LIST_TYPE_CODE | itemCodec.typeCode,
     specForIdentifier: forIdentifierListSpec,
+    specForDecoding: forDecodingListSpec,
     forIdentifier: (list) => list.map(itemCodec.forIdentifier),
     encode: (list) => list.map(itemCodec.encode),
-    specForDecoding: forDecodingListSpec,
     decode: (list) => list.map(itemCodec.decode)
   };
 }

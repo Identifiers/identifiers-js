@@ -113,8 +113,8 @@ export const longCodec: IdentifierCodec<LongInput, LongLike, EncodedLong> = {
   type: "long",
   typeCode: 0x4,
   specForIdentifier: longInputSpec,
+  specForDecoding: decodeSpec,
   forIdentifier: forIdentifierValue,
   encode: encodeValue,
-  specForDecoding: decodeSpec,
   decode: decodeValue
 };
