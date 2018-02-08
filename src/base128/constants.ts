@@ -2,8 +2,6 @@
   This codec's algorithm is based on Mikael Grev's MiGBase64 algorithm: http://migbase64.sourceforge.net
   which is licensed under the BSD Open Source license.
  */
-import * as Long from "long";
-
 export const SYMBOLS = "/0123456789?@ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüý";
 
 /*
@@ -25,4 +23,3 @@ export const BYTE_SHIFT_START = WORD_SIZE * CHARS_PER_WORD - BYTE_SHIFT;
 export const WORD_SHIFT = 7;
 export const WORD_SHIFT_START = WORD_SIZE * CHARS_PER_WORD - WORD_SHIFT;
 export const TERMINATOR = "þ";
-export const ZERO = Long.fromInt(0, true);

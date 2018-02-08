@@ -9,8 +9,7 @@ import {
   SYMBOLS,
   WORD_SHIFT,
   WORD_SHIFT_START,
-  WORD_SIZE,
-  ZERO
+  WORD_SIZE
 } from "./constants";
 import {toCharCode} from "../shared";
 
@@ -40,7 +39,7 @@ export function encode(unencoded: Uint8Array): string {
   let checksum = 0;
 
   while (bytePos < fullWordsEnd) {
-    let packed = ZERO;
+    let packed = Long.UZERO;
 
     for (let shift = BYTE_SHIFT_START; shift > -1; shift -= BYTE_SHIFT) {
       const byte = unencoded[bytePos++];
@@ -55,7 +54,7 @@ export function encode(unencoded: Uint8Array): string {
 
   // remainder
   if (bytePos < unencoded.length) {
-    let packed = ZERO;
+    let packed = Long.UZERO;
     for (let shift = BYTE_SHIFT_START; bytePos < unencoded.length; shift -= BYTE_SHIFT) {
       const byte = unencoded[bytePos++];
       packed = packByte(byte, packed, shift);

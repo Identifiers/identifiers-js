@@ -6,8 +6,7 @@ import {
   TERMINATOR,
   WORD_SHIFT,
   WORD_SHIFT_START,
-  WORD_SIZE,
-  ZERO
+  WORD_SIZE
 } from "./constants";
 import {toCharCode} from "../shared";
 
@@ -31,7 +30,7 @@ export function encode(unencoded: Uint8Array): string {
   let bytePos = 0;
 
   while (bytePos < fullWordsEnd) {
-    let packed = ZERO;
+    let packed = Long.UZERO;
 
     for (let shift = BYTE_SHIFT_START; shift > -1; shift -= BYTE_SHIFT) {
       packed = packByte(unencoded[bytePos++], packed, shift);
@@ -44,7 +43,7 @@ export function encode(unencoded: Uint8Array): string {
 
   // remainder
   if (bytePos < unencoded.length) {
-    let packed = ZERO;
+    let packed = Long.UZERO;
 
     for (let shift = BYTE_SHIFT_START; bytePos < unencoded.length; shift -= BYTE_SHIFT) {
       packed = packByte(unencoded[bytePos++], packed, shift);

@@ -46,7 +46,7 @@ const longLikeSpec = S.spec.map("long value", {
   [S.symbol.optional]: {
     unsigned: S.spec.and("unsigned flag should be false",
       S.spec.boolean,
-      S.spec.predicate("not true", (value) => !!!value))
+      S.spec.predicate("not true", (value) => !value))
   }
 });
 
