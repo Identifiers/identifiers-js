@@ -9,15 +9,11 @@ export function createListCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCode
   const listType = `${itemCodec.type}-list`;
   const forIdentifierListSpec = S.spec.and(`${listType} forIdentifier spec`,
     S.spec.array, // must be an array, not a Set
-    S.spec.collection(`${listType} item spec`, itemCodec.specForIdentifier, {
-      [S.symbol.minCount]: 1
-    }));
+    S.spec.collection(`${listType} item spec`, itemCodec.specForIdentifier));
 
   const forDecodingListSpec = S.spec.and(`${listType} forDecoding spec`,
     S.spec.array, // must be an array, not a Set
-    S.spec.collection(`${listType} item spec`, itemCodec.specForDecoding, {
-      [S.symbol.minCount]: 1
-    }));
+    S.spec.collection(`${listType} item spec`, itemCodec.specForDecoding));
 
   return {
     type: listType,

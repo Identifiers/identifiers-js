@@ -37,10 +37,15 @@ describe("create a list codec from an item codec", () => {
       expect(codecUnderTest.typeCode).to.equal(itemCodec.typeCode | LIST_TYPE_CODE);
     });
 
-    it("rejects empty lists for identifier", () => {
+    it("rejects nul lists for identifier", () => {
       spy.reset();
       expect(S.valid(codecUnderTest.specForIdentifier, null)).to.equal(false);
-      expect(S.valid(codecUnderTest.specForIdentifier, [])).to.equal(false);
+    });
+
+    it("accepts empty list for identifier", () => {
+      spy.reset();
+      expect(S.valid(codecUnderTest.specForIdentifier, values)).to.equal(true);
+      expect(spy.sfi).to.equal(3);
     });
 
     it("validates a list of values for identifier", () => {
@@ -76,10 +81,9 @@ describe("create a list codec from an item codec", () => {
       expect(actual).to.contain.ordered.members([0, 1, 2]);
     });
 
-    it("rejects empty lists for decoding", () => {
+    it("rejects null list for decoding", () => {
       spy.reset();
       expect(S.valid(codecUnderTest.specForDecoding, null)).to.equal(false);
-      expect(S.valid(codecUnderTest.specForDecoding, [])).to.equal(false);
     });
   });
 });

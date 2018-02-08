@@ -39,10 +39,14 @@ describe("create a map codec from an item codec", () => {
       expect(codecUnderTest.typeCode).to.equal(itemCodec.typeCode | MAP_TYPE_CODE);
     });
 
-    it("rejects empty map for identifier", () => {
+    it("rejects null map for identifier", () => {
       spy.reset();
       expect(S.valid(codecUnderTest.specForIdentifier, null)).to.equal(false);
-      expect(S.valid(codecUnderTest.specForIdentifier, {})).to.equal(false);
+    });
+
+    it("accepts empty map for identifier", () => {
+      spy.reset();
+      expect(S.valid(codecUnderTest.specForIdentifier, {})).to.equal(true);
     });
 
     it("rejects maps with invalid values", () => {
@@ -83,10 +87,9 @@ describe("create a map codec from an item codec", () => {
       expect(actual).to.contain({a: 0, b: 1, c: 2});
     });
 
-    it("rejects empty maps for decoding", () => {
+    it("rejects null maps for decoding", () => {
       spy.reset();
       expect(S.valid(codecUnderTest.specForDecoding, null)).to.equal(false);
-      expect(S.valid(codecUnderTest.specForDecoding, {})).to.equal(false);
     });
   });
 });
