@@ -2,7 +2,7 @@
   "name": "identifiers-js",
   "version": "0.0.1",
   "description": "Base128 definition and tests",
-  "main": "./lib/index.js",
+  "main": "./dist/identifiers.bundle.js",
   "repository": "https://www.github.com/Identifiers/identifiers-js",
   "author": "mattbishop",
   "license": "MIT",
@@ -30,13 +30,16 @@
     "nyc": "11.4.1",
     "rimraf": "2.6.2",
     "source-map-support": "0.5.3",
+    "ts-loader": "3.5.0",
     "ts-node": "4.1.0",
-    "typescript": "2.7.1"
+    "typescript": "2.7.1",
+    "webpack": "3.10.0"
   },
   "scripts": {
-    "clean": "rimraf lib coverage .nyc_output yarn-error.log",
-    "build:commonjs": "rimraf lib && tsc --target es5 --outDir lib --module commonjs",
-    "build": "yarn run build:commonjs",
+    "clean": "rimraf lib dist coverage .nyc_output yarn-error.log",
+    "build:commonjs": "rimraf lib && tsc",
+    "build:webpack": "rimraf dist && node_modules/.bin/webpack",
+    "build": "yarn run build:commonjs & yarn run build:webpack",
     "ts": "ts-node src/",
     "test": "mocha --opts mocha.opts",
     "coverage": "nyc mocha --opts mocha.opts",
@@ -45,7 +48,6 @@
   "files": [
     "lib"
   ],
-  "types": "./lib/index.d.ts",
   "nyc": {
     "include": [
       "src/**/*.ts"
