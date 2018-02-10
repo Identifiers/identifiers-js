@@ -58,6 +58,7 @@
       "src/base32/benchmark.ts",
       "src/base128/benchmark.ts",
       "src/base128/generate-table.ts"
+      "src/base32/generate-table.ts"
     ],
     "extension": [
       ".ts"
