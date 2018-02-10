@@ -51,7 +51,7 @@ describe("base32 tests", () => {
 
   it("converts random byte arrays to and from base32", () => {
     const bytes: Uint8Array[] = [];
-    for (let i = 1; i < 1000; i++) {
+    for (let i = 1; i < 500; i++) {
       const byteArray: number[] = [];
       for (let b = 0; b < i; b++) {
         byteArray[b] = Math.floor(Math.random() * 256);
