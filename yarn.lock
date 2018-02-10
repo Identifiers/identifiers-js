@@ -1654,7 +1654,7 @@ ini@~1.3.0:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
 
-int64-buffer@0.1.10:
+int64-buffer@^0.1.10:
   version "0.1.10"
   resolved "https://registry.yarnpkg.com/int64-buffer/-/int64-buffer-0.1.10.tgz#277b228a87d95ad777d07c13832022406a473423"
 
@@ -1933,7 +1933,7 @@ js.spec-chai@0.1.6:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/js.spec-chai/-/js.spec-chai-0.1.6.tgz#85208b736cab0472259a6c55cfbf8516129a70d3"
 
-js.spec@1.0.0-22:
+js.spec@^1.0.0-22:
   version "1.0.0-22"
   resolved "https://registry.yarnpkg.com/js.spec/-/js.spec-1.0.0-22.tgz#d0b6801b30181bb2141e33f638a90482b6f33003"
   dependencies:
@@ -2159,9 +2159,9 @@ log-driver@^1.2.5:
   dependencies:
     codecov.io "0.0.1"
 
-long@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/long/-/long-4.0.0.tgz#9a7b71cfb7d361a194ea555241c92f7468d5bf28"
+long@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/long/-/long-3.2.0.tgz#d821b7138ca1cb581c172990ef14db200b5c474b"
 
 longest@^1.0.1:
   version "1.0.1"
@@ -2357,7 +2357,7 @@ ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
 
-msgpack-lite@0.1.26:
+msgpack-lite@^0.1.26:
   version "0.1.26"
   resolved "https://registry.yarnpkg.com/msgpack-lite/-/msgpack-lite-0.1.26.tgz#dd3c50b26f059f25e7edee3644418358e2a9ad89"
   dependencies:

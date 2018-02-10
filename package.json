@@ -4,14 +4,14 @@
   "description": "Base128 definition and tests",
   "main": "./dist/identifiers.bundle.js",
   "repository": "https://www.github.com/Identifiers/identifiers-js",
-  "author": "mattbishop",
+  "author": "Matt Bishop (https://www.github.com/mattbishop)",
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "int64-buffer": "0.1.10",
-    "js.spec": "1.0.0-22",
-    "long": "4.0.0",
-    "msgpack-lite": "0.1.26"
+    "int64-buffer": "^0.1.10",
+    "js.spec": "^1.0.0-22",
+    "long": "^3.2.0",
+    "msgpack-lite": "^0.1.26"
   },
   "devDependencies": {
     "@types/benchmark": "1.0.31",
