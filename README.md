@@ -1,6 +1,7 @@
 ## JavaScript implementation
 
 [![Build Status](https://travis-ci.org/Identifiers/identifiers-js.svg?branch=master)](https://travis-ci.org/Identifiers/identifiers-js)
+[![Coverage Status](https://coveralls.io/repos/github/Identifiers/identifiers-js/badge.svg?branch=master)](https://coveralls.io/github/Identifiers/identifiers-js?branch=master)
 
 #### Primitive identifiers
 * string -- utf-8 string

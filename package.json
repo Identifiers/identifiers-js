@@ -23,10 +23,12 @@
     "@types/msgpack-lite": "0.1.6",
     "benchmark": "2.1.4",
     "chai": "4.1.2",
+    "coveralls": "3.0.0",
     "faker": "4.1.0",
     "istanbul": "0.4.5",
     "js.spec-chai": "0.1.6",
     "mocha": "5.0.0",
+    "mocha-lcov-reporter": "1.3.0",
     "nyc": "11.4.1",
     "rimraf": "2.6.2",
     "source-map-support": "0.5.3",
@@ -42,7 +44,7 @@
     "build": "yarn run build:commonjs & yarn run build:webpack",
     "ts": "ts-node src/",
     "test": "mocha --opts mocha.opts",
-    "coverage": "nyc mocha --opts mocha.opts",
+    "coverage": "nyc mocha --opts mocha.opts && nyc report --reporter=text-lcov | coveralls",
     "prepublishOnly": "yarn run build"
   },
   "files": [
