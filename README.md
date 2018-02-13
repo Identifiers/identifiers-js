@@ -1,4 +1,4 @@
-## JavaScript implementation
+## JavaScript implementation of [Identifiers spec](https://github.com/Identifiers/spec)
 
 [![Build Status](https://travis-ci.org/Identifiers/identifiers-js.svg?branch=master)](https://travis-ci.org/Identifiers/identifiers-js)
 [![Coverage Status](https://coveralls.io/repos/github/Identifiers/identifiers-js/badge.svg?branch=master)](https://coveralls.io/github/Identifiers/identifiers-js?branch=master)
