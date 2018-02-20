@@ -3,21 +3,22 @@ import * as S from "js.spec";
 
 import {createMapCodec, MAP_TYPE_CODE} from "../../src/types/maps";
 import {IdentifierCodec} from "../../src/identifier";
+import {stringCodec} from "../../src/types/string";
 
-
-const spy = {
-  sfi: 0,
-  fi: 0,
-  e: 0,
-  sfd: 0,
-  d: 0,
-  reset: function() {
-    this.sfi = this.fi = this.e = this.sfd = this.d = this.is = 0;
-  }
-};
 
 describe("create a map codec from an item codec", () => {
-  describe("created map codec", () => {
+  const spy = {
+    sfi: 0,
+    fi: 0,
+    e: 0,
+    sfd: 0,
+    d: 0,
+    reset: function () {
+      this.sfi = this.fi = this.e = this.sfd = this.d = this.is = 0;
+    }
+  };
+
+  describe("test for correct usage of item codec", () => {
     const itemCodec: IdentifierCodec<number> =  {
       typeCode: 1000,
       type: "test",
@@ -91,5 +92,15 @@ describe("create a map codec from an item codec", () => {
       spy.reset();
       expect(S.valid(codecUnderTest.specForDecoding, null)).to.equal(false);
     });
+  });
+});
+
+describe("map codec", () => {
+  it("correctly encodes a map with different-ordered keys", () => {
+    const codecUnderTest = createMapCodec(stringCodec);
+    const value2 = {b: "there", a: "hi"};
+    const actual2 = codecUnderTest.encode(value2);
+
+    expect(Object.keys(actual2)).to.have.ordered.members(["a", "b"]);
   });
 });

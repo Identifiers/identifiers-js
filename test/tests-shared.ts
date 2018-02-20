@@ -28,8 +28,8 @@ export const testCodec = {
   ...asIsCodec,
   type: "test-positive",
   typeCode: 0xf,  // largest reserved primitive type
-  specForIdentifier: S.spec.positive,
-  specForDecoding: S.spec.positive
+  specForIdentifier: S.spec.predicate("test forIdentifier", S.spec.positive),
+  specForDecoding: S.spec.predicate("test forDecoding", S.spec.positive)
 }
 
 before("set up test codec", () => {

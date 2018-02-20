@@ -4,9 +4,13 @@ import {TypedObject} from "../shared";
 
 export const MAP_TYPE_CODE = 0x20;
 
-function mapValues<IN, OUT>(map: TypedObject<IN>, mapFn: (value: IN) => OUT): TypedObject<OUT> {
+function mapValues<IN, OUT>(map: TypedObject<IN>, mapFn: (value: IN) => OUT, sortKeys: boolean): TypedObject<OUT> {
   const mapped: TypedObject<OUT> = {};
   const keys = Object.keys(map);
+  if (sortKeys) {
+    // http://exploringjs.com/es6/ch_oop-besides-classes.html#_traversal-order-of-properties
+    keys.sort();
+  }
   for (let k = 0; k < keys.length; k++) {
     const key = keys[k];
     mapped[key] = mapFn(map[key]);
@@ -76,8 +80,8 @@ export function createMapCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec
     typeCode: MAP_TYPE_CODE | itemCodec.typeCode,
     specForIdentifier: forIdentifierMapSpec,
     specForDecoding: forDecodingMapSpec,
-    forIdentifier: (map) => mapValues(map, itemCodec.forIdentifier),
-    encode: (map) => mapValues(map, itemCodec.encode),
-    decode: (map) => mapValues(map, itemCodec.decode)
+    forIdentifier: (map) => mapValues(map, itemCodec.forIdentifier, false),
+    encode: (map) => mapValues(map, itemCodec.encode, true),
+    decode: (map) => mapValues(map, itemCodec.decode, false)
   }
 }
