@@ -1,5 +1,4 @@
 import * as S from "js.spec";
-
 import {IdentifierCodec} from "../identifier";
 import {TypedObject} from "../shared";
 
@@ -15,33 +14,62 @@ function mapValues<IN, OUT>(map: TypedObject<IN>, mapFn: (value: IN) => OUT): Ty
   return mapped;
 }
 
-function mapValuesAreValid<T>(map: TypedObject<T>, itemSpec: S.Spec): boolean {
-  const keys = Object.keys(map);
-  for (let k = 0; k < keys.length; k++) {
-    const key = keys[k];
-    if (!S.valid(itemSpec, map[key])) {
-      return false;
-    }
-  }
-  return true;
-}
+type MapValuesOptions = { spec: S.Spec };
 
-function mapValuesSpec(itemSpec: S.Spec, specName: string): S.Spec {
-  const mapValuesPredicate = (map: {}) => mapValuesAreValid(map, itemSpec);
-  return S.spec.predicate(specName, mapValuesPredicate);
+/**
+ * Spec to apply an item spec to every value in a map.
+ */
+class MapValuesSpec extends S.AbstractSpec {
+  constructor(itemSpec: S.Spec, prefix: string) {
+    super(`${prefix}(${itemSpec})`, { spec: itemSpec });
+  }
+
+  itemSpec(): S.Spec {
+    return (this.options as MapValuesOptions).spec
+  }
+
+  conform(value: any): any {
+    const keys = Object.keys(value);
+    for (let k = 0; k < keys.length; k++) {
+      const key = keys[k];
+      if (!S.valid(this.itemSpec(), value[key])) {
+        return S.symbol.invalid;
+      }
+    }
+    return value;
+  }
+
+  explain(path: string[], via: string[], value: any): S.Problem[] {
+    let problems: S.Problem[] = [];
+    const keys = Object.keys(value);
+    for (let k = 0; k < keys.length; k++) {
+      const key = keys[k];
+      const mapValue = value[key];
+      if (!S.valid(this.itemSpec(), mapValue)) {
+        problems = [
+          ...problems,
+          ...this.itemSpec().explain([...path, key], [...via, this.name], mapValue)];
+      }
+    }
+    return problems;
+  }
+
+  toString(): string {
+    return this.name;
+  }
 }
 
 export function createMapCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>)
     : IdentifierCodec<TypedObject<INPUT>, TypedObject<VALUE>, TypedObject<ENCODED>> {
 
   const mapType = `${itemCodec.type}-map`;
-  const forIdentifierMapSpec = S.spec.and(`${mapType} forIdentifier spec`,
+  const forIdentifierMapSpec = S.spec.and(`${mapType} forIdentifier()`,
     S.spec.object,
-    mapValuesSpec(itemCodec.specForIdentifier, "Map identifier values"));
+    new MapValuesSpec(itemCodec.specForIdentifier, "Map identifier values"));
 
-  const forDecodingMapSpec = S.spec.and(`${mapType} forDecoding spec`,
+  const forDecodingMapSpec = S.spec.and(`${mapType} Map forDecoding()`,
     S.spec.object,
-    mapValuesSpec(itemCodec.specForDecoding, "decoded Map values"));
+    new MapValuesSpec(itemCodec.specForDecoding, "decoded Map values"));
 
   return {
     type: mapType,
