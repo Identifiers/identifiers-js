@@ -1,7 +1,7 @@
 const path = require("path");
-const webpack = require("webpack");
 
 module.exports = {
+  mode: "production",
   entry: path.resolve(__dirname, "src/index.ts"),
   module: {
     rules: [
@@ -18,8 +18,5 @@ module.exports = {
   output: {
     filename: "identifiers.bundle.js",
     path: path.resolve(__dirname, "dist")
-  },
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin()
-  ]
+  }
 };
