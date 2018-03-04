@@ -34,7 +34,7 @@ function createUnknownCodec<INPUT, VALUE, ENCODED>(typeCode: number): Identifier
   registerCodec(unknownCodec);
 
   return codecForTypeCode(typeCode);
-};
+}
 
 const codecAssignedSpec = S.spec.predicate("codec assigned", S.spec.object);
 
@@ -58,5 +58,5 @@ export function findCodec<INPUT, VALUE, ENCODED>(identifier: Identifier<VALUE>):
   if (Object.is(codec, codecs[codec.typeCode])) {
     return codec;
   }
-  throw new Error(`unknown codec found on ${JSON.stringify(identifier)} : ${JSON.stringify(codec)}`);
+  throw new Error(`unknown codec found on ${JSON.stringify(identifier.value)} : ${JSON.stringify(codec)}`);
 }

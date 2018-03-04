@@ -72,17 +72,6 @@ describe("round-trip identifiers to strings using factory functions", () => {
     roundTrip(ID.factory.long.map({a: 20, b: 2 ** 62, c: Long.fromNumber(-400), d: {low: -10, high: 33}}));
   });
 
-  it("uuid", () => {
-    roundTrip(ID.factory.uuid("f565dda6-075c-11e8-ba89-0ed5f89f718b"));
-    roundTrip(ID.factory.uuid([22, 0, 231, 77, 59, 3, 43, 127, 83, 208, 155, 32, 78, 229, 190, 3]));
-    roundTrip(ID.factory.uuid.list(
-      "3650698c-520a-4d0b-9073-5ea45ae14232",
-      [22, 0, 231, 77, 59, 3, 43, 127, 83, 208, 155, 32, 78, 229, 190, 3]));
-    roundTrip(ID.factory.uuid.map({
-      y: "0650f98c-5201-4d0b-9073-5ea45ae14232",
-      z: [202, 0, 255, 77, 59, 3, 43, 127, 83, 208, 155, 32, 0, 229, 1, 23]}));
-  });
-
   it("bytes", () => {
     roundTrip(ID.factory.bytes([]));
     roundTrip(ID.factory.bytes([255, 0, 127]));
@@ -97,6 +86,18 @@ describe("round-trip identifiers to strings using factory functions", () => {
     roundTrip(ID.factory.bytes.map({a: []}));
     roundTrip(ID.factory.bytes.map({a: [1], b: [2, 3]}));
     roundTrip(ID.factory.bytes.map({a: [1], b: Uint8Array.from([2, 3]), c: Buffer.from([4, 5, 6]), d: Uint8Array.from([7, 8]).buffer}));
+  });
+
+  it("uuid", () => {
+    roundTrip(ID.factory.uuid("00000000-0000-0000-0000-000000000000"));
+    roundTrip(ID.factory.uuid("f565dda6-075c-11e8-ba89-0ed5f89f718b"));
+    roundTrip(ID.factory.uuid([22, 0, 231, 77, 59, 3, 43, 127, 83, 208, 155, 32, 78, 229, 190, 3]));
+    roundTrip(ID.factory.uuid.list(
+        "3650698c-520a-4d0b-9073-5ea45ae14232",
+        [22, 0, 231, 77, 59, 3, 43, 127, 83, 208, 155, 32, 78, 229, 190, 3]));
+    roundTrip(ID.factory.uuid.map({
+      y: "0650f98c-5201-4d0b-9073-5ea45ae14232",
+      z: [202, 0, 255, 77, 59, 3, 43, 127, 83, 208, 155, 32, 0, 229, 1, 23]}));
   });
 
   it("datetime", () => {
@@ -127,5 +128,11 @@ describe("round-trip identifiers to strings using factory functions", () => {
       expect(k1).to.contain.members(k2);
       k1.forEach((key) => expect(m1[key].time).to.equal(m2[key].time));
     });
+  });
+
+  it("geo", () => {
+    roundTrip(ID.factory.geo({latitude: -49, longitude: 102.43}));
+    roundTrip(ID.factory.geo.list({latitude: 1, longitude: 1}, {latitude: -64, longitude: -179}));
+    roundTrip(ID.factory.geo.map({a: {latitude: -49, longitude: 102.43}}));
   });
 });

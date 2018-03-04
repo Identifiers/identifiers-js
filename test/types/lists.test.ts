@@ -1,8 +1,9 @@
 import {expect} from "chai";
 import * as S from "js.spec";
 
-import {createListCodec, LIST_TYPE_CODE} from "../../src/types/lists";
+import {calculateListTypeCode, createListCodec, LIST_OF_LISTS, LIST_OF_MAPS, LIST_TYPE_CODE} from "../../src/types/lists";
 import {IdentifierCodec} from "../../src/identifier";
+import {MAP_TYPE_CODE} from "../../src/types/maps";
 
 
 const spy = {
@@ -19,7 +20,7 @@ const spy = {
 describe("create a list codec from an item codec", () => {
   describe("created list codec", () => {
     const itemCodec: IdentifierCodec<number> =  {
-      typeCode: 1000,
+      typeCode: 15,
       type: "test",
       specForIdentifier: S.spec.and("spy forIdentifier", (value) => {spy.sfi++; return true;}),
       forIdentifier: (value) => {spy.fi++; return value + 1;},
@@ -85,5 +86,34 @@ describe("create a list codec from an item codec", () => {
       spy.reset();
       expect(S.valid(codecUnderTest.specForDecoding, null)).to.equal(false);
     });
+  });
+});
+
+describe("list typeCode calculation", () => {
+  it("correctly calculates the typeCode from a primitive typeCode", () => {
+    const actual = calculateListTypeCode(1);
+    expect (actual).to.equal(1 | LIST_TYPE_CODE);
+  });
+
+  it("correctly calculates a list-of-lists typeCode from a list typeCode", () => {
+    const listTypeCode = 1 | LIST_TYPE_CODE;
+    const actual = calculateListTypeCode(listTypeCode);
+    expect (actual).to.equal(listTypeCode | LIST_OF_LISTS);
+  });
+
+  it("correctly calculates a list-of-maps typeCode from a map typeCode", () => {
+    const mapTypeCode = 1 | MAP_TYPE_CODE;
+    const actual = calculateListTypeCode(mapTypeCode);
+    expect (actual).to.equal(mapTypeCode | LIST_OF_MAPS);
+  });
+
+  it("throws an error when a list-of-lists is passed in", () => {
+    const listOfLists = 1 | LIST_OF_LISTS;
+    expect(() => calculateListTypeCode(listOfLists)).to.throw("Cannot create a List of List of Lists.");
+  });
+
+  it("throws an error when a list-of-maps is passed in", () => {
+    const listOfMaps = 1 | LIST_OF_MAPS;
+    expect(() => calculateListTypeCode(listOfMaps)).to.throw("Cannot create a List of List of Maps.");
   });
 });

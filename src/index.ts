@@ -14,6 +14,7 @@ import {datetimeCodec, DatetimeInput} from "./types/datetime";
 import {bytesCodec, BytesInput} from "./types/bytes";
 import {uuidCodec, UuidInput, UuidLike} from "./types/uuid";
 import {ImmutableDate} from "./types/immutable-date";
+import {geoCodec, GeoLike} from "./types/geo";
 
 function processCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>): Factory<INPUT, VALUE> {
   const listCodec = createListCodec(itemCodec);
@@ -31,8 +32,9 @@ export interface Factories {
   readonly float: Factory<number, number>
   readonly long: Factory<LongInput, LongLike>
   readonly bytes: Factory<BytesInput, number[]>
-  readonly datetime: Factory<DatetimeInput, ImmutableDate>
   readonly uuid: Factory<UuidInput, UuidLike>
+  readonly datetime: Factory<DatetimeInput, ImmutableDate>
+  readonly geo: Factory<GeoLike, GeoLike>
 }
 
 /**
@@ -45,9 +47,10 @@ const factory: Factories = {
   float: processCodec(floatCodec),
   long: processCodec(longCodec),
   bytes: processCodec(bytesCodec),
+  uuid: processCodec(uuidCodec),
   datetime: processCodec(datetimeCodec),
-  uuid: processCodec(uuidCodec)
-}
+  geo: processCodec(geoCodec)
+};
 
 export {
   factory,

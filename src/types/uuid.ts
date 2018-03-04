@@ -7,7 +7,6 @@ import * as S from "js.spec";
 import {IdentifierCodec} from "../identifier";
 import {bytesCodec, bytesDecodingSpec, BytesInput, bytesInputSpec, forBytesIdentifier, isValidLength} from "./bytes";
 import {calculateSemanticTypeCode} from "../semantic";
-import {longCodec} from "./long";
 import {toCharCode, TypedObject} from "../shared";
 
 export interface UuidLike {
@@ -81,7 +80,7 @@ function forBytesUuid(bytes: number[]): UuidLike {
 
 export const uuidCodec: IdentifierCodec<UuidInput, UuidLike, ArrayBuffer> = {
   type: "uuid",
-  typeCode: calculateSemanticTypeCode(longCodec.typeCode, 0),
+  typeCode: calculateSemanticTypeCode(bytesCodec.typeCode, 0),
   specForIdentifier: uuidInputSpec,
   forIdentifier: forUuidIdentifier,
   encode: (uuid) => bytesCodec.encode(uuid.bytes),

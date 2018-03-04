@@ -70,16 +70,16 @@ export interface IdentifierCodec<INPUT, VALUE = INPUT, ENCODED = VALUE> {
 
   /**
    * Convert an Identifier's value into a value that can be encoded.
-   * @param value the value to prepare
-   * @returns the prepared value
+   * @param value the value to encode
+   * @returns the encoded value
    */
   encode(value: VALUE): ENCODED;
 
   /**
    * Converts a encoded value into an Identifier's value. This function should throw an Error if the
    * decoded type is wrong.
-   * @param the encoded value
+   * @param encoded the encoded value
    * @returns The identifier value
    */
-  decode(decoded: ENCODED): VALUE;
+  decode(encoded: ENCODED): VALUE;
 }
