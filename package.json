@@ -31,10 +31,10 @@
     "nyc": "11.4.1",
     "rimraf": "2.6.2",
     "source-map-support": "0.5.3",
-    "ts-loader": "4.0.0",
+    "ts-loader": "4.0.1",
     "ts-node": "5.0.1",
     "typescript": "2.7.2",
-    "webpack": "4.0.1",
+    "webpack": "4.1.0",
     "webpack-cli": "2.0.10"
   },
   "scripts": {
