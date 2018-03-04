@@ -1,5 +1,6 @@
 /**
-  Geolocation in decimal degrees for latitude and longitude.
+  Geolocation in decimal degrees for latitude and longitude. Conforms to the World Geodetic System (WGS).
+  This identifier is based on the Geo microformat: http://microformats.org/wiki/geo
  */
 import * as S from "js.spec";
 import {IdentifierCodec} from "../identifier";
