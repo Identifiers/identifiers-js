@@ -36,7 +36,7 @@ module.exports = [{
     extensions: [".ts", ".js"]
   },
   output: {
-    filename: "identifiers.tests.bundle.js",
+    filename: "identifiers.test.bundle.js",
     path: path.resolve(__dirname, "browser-test")
   }
 }];
