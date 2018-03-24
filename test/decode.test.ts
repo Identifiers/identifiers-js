@@ -58,8 +58,8 @@ describe("decode tests", () => {
     ...asIsCodec,
     typeCode: 0,
     type: "test",
-    specForIdentifier: S.spec.nil,
-    specForDecoding: S.spec.number,
+    specForIdentifier: S.spec.predicate("nil", S.spec.nil),
+    specForDecoding: S.spec.predicate("number", S.spec.number),
     decode: (value: number) => value + 1
   };
 

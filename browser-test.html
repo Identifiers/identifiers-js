@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Identifier.js Mocha Tests</title>
+    <link rel="stylesheet" href="node_modules/mocha/mocha.css">
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <script src="node_modules/mocha/mocha.js"></script>
+    <script src="node_modules/chai/chai.js"></script>
+    <script>mocha.setup('bdd')</script>
+
+    <script src="dist/identifiers.bundle.js"></script>
+
+    <!-- webpacked unit tests -->
+    <script src="browser-test/identifiers.tests.bundle.js" charset="utf8"></script>
+    <script>
+      mocha.run();
+    </script>
+  </body>
+</html>
