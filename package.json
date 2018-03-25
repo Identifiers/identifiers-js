@@ -1,7 +1,8 @@
 {
   "name": "identifiers-js",
   "version": "0.0.1",
-  "description": "Base128 definition and tests",
+  "description": "JS Identifiers implementation",
+  "keywords": "TODO",
   "main": "./dist/identifiers.bundle.js",
   "repository": "https://www.github.com/Identifiers/identifiers-js",
   "author": "Matt Bishop (https://www.github.com/mattbishop)",
