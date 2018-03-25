@@ -3,6 +3,7 @@
   which is licensed under the BSD Open Source license.
  */
 export const SYMBOLS = "/0123456789?@ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüý";
+export const TERMINATOR = "þ";
 
 /*
  where does WORD_SIZE of 7 come from?
@@ -22,4 +23,3 @@ export const BYTE_SHIFT = 8;
 export const BYTE_SHIFT_START = WORD_SIZE * CHARS_PER_WORD - BYTE_SHIFT;
 export const WORD_SHIFT = 7;
 export const WORD_SHIFT_START = WORD_SIZE * CHARS_PER_WORD - WORD_SHIFT;
-export const TERMINATOR = "þ";

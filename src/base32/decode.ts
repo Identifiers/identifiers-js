@@ -45,7 +45,7 @@ const CHECK_CODES = [...CODES];
 Array.from(CHECK_EXTRAS, toCharCode)
   .forEach((code, i) => CHECK_CODES[code] = 32 + i);
 
-//alias the 'u'
+//alias the 'u' to uppercase
 CHECK_CODES[toCharCode("U")] = CHECK_CODES[toCharCode("u")];
 
 
