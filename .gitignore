@@ -4,6 +4,7 @@
 node_modules
 lib
 dist
+browser-test
 .nyc_output
 coverage
 yarn-error.log
