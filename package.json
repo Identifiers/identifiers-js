@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "JS Identifiers implementation",
   "keywords": "TODO",
-  "main": "./dist/identifiers.bundle.js",
+  "main": "./lib/index.js",
   "repository": "https://www.github.com/Identifiers/identifiers-js",
   "author": "Matt Bishop (https://www.github.com/mattbishop)",
   "license": "MIT",
@@ -39,7 +39,7 @@
     "webpack-cli": "2.0.13"
   },
   "scripts": {
-    "clean": "rimraf lib dist coverage .nyc_output browser-test yarn-error.log",
+    "clean": "rimraf lib coverage .nyc_output browser-test yarn-error.log",
     "build:commonjs": "rimraf lib && tsc",
     "build:webpack": "rimraf dist browser-test && node_modules/.bin/webpack",
     "build": "yarn run build:commonjs & yarn run build:webpack",
