@@ -38,6 +38,14 @@ describe("identifier factory methods", () => {
     }
   }
 
+  describe("list value", () => {
+    it("consumes an array as a factory value (instead of spread values)", () => {
+      const values = ["a", "b"];
+      const actual = factory.string.list(values);
+      validateCreatedIdentifier(values, actual);
+    });
+  });
+
   describe("string", () => {
     it("creates an identifier", () => {
       const value = "air";

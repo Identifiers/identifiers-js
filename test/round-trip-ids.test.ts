@@ -39,6 +39,7 @@ function roundTrip<T>(id: Identifier<T>, expectation?: IdExpectation<T>): void {
 describe("round-trip identifiers to strings using factory functions", () => {
 
   it("string", () => {
+    roundTrip(ID.factory.string(""));
     roundTrip(ID.factory.string("hello"));
     roundTrip(ID.factory.string.list("bye", "for", "now"));
     roundTrip(ID.factory.string.map({a: "one", b: "two"}));
