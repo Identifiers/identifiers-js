@@ -28,7 +28,7 @@ describe("uuid codec", () => {
 
   it("supports encoding", () => {
     const bytes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-    const actual = uuidCodec.encode({ hex: "unused", bytes});
+    const actual = uuidCodec.encode({bytes});
     expect(actual).to.be.an("arraybuffer");
     expect(actual).to.deep.equal(new Uint8Array(bytes).buffer);
   });
@@ -49,6 +49,12 @@ describe("uuid codec", () => {
   it("supports decoding", () => {
     const bytes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
     const actual = uuidCodec.decode(Uint8Array.from(bytes).buffer);
-    expect(actual).to.deep.equal({bytes, hex: "00010203-0405-0607-0809-0a0b0c0d0e0f"});
+    expect(actual).to.deep.include({bytes});
   });
+
+  it("produces a value that contains the correct toString() method", () => {
+    const hex = "98137765-b72f-480a-bd98-d3be3c2c7e53";
+    const actual = uuidCodec.forIdentifier(hex);
+    expect(actual.toString()).to.equal(hex);
+  })
 });

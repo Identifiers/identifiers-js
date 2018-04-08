@@ -2,9 +2,10 @@ import {expect} from "chai";
 import * as Long from "long";
 
 import * as ID from "../src";
-import {codecSymbol} from "../src/shared";
+import {codecSymbol, TypedObject} from "../src/shared";
 import {Identifier} from "../src/identifier";
 import {ImmutableDate} from "../src/types/immutable-date";
+import {UuidLike} from "../src/types/uuid";
 
 type IdExpectation<T> =  (encoded: Identifier<T>, decoded: Identifier<T>) => void;
 
@@ -90,45 +91,30 @@ describe("round-trip identifiers to strings using factory functions", () => {
   });
 
   it("uuid", () => {
-    roundTrip(ID.factory.uuid("00000000-0000-0000-0000-000000000000"));
-    roundTrip(ID.factory.uuid("f565dda6-075c-11e8-ba89-0ed5f89f718b"));
-    roundTrip(ID.factory.uuid([22, 0, 231, 77, 59, 3, 43, 127, 83, 208, 155, 32, 78, 229, 190, 3]));
+    const compareUuids = (id: Identifier<UuidLike>, decoded: Identifier<UuidLike>) => id.value.toString() === decoded.value.toString();
+    roundTrip(ID.factory.uuid("00000000-0000-0000-0000-000000000000"), compareUuids);
+    roundTrip(ID.factory.uuid("f565dda6-075c-11e8-ba89-0ed5f89f718b"), compareUuids);
+    roundTrip(ID.factory.uuid([22, 0, 231, 77, 59, 3, 43, 127, 83, 208, 155, 32, 78, 229, 190, 3]), compareUuids);
+
+    const extractUuid = (uuid: UuidLike) => uuid.toString();
     roundTrip(ID.factory.uuid.list(
-        "3650698c-520a-4d0b-9073-5ea45ae14232",
-        [22, 0, 231, 77, 59, 3, 43, 127, 83, 208, 155, 32, 78, 229, 190, 3]));
+      "3650698c-520a-4d0b-9073-5ea45ae14232",
+      [22, 0, 231, 77, 59, 3, 43, 127, 83, 208, 155, 32, 78, 229, 190, 3]),
+      createListExpectation(extractUuid));
     roundTrip(ID.factory.uuid.map({
       y: "0650f98c-5201-4d0b-9073-5ea45ae14232",
-      z: [202, 0, 255, 77, 59, 3, 43, 127, 83, 208, 155, 32, 0, 229, 1, 23]}));
+      z: [202, 0, 255, 77, 59, 3, 43, 127, 83, 208, 155, 32, 0, 229, 1, 23]}),
+      createMapExpectation(extractUuid));
   });
 
   it("datetime", () => {
     const compareImmutableDates = (id: Identifier<ImmutableDate>, decoded: Identifier<ImmutableDate>) => id.value.time === decoded.value.time;
     roundTrip(ID.factory.datetime(7785646), compareImmutableDates);
     roundTrip(ID.factory.datetime(new Date()), compareImmutableDates);
-    roundTrip(ID.factory.datetime.list(new Date(), 118275), (idList, decodedList): void => {
-      expect(decodedList).to.deep.include({
-        type: idList.type,
-        // @ts-ignore
-        [codecSymbol]: idList[codecSymbol]
-      });
-      const l1 = idList.value.map((id) => id.time);
-      const l2 = decodedList.value.map((id) => id.time);
-      expect(l1).to.contain.ordered.members(l2);
-    });
-    roundTrip(ID.factory.datetime.map({a: new Date(), b: 23779545}), (idMap, decodedMap): void => {
-      expect(decodedMap).to.deep.include({
-        type: idMap.type,
-        // @ts-ignore
-        [codecSymbol]: idMap[codecSymbol]
-      });
 
-      const m1 = idMap.value;
-      const m2 = decodedMap.value;
-      const k1 = Object.keys(m1);
-      const k2 = Object.keys(m2);
-      expect(k1).to.contain.members(k2);
-      k1.forEach((key) => expect(m1[key].time).to.equal(m2[key].time));
-    });
+    const extractTime = (id: ImmutableDate) => id.time;
+    roundTrip(ID.factory.datetime.list(new Date(), 118275), createListExpectation(extractTime));
+    roundTrip(ID.factory.datetime.map({a: new Date(), b: 23779545}), createMapExpectation(extractTime));
   });
 
   it("geo", () => {
@@ -137,3 +123,34 @@ describe("round-trip identifiers to strings using factory functions", () => {
     roundTrip(ID.factory.geo.map({a: {latitude: -49, longitude: 102.43}}));
   });
 });
+
+
+function createListExpectation<VALUE>(valueMapper: (value: VALUE) => any) {
+  return (idList: Identifier<VALUE[]>, decodedList: Identifier<VALUE[]>): void => {
+    expect(decodedList).to.deep.include({
+      type: idList.type,
+      // @ts-ignore
+      [codecSymbol]: idList[codecSymbol]
+    });
+    const l1 = idList.value.map(valueMapper);
+    const l2 = decodedList.value.map(valueMapper);
+    expect(l1).to.contain.ordered.members(l2);
+  }
+}
+
+function createMapExpectation<VALUE>(valueMapper: (value: VALUE) => any) {
+  return (idMap: Identifier<TypedObject<VALUE>>, decodedMap: Identifier<TypedObject<VALUE>>): void => {
+    expect(decodedMap).to.deep.include({
+      type: idMap.type,
+      // @ts-ignore
+      [codecSymbol]: idMap[codecSymbol]
+    });
+
+    const m1 = idMap.value;
+    const m2 = decodedMap.value;
+    const k1 = Object.keys(m1);
+    const k2 = Object.keys(m2);
+    expect(k1).to.contain.members(k2);
+    k1.forEach((key) => expect(valueMapper(m1[key])).to.equal(valueMapper(m2[key])));
+  }
+}

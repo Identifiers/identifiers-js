@@ -10,8 +10,8 @@ import {calculateSemanticTypeCode} from "../semantic";
 import {toCharCode, TypedObject} from "../shared";
 
 export interface UuidLike {
-  readonly hex: string;
   readonly bytes: number[];
+  toString(): string;
 }
 
 export type UuidInput = BytesInput | string;
@@ -63,7 +63,7 @@ function forStringUuid(hex: string): UuidLike {
     const hexValue = hex.substr(pos, 2);
     bytes.push(hexToBytes[hexValue]);
   });
-  return {hex, bytes};
+  return createUuidLike(hex, bytes);
 }
 
 const stringPattern: number[] = Array.from("........-....-....-....-............", toCharCode);
@@ -75,7 +75,14 @@ function forBytesUuid(bytes: number[]): UuidLike {
     chars[pos] = hexValue.charCodeAt(1);
   });
   const hex = String.fromCharCode(...chars);
-  return {hex, bytes};
+  return createUuidLike(hex, bytes);
+}
+
+function createUuidLike(hex: string, bytes: number[]): UuidLike {
+  return {
+    bytes,
+    toString: () => hex
+  }
 }
 
 export const uuidCodec: IdentifierCodec<UuidInput, UuidLike, ArrayBuffer> = {
