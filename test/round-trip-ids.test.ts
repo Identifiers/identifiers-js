@@ -83,6 +83,8 @@ describe("round-trip identifiers to strings using factory functions", () => {
     roundTrip(ID.factory.bytes(Uint8Array.from([99, 43])));
     roundTrip(ID.factory.bytes(Uint8ClampedArray.from([100, 200])));
     roundTrip(ID.factory.bytes.list([]));
+    roundTrip(ID.factory.bytes.list([[69], [88, 99]]));
+    roundTrip(ID.factory.bytes.list([Buffer.from([100, 200])]));
     roundTrip(ID.factory.bytes.list([1], [2, 3]));
     roundTrip(ID.factory.bytes.list([1], Uint8Array.from([2, 3]), Buffer.from([4, 5, 6]), Uint8Array.from([7, 8]).buffer));
     roundTrip(ID.factory.bytes.map({a: []}));
