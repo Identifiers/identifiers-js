@@ -2,7 +2,7 @@ import * as S from "js.spec";
 import {IdentifierCodec} from "../identifier";
 import {TypedObject} from "../shared";
 
-export const MAP_TYPE_CODE = 0x20;
+export const MAP_TYPE_CODE = 0x10;
 
 function mapValues<IN, OUT>(map: TypedObject<IN>, mapFn: (value: IN) => OUT, sortKeys: boolean): TypedObject<OUT> {
   const mapped: TypedObject<OUT> = {};

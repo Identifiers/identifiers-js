@@ -20,7 +20,7 @@ const spy = {
 describe("create a list codec from an item codec", () => {
   describe("created list codec", () => {
     const itemCodec: IdentifierCodec<number> =  {
-      typeCode: 15,
+      typeCode: 7,
       type: "test",
       specForIdentifier: S.spec.and("spy forIdentifier", (value) => {spy.sfi++; return true;}),
       forIdentifier: (value) => {spy.fi++; return value + 1;},

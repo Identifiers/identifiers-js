@@ -4,9 +4,10 @@ import {IdentifierCodec} from "../identifier";
 import {MAP_TYPE_CODE} from "./maps";
 
 
-export const LIST_TYPE_CODE = 0x10;
-export const LIST_OF_LISTS = 0x50;
-export const LIST_OF_MAPS = 0x70;
+export const LIST_TYPE_CODE = 0x08;
+export const LIST_OF = 0x20;
+export const LIST_OF_LISTS = LIST_OF | LIST_TYPE_CODE;
+export const LIST_OF_MAPS = LIST_OF | MAP_TYPE_CODE;
 
 export function createListCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>): IdentifierCodec<INPUT[], VALUE[], ENCODED[]> {
 
@@ -39,11 +40,8 @@ export function calculateListTypeCode(itemTypeCode: number): number {
     throw new Error(`Cannot create a List of List of Lists. itemTypeCode: ${itemTypeCode}`);
   }
 
-  let listTypeCode = LIST_TYPE_CODE | itemTypeCode;
-  if ((itemTypeCode & LIST_TYPE_CODE) === LIST_TYPE_CODE) {
-    listTypeCode |= LIST_OF_LISTS;
-  } else if ((itemTypeCode & MAP_TYPE_CODE) === MAP_TYPE_CODE) {
-    listTypeCode |= LIST_OF_MAPS;
-  }
-  return listTypeCode;
+  const isStructural = itemTypeCode & LIST_TYPE_CODE || itemTypeCode & MAP_TYPE_CODE;
+  return itemTypeCode | (isStructural
+    ? LIST_OF
+    : LIST_TYPE_CODE);
 }
