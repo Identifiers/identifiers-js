@@ -10,6 +10,7 @@ describe("bytes codec", () => {
   it("validates good identifier values", () => {
     expect([1, 66]).to.conform(bytesCodec.specForIdentifier);
     expect(Uint8Array.of(88, 255)).to.conform(bytesCodec.specForIdentifier);
+    expect(Uint8ClampedArray.of(88, 255)).to.conform(bytesCodec.specForIdentifier);
     expect(new ArrayBuffer(0)).to.conform(bytesCodec.specForIdentifier);
     expect(Buffer.from([1, 2])).to.conform(bytesCodec.specForIdentifier);
     expect({length: 2, 0: 1, "1": 75}).to.conform(bytesCodec.specForIdentifier);
