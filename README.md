@@ -36,6 +36,7 @@ var decodedId2 = IDs.parse(humanString);
 console.log(decodedId.value === decodedId2.value);
 // -> true
 ```
+For further details see the [API Reference](#api-reference) section.
 
 ### Lists and Map Identifiers
 Identifiers-js supports list and map identifiers in the factories. Each type factory has a `.list()` and '.map()` factory method which sets the type of structure.
