@@ -17,7 +17,8 @@ import * as IDs from "identifiers";
 ```js
 const IDs = require('identifiers');
 ```
-The `IDs` reference comes with methods to parse Identifier strings as well as a factory to create Identifier instances.
+The `IDs` reference comes with methods to parse Identifier strings as well as a factory to create Identifier instances. For further details see the [Factory API Reference](#factory-api-reference) section.
+
 #### Immutability
 Identifier instances are immutable. Their values are also immutable.
 
@@ -73,8 +74,6 @@ const parsedId = parsedObject.b;
 console.log(parsedId.value);
 // -> 'Hello, World!'
 ```
-For further details see the [API Reference](#api-reference) section.
-
 ## Supported Types
 
 #### Primitive identifiers
@@ -94,10 +93,7 @@ For further details see the [API Reference](#api-reference) section.
 * datetime: unix time. Base type is long. [https://en.wikipedia.org/wiki/Unix_time]()
 * geo: Decimal latitude and longitude. [https://en.wikipedia.org/wiki/Geotagging]()
 
-# API Reference
-
-
-### Create Identifiers with Factory Methods
+# Factory API Reference
 The factory has methods for each type of identifier. These methods can consume various inputs to build an identifier.
 
 Each identifier type's factory has methods to construct structural identifiers of their type. Each structural factory method accepts the same inputs as the single value methods, but in structural form.
