@@ -17,7 +17,9 @@ import * as IDs from "identifiers";
 ```js
 const IDs = require('identifiers');
 ```
-The IDs reference comes with methods to parse Identifier strings as well as a factory to create Identifier instances. Instances are immutable.
+The `IDs` reference comes with methods to parse Identifier strings as well as a factory to create Identifier instances.
+#### Immutability
+Identifier instances are immutable. Their values are also immutable.
 
 ```js
 const integerId = IDs.factory.integer(22);
