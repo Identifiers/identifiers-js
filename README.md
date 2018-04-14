@@ -107,8 +107,9 @@ console.log(typeof id.value);
 
 // list factory functions can accept a vararg of values
 IDs.factory.string.list('Hello', 'friend', 'welcome!');
-// list factory functionas can accept a single array of values too
+// list factory functions can accept a single array of values too
 IDs.factory.string.list(['an', 'array', 'of', 'strings']);
+
 IDs.factory.string.map({a: 'oil', b: 'vinegar'});
 ```
 #### Boolean
@@ -119,6 +120,7 @@ console.log(typeof id.value);
 
 IDs.factory.boolean.list(true, false, true);
 IDs.factory.boolean.list([false, false, true]);
+
 IDs.factory.boolean.map({a: false, b: true});
 ```
 #### Integer
@@ -129,6 +131,7 @@ console.log(typeof id.value);
 
 IDs.factory.integer.list(-10000, 0, 2234);
 IDs.factory.integer.list([1, 2, 4]);
+
 IDs.factory.integer.map({a: 55, b: -9550});
 ```
 #### Float
@@ -139,6 +142,7 @@ console.log(typeof id.value);
 
 IDs.factory.float.list(3.665, 0.1, -664.12234);
 IDs.factory.float.list([1.1, 2.2, 4.4]);
+
 IDs.factory.float.map({a: 80.1, b: -625.11});
 ```
 #### Long
@@ -152,9 +156,10 @@ console.log(id.value)
 
 // Accepts long-like objects
 IDs.factory.long({low: -4434, high: 22});
-IDs.factory.long.list(-10, 21, 96);
-IDs.factory.long.list([1, 2, 4]);
-IDs.factory.long.map({a: 505, b: -95503343432});
+IDs.factory.long.list(-10, 21, {low: 96, high: 34});
+IDs.factory.long.list([{low: 224456, high: -4}, 2, 4]);
+
+IDs.factory.long.map({a: {low: -1, high: 0}, b: -95503343432});
 ```
 #### Bytes
 ```js
@@ -173,6 +178,7 @@ IDs.factory.bytes({length: 2, '0': 1, '1': 75});
 
 IDs.factory.bytes.list([10, 1, 0, 0], [212, 196]);
 IDs.factory.bytes.list([[1, 2, 4]]);
+
 IDs.factory.bytes.map({a: [50, 0], b: [45, 61, 121]});
 ```
 ### Semantic Identifiers
@@ -186,8 +192,8 @@ console.log(typeof id.value);
 /*
   uuid's id.value is a uuid-like object: 
   {
-  	bytes: array of 16 bytes
-  	toString() -> uuid-encoded string
+    bytes: array of 16 bytes
+    toString() -> uuid-encoded string
   }
  */
 
@@ -199,10 +205,14 @@ IDs.factory.uuid(Uint8Array.of(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
 // can mix input types in factory
 IDs.factory.uuid.list([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], '13f3eae9-18d6-46fc-9b3a-d6d32aaee26c');
 // can accept a single array of values
-IDs.factory.uuid.list(['cebfc569-2ba6-4cd7-ba25-f51d64c13087', 'e1c9711a-320f-44a7-8c12-6ed12058162f', '8947805a-2cca-48f2-bf1c-256ab7e4d98e']);
+IDs.factory.uuid.list([
+  'cebfc569-2ba6-4cd7-ba25-f51d64c13087', 
+  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 
+  Uint8ClampedArray.of(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)]);
+
 IDs.factory.uuid.map({
   a: '7894746d-62a5-425f-adb7-0a609ababf3f',
-  b: 'ea06c535-95fb-4596-8599-67e117349ffe'
+  b: Buffer.from([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
 });
 ```
 #### Datetime
@@ -212,7 +222,7 @@ const id = IDs.factory.datetime(new Date());
 console.log(typeof id.value)
 // -> 'object'
 /*
-  datetime producs an immutable Date-like object with some of the methods in Date implemented:
+  datetime produces an immutable Date-like object with some of the methods in Date implemented:
   {
     time: number // the unix time value
     toString() -> same as Date.toString()
@@ -227,6 +237,33 @@ console.log(typeof id.value)
 IDs.factory.datetime(10000000);
 
 IDs.factory.datetime.list(new Date(), 10000000);
-IDs.factory.datetime.list([3576585434, 10000000]);
+IDs.factory.datetime.list([3576585434, new Date(10000000)]);
+
 IDs.factory.datetime.map({a: 3576585434, b: new Date()});
+```
+#### Geo
+Base identifier type of geo is a [list of 2 floats](#float). Factory only accepts a geo-like objects:
+```js
+/*
+  {
+    latitude: number between -90.0 and 90.0
+    longitude: number between -180.0 and 180.0
+  }
+ */
+const id = IDs.factory.geo({latitude: 14.8653, longitude: -23.0987877});
+console.log(typeof id.value)
+// -> 'object'
+/* 
+  geo produces a geo-like object identical to the input object shape:
+  {
+    latitude: number between -90.0 and 90.0
+    longitude: number between -180.0 and 180.0
+  }
+ */
+
+IDs.factory.geo.list({latitude: 14.8653, longitude: -23.0987877}, {latitude: 90.0, longitude: 100.7685944});
+// accepts a single array of geos
+IDs.factory.geo.list([{latitude: 0.23433, longitude: -0.1001002}, {latitude: 0.0, longitude: 10.11}]);
+
+IDs.factory.geo.map({a: {latitude: 14.262, longitude: -123.0923}, b: {latitude: 10.0021, longitude: 90.4}});
 ```
