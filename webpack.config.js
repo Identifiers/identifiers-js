@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
   mode: "development",
-  entry: path.resolve(__dirname, "test/all-tests.js"),
+  entry: path.resolve(__dirname, "test/browser/all-tests.js"),
   module: {
     rules: [
       {
