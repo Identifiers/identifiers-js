@@ -75,23 +75,25 @@ console.log(parsedId.value);
 // -> 'Hello, World!'
 ```
 ## Supported Types
-
+These types are defined in the [Identifiers specification](https://github.com/Identifiers/spec).
 #### Primitive identifiers
-* string -- utf-8 string
-* boolean -- true or false
-* integer -- 32-bit signed ints
-* float -- 64-bit signed decimals (IEEE 754)
-* long -- 64-bit signed ints
-* bytes -- array of bytes
+* string
+* boolean
+* integer
+* float
+* long
+* bytes
 
 #### Structured identifiers
-* list -- sequence of same-type identifiers
-* map -- dictionary of sorted string-keyed, same-type identifiers
+* list
+* map
+* list-of-lists
+* list-of-maps
 
 #### Semantic Identifiers
-* UUID: Supports encoding all types. [https://en.wikipedia.org/wiki/Universally_unique_identifier]()
-* datetime: unix time. Base type is long. [https://en.wikipedia.org/wiki/Unix_time]()
-* geo: Decimal latitude and longitude. [https://en.wikipedia.org/wiki/Geotagging]()
+* UUID
+* datetime
+* geo
 
 # Factory API Reference
 The factory has methods for each type of identifier. These methods can consume various inputs to build an identifier.
@@ -100,6 +102,8 @@ Each identifier type's factory has methods to construct structural identifiers o
 #### String
 ```js
 const id = IDs.factory.string('Hello');
+console.log(id.type)
+// -> 'string'
 console.log(typeof id.value);
 // -> 'string'
 
@@ -113,6 +117,9 @@ IDs.factory.string.map({a: 'oil', b: 'vinegar'});
 #### Boolean
 ```js
 const id = IDs.factory.boolean(true);
+
+console.log(id.type)
+// -> 'boolean'
 console.log(typeof id.value);
 // -> 'boolean'
 
@@ -124,6 +131,9 @@ IDs.factory.boolean.map({a: false, b: true});
 #### Integer
 ```js
 const id = IDs.factory.integer(15);
+
+console.log(id.type)
+// -> 'integer'
 console.log(typeof id.value);
 // -> 'number'
 
@@ -135,6 +145,9 @@ IDs.factory.integer.map({a: 55, b: -9550});
 #### Float
 ```js
 const id = IDs.factory.float(-0.58305);
+
+console.log(id.type)
+// -> 'float'
 console.log(typeof id.value);
 // -> 'number'
 
@@ -146,6 +159,9 @@ IDs.factory.float.map({a: 80.1, b: -625.11});
 #### Long
 ```js
 const id = IDs.factory.long(8125);
+
+console.log(id.type)
+// -> 'long'
 console.log(typeof id.value);
 // -> 'object'
 // id is a long-like object
@@ -162,6 +178,9 @@ IDs.factory.long.map({a: {low: -1, high: 0}, b: -95503343432});
 #### Bytes
 ```js
 const id = IDs.factory.bytes([100, 0, 12, 33]);
+
+console.log(id.type)
+// -> 'bytes'
 console.log(typeof id.value);
 // -> 'array'
 
@@ -182,9 +201,12 @@ IDs.factory.bytes.map({a: [50, 0], b: [45, 61, 121]});
 ### Semantic Identifiers
 #### UUID
 Base identifier type is [bytes](#bytes) so the factory accepts multiple types of byte array inputs. The array-like input must contain 16 bytes. The factory also accepts a uuid-encoded string.
+
 ```js
-// UUID encoded string
 const id = IDs.factory.uuid('8cdcbe23-c04e-4ea2-ae51-15c9cf16e1b3');
+
+console.log(id.type)
+// -> 'uuid'
 console.log(typeof id.value);
 // -> 'object'
 /*
@@ -215,8 +237,12 @@ IDs.factory.uuid.map({
 ```
 #### Datetime
 Base identifier type is [long](#long) so the factory accepts the same multiple types of long inputs. It also accepts a JS Date object as an input.
+
 ```js
 const id = IDs.factory.datetime(new Date());
+
+console.log(id.type)
+// -> 'datetime'
 console.log(typeof id.value)
 // -> 'object'
 /*
@@ -241,6 +267,7 @@ IDs.factory.datetime.map({a: 3576585434, b: new Date()});
 ```
 #### Geo
 Base identifier type of geo is a [list of 2 floats](#float). Factory only accepts a geo-like objects:
+
 ```js
 /*
   {
@@ -248,7 +275,11 @@ Base identifier type of geo is a [list of 2 floats](#float). Factory only accept
     longitude: number between -180.0 and 180.0
   }
  */
+
 const id = IDs.factory.geo({latitude: 14.8653, longitude: -23.0987877});
+
+console.log(id.type)
+// -> 'geo'
 console.log(typeof id.value)
 // -> 'object'
 /* 

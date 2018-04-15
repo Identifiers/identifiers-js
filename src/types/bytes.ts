@@ -43,13 +43,8 @@ function containsOnlyBytes(input: ArrayLike<number>): boolean {
   return true;
 }
 
-function isLessThanTwoGb(input: ArrayLike<number>): boolean {
-  return isValidLength(input, 0, 2 ** 31);
-}
-
 export const bytesInputSpec = S.spec.and("bytes identifier",
   isValidType,
-  isLessThanTwoGb,
   containsOnlyBytes);
 
 export const bytesDecodingSpec = S.spec.predicate("bytes decoding", isArrayBuffer);
