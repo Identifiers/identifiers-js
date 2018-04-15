@@ -84,16 +84,15 @@ These types are defined in the [Identifiers specification](https://github.com/Id
 * long
 * bytes
 
-#### Structured identifiers
-* list
-* map
-* list-of-lists
-* list-of-maps
-
 #### Semantic Identifiers
-* UUID
+* uuid
 * datetime
 * geo
+
+#### Structured Variants
+* list
+* map
+
 
 # Factory API Reference
 The factory has methods for each type of identifier. These methods can consume various inputs to build an identifier.
