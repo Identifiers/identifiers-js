@@ -9,9 +9,9 @@ export const SEMANTIC_TYPE_FLAG = 0x80;
 export const SEMANTIC_TYPE_MASK = SEMANTIC_TYPE_FLAG - 1;
 
 /**
- * Shift the slot position left by this value and OR it with the type value + .
+ * Shift the slot position left by this value and OR it with the semantic type value.
  */
-export const SEMANTIC_SLOT_SHIFT = 8;
+export const SEMANTIC_SLOT_SHIFT = 0x8;
 
 const SLOTS: number[] = [];
 

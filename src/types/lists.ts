@@ -4,7 +4,7 @@ import {IdentifierCodec} from "../identifier";
 import {MAP_TYPE_CODE} from "./maps";
 
 
-export const LIST_TYPE_CODE = 0x08;
+export const LIST_TYPE_CODE = 0x8;
 export const LIST_OF = 0x20;
 export const LIST_OF_LISTS = LIST_OF | LIST_TYPE_CODE;
 export const LIST_OF_MAPS = LIST_OF | MAP_TYPE_CODE;

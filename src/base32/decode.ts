@@ -15,7 +15,7 @@ import {toCharCode, TypedObject} from "../shared";
 
 export const REGEXP = /^_[0-9A-VW-Za-vw-z]{2,}[0-9A-Za-z*~$=]$/;
 
-const CODES = new Array(256).fill(-1);
+const CODES = new Array(0x100).fill(-1);
 Array.from(SYMBOLS, toCharCode)
   .forEach((charCode, i) => {
     CODES[charCode] = i;
@@ -43,7 +43,7 @@ Object.keys(DECODE_ALIASES).forEach((key) => {
 
 const CHECK_CODES = [...CODES];
 Array.from(CHECK_EXTRAS, toCharCode)
-  .forEach((code, i) => CHECK_CODES[code] = 32 + i);
+  .forEach((code, i) => CHECK_CODES[code] = 0x20 + i);
 
 //alias the 'u' to uppercase
 CHECK_CODES[toCharCode("U")] = CHECK_CODES[toCharCode("u")];

@@ -87,7 +87,7 @@ function forIdentifierValue(input: LongInput): LongLike {
 
 /*
   If number is a 32-bit int value (high != 0) then just use number so msgpack will store as int32
-  If over that size use Int64BE. todo check msgpack spec about this
+  If over that size use Int64BE.
 */
 function encodeValue({high, low}: LongLike): EncodedLong {
   return high === 0
@@ -104,8 +104,8 @@ function decodeValue(encoded: EncodedLong): LongLike {
 function readLong(encoded: Int64BE): LongLike {
   const array = encoded.toArray(true);
   return {
-    high: (array[0] << 24) | (array[1] << 16) | (array[2] << 8) | array[3],
-    low: (array[4] << 24) | (array[5] << 16) | (array[6] << 8) | array[7]
+    high: (array[0] << 0x18) | (array[1] << 0x10) | (array[2] << 0x8) | array[3],
+    low: (array[4] << 0x18) | (array[5] << 0x10) | (array[6] << 0x8) | array[7]
   };
 }
 

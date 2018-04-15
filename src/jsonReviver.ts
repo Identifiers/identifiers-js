@@ -5,7 +5,7 @@ export function JSON_reviver(key: string, value: any): any {
     try {
       return decodeFromString(value);
     } catch {
-      //do nothing
+      //do nothing, not an encoded identifier
     }
   }
   return value;

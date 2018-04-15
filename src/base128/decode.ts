@@ -12,7 +12,7 @@ import {toCharCode} from "../shared";
 
 export const REGEXP = /^[/-9?-Za-z¿-ý]{2,}þ$/;
 
-const CODES = new Array(256).fill(-1);
+const CODES = new Array(0x100).fill(-1);
 Array.from(SYMBOLS, toCharCode)
   .forEach((code, i) => CODES[code] = i);
 
