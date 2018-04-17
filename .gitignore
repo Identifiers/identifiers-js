@@ -1,10 +1,8 @@
-.idea
-.vscode
+.idea/
+.vscode/
 .DS_Store
-node_modules
-lib
-dist
-.browser-test
-.nyc_output
-coverage
+node_modules/
+.browser-test/
+.nyc_output/
+coverage/
 yarn-error.log

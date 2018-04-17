@@ -1,9 +1,16 @@
 {
   "name": "identifiers-js",
   "version": "0.0.1",
-  "description": "JS Identifiers implementation",
+  "description": "Identifiers JavaScript implementation",
   "keywords": [
-    "TODO"
+    "identifiers",
+    "id",
+    "base-32",
+    "base32",
+    "crockford",
+    "uuid",
+    "datetime",
+    "geo"
   ],
   "main": "./lib/index.js",
   "repository": "https://www.github.com/Identifiers/identifiers-js",
@@ -44,13 +51,14 @@
   "scripts": {
     "clean": "rimraf lib coverage .nyc_output browser-test yarn-error.log",
     "build:commonjs": "rimraf lib && tsc",
-    "build:webpack": "rimraf dist browser-test && node_modules/.bin/webpack",
+    "build:webpack": "rimraf browser-test && node_modules/.bin/webpack",
     "build": "yarn run build:commonjs & yarn run build:webpack",
     "test": "mocha --opts mocha.opts",
     "coverage": "nyc mocha --opts mocha.opts && nyc report --reporter=text-lcov | coveralls",
     "prepublishOnly": "yarn run build"
   },
   "files": [
+    "src",
     "lib"
   ],
   "nyc": {
