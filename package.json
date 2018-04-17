@@ -27,6 +27,7 @@
     "chai": "4.1.2",
     "coveralls": "3.0.0",
     "faker": "4.1.0",
+    "identifiers-spec": "git://github.com/Identifiers/spec.git",
     "istanbul": "0.4.5",
     "js.spec-chai": "0.1.7",
     "mocha": "5.1.0",
