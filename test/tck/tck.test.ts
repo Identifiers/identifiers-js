@@ -9,49 +9,49 @@ const codecSymbol = Symbol.for("id-codec");
 describe("TCK tests", () => {
   describe("primitives", () => {
     it("supports string", () => {
-      const tck = require("identifiers-spec/tck/files/primitives/string.json");
+      const tck = require("spec/tck/files/primitives/string.json");
       testTck(tck);
     });
 
     it("supports boolean", () => {
-      const tck = require("identifiers-spec/tck/files/primitives/boolean.json");
+      const tck = require("spec/tck/files/primitives/boolean.json");
       testTck(tck);
     });
 
     it("supports integer", () => {
-      const tck = require("identifiers-spec/tck/files/primitives/integer.json");
+      const tck = require("spec/tck/files/primitives/integer.json");
       testTck(tck);
     });
 
     it("supports float", () => {
-      const tck = require("identifiers-spec/tck/files/primitives/float.json");
+      const tck = require("spec/tck/files/primitives/float.json");
       testTck(tck);
     });
 
     it("supports long", () => {
-      const tck = require("identifiers-spec/tck/files/primitives/long.json");
+      const tck = require("spec/tck/files/primitives/long.json");
       testTck(tck);
     });
 
     it("supports bytes", () => {
-      const tck = require("identifiers-spec/tck/files/primitives/bytes.json");
+      const tck = require("spec/tck/files/primitives/bytes.json");
       testTck(tck);
     });
   });
 
   describe("semantic", () => {
     it("supports uuid", () => {
-      const tck = require("identifiers-spec/tck/files/semantic/uuid.json");
+      const tck = require("spec/tck/files/semantic/uuid.json");
       testTck(tck);
     });
 
     it("supports datetime", () => {
-      const tck = require("identifiers-spec/tck/files/semantic/datetime.json");
+      const tck = require("spec/tck/files/semantic/datetime.json");
       testTck(tck);
     });
 
     it("supports geo", () => {
-      const tck = require("identifiers-spec/tck/files/semantic/geo.json");
+      const tck = require("spec/tck/files/semantic/geo.json");
       testTck(tck);
     });
   });
