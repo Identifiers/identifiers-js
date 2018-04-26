@@ -103,10 +103,8 @@ function decodeValue(encoded: EncodedLong): LongLike {
 
 function readLong(encoded: Int64BE): LongLike {
   const array = encoded.toArray(true);
-  return {
-    high: (array[0] << 0x18) | (array[1] << 0x10) | (array[2] << 0x8) | array[3],
-    low: (array[4] << 0x18) | (array[5] << 0x10) | (array[6] << 0x8) | array[7]
-  };
+  const long = Long.fromBytes(array);
+  return {high: long.high, low: long.low};
 }
 
 export const longCodec: IdentifierCodec<LongInput, LongLike, EncodedLong> = {
