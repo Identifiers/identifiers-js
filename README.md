@@ -34,17 +34,18 @@ const integerId = IDs.factory.integer(22);
   {
   	value: data value
   	type: identifier type string
-  	toString() -> returns Base-128 encoded identifier string
-  	toBase32String() -> return Base-32 encoded identifier string
-  	toJSON() -> called by JSON.stringify() and returns Base-128 encoded identifier string
+  	toString() -> returns a debug-friendly string of the identifier's type and value
+  	toDataString() -> returns base-128 encoded identifier string
+  	toHumanString() -> return Crockford base-32 encoded identifier string
+  	toJSON() -> called by JSON.stringify() and returns  base-128 encoded identifier string
   }
  */
 console.log(integerId.value);
 // -> 22
 
 // encode the identifier
-const dataString = integerId.toString();
-const humanString = integerId.toBase32String();
+const dataString = integerId.toDataString();
+const humanString = integerId.toHumanString();
 
 // decode the identifier
 const decodedId = IDs.parse(dataString);
