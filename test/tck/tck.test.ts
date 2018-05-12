@@ -79,7 +79,7 @@ function roundTripTest(test: TCK, encoded: string, isBase32?: boolean): void {
   // JSON.stringify strips out the functions so we can just compare values.
   expect(JSON.stringify(id.value)).to.equal(JSON.stringify(test.value));
 
-  const toString = isBase32 ? id.toBase32String() : id.toString();
+  const toString = isBase32 ? id.toHumanString() : id.toDataString();
   expect(toString).to.equal(encoded);
 
   // @ts-ignore: codec not part of identifier interface

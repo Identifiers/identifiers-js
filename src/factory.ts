@@ -1,8 +1,9 @@
 import * as S from "js.spec";
 
+import * as encode from "./encode";
 import {Identifier, IdentifierCodec} from "./identifier";
 import {codecSymbol, deepFreeze, TypedObject} from "./shared";
-import {encodeToBase128String, encodeToBase32String} from "./encode";
+
 
 export interface ItemFactory<INPUT, VALUE> {
   (input: INPUT): Identifier<VALUE>;
@@ -50,11 +51,11 @@ export function createIdentifier<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<I
   const identifier: Identifier<VALUE> = {
     value,
     type: codec.type,
-    toString: () => encodeToBase128String(identifier),
-    toBase32String: () => encodeToBase32String(identifier),
-    toJSON: (key) => encodeToBase128String(identifier),
+    toString: () => encode.toDebugString(identifier),
+    toHumanString: () => encode.toBase32String(identifier),
+    toDataString: () => encode.toBase128String(identifier),
+    toJSON: (key) => encode.toBase128String(identifier),
     [codecSymbol]: codec
   };
   return deepFreeze(identifier);
 }
-

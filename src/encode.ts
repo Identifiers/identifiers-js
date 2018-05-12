@@ -11,7 +11,7 @@ import {IDTuple, msgpackCodec} from "./shared";
  * @param identifier the identifier object
  * @returns an encoded identifier string
  */
-export function encodeToBase128String<VALUE>(identifier: Identifier<VALUE>): string {
+export function toBase128String<VALUE>(identifier: Identifier<VALUE>): string {
   const bytes = encodeToBytes(identifier);
   return base128.encode(bytes);
 }
@@ -21,9 +21,18 @@ export function encodeToBase128String<VALUE>(identifier: Identifier<VALUE>): str
  * @param identifier the identifier object
  * @returns an encoded identifier string
  */
-export function encodeToBase32String<VALUE>(identifier: Identifier<VALUE>): string {
+export function toBase32String<VALUE>(identifier: Identifier<VALUE>): string {
   const bytes = encodeToBytes(identifier);
   return base32.encode(bytes);
+}
+
+/**
+ * Convert an Identifier into a debug-friendly string. Presents the type and value of the identifier.
+ * @param identifier the identifier object
+ * @returns a string representation of the identifier
+ */
+export function toDebugString<VALUE>(identifier: Identifier<VALUE>): string {
+  return `ID«${identifier.type}»: ${JSON.stringify(identifier.value)}`;
 }
 
 function encodeToBytes<VALUE>(identifier: Identifier<VALUE>): Uint8Array {

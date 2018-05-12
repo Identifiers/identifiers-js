@@ -24,11 +24,11 @@ function compareIDs<T>(id: Identifier<T>, decoded: Identifier<T>, expectation?: 
 }
 
 function roundTrip<T>(id: Identifier<T>, expectation?: IdExpectation<T>): void {
-  let encoded = id.toString();
+  let encoded = id.toDataString();
   let decoded: Identifier<T> = ID.decodeFromString(encoded);
   compareIDs(id, decoded, expectation);
 
-  encoded = id.toBase32String();
+  encoded = id.toHumanString();
   decoded = ID.decodeFromString(encoded);
   compareIDs(id, decoded, expectation);
 

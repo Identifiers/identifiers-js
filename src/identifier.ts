@@ -15,14 +15,19 @@ export interface Identifier<VALUE> {
   readonly value: VALUE;
 
   /**
-   * Returns the identifier encoded as a base-128 string.
+   * Returns a debug-friendly string of the identifier's value.
    */
   toString(): string;
 
   /**
-   * Returns the identifier encoded in a base-32 format. This string is URI safe and case-insensitive.
+   * Returns the identifier encoded as a base-128 string.
    */
-  toBase32String(): string;
+  toDataString(): string;
+
+  /**
+   * Returns the identifier encoded in a human-usable Crockford base-32 format. This string is URI safe and case-insensitive.
+   */
+  toHumanString(): string;
 
   /**
    * Converts the identifier to a base-128 JSON string.
