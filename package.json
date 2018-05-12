@@ -1,6 +1,6 @@
 {
   "name": "identifiers-js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Identifiers JavaScript implementation",
   "keywords": [
     "identifiers",
@@ -38,7 +38,6 @@
     "js.spec-chai": "0.1.7",
     "mocha": "5.1.1",
     "mocha-lcov-reporter": "1.3.0",
-    "np": "2.20.1",
     "nyc": "11.7.3",
     "rimraf": "2.6.2",
     "source-map-support": "0.5.5",
