@@ -104,3 +104,11 @@ describe("map codec", () => {
     expect(Object.keys(actual2)).to.have.ordered.members(["a", "b"]);
   });
 });
+
+describe("MapValuesSpec", () => {
+  it("explains failures in mapped value spec", () => {
+    const specUnderTest = createMapCodec(stringCodec).specForIdentifier;
+    const actual = S.explainStr(specUnderTest, {a: 1});
+    expect(actual).to.contain("string spec: isString failed for 1 at [a].");
+  });
+});

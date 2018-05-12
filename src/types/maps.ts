@@ -57,10 +57,6 @@ class MapValuesSpec extends S.AbstractSpec {
     }
     return problems;
   }
-
-  toString(): string {
-    return this.name;
-  }
 }
 
 export function createMapCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>)

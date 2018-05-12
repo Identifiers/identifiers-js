@@ -19,8 +19,8 @@ describe("createIdentifier method", () => {
     const actual = createIdentifier(testCodec, value);
     expect(actual).to.conform(identifierSpec);
     expect(actual).to.include({type: testCodec.type, value: value});
+    expect(actual.toString()).to.equal("ID«test-type»: 3");
   });
-
 });
 
 describe("identifier factory methods", () => {

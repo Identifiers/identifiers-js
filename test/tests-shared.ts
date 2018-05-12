@@ -26,7 +26,7 @@ export const identifierSpec = S.spec.and("identifier",
 
 export const testCodec = {
   ...asIsCodec,
-  type: "test-positive",
+  type: "test-type",
   typeCode: 0xf,  // largest reserved primitive type
   specForIdentifier: S.spec.predicate("test forIdentifier", S.spec.positive),
   specForDecoding: S.spec.predicate("test forDecoding", S.spec.positive)
