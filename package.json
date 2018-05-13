@@ -5,9 +5,11 @@
   "keywords": [
     "identifiers",
     "id",
+    "crockford",
     "base-32",
     "base32",
-    "crockford",
+    "base128",
+    "base-128",
     "uuid",
     "datetime",
     "geo"
@@ -49,10 +51,10 @@
     "webpack-cli": "2.1.3"
   },
   "scripts": {
-    "clean": "rimraf lib coverage .nyc_output browser-test yarn-error.log",
-    "build:commonjs": "rimraf lib && tsc",
+    "clean": "rimraf lib coverage .nyc_output .browser-test yarn-error.log",
+    "build:commonjs": "tsc",
     "build:webpack": "rimraf browser-test && node_modules/.bin/webpack",
-    "build": "yarn run build:commonjs & yarn run build:webpack",
+    "build": "yarn run clean & yarn run build:commonjs & yarn run build:webpack",
     "test": "mocha --opts mocha.opts",
     "coverage": "nyc mocha --opts mocha.opts && nyc report --reporter=text-lcov | coveralls",
     "prepublishOnly": "yarn run build"
