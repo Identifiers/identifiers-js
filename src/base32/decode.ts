@@ -1,6 +1,5 @@
 import * as Long from "long";
 import {
-  BYTE_MASK,
   BYTE_SHIFT,
   BYTE_SHIFT_START,
   CHECK_EXTRAS,
@@ -11,17 +10,24 @@ import {
   WORD_SHIFT_START,
   WORD_SIZE
 } from "./constants";
-import {toCharCode, TypedObject} from "../shared";
+import {
+  BYTE_MASK,
+  LONG_BYTES,
+  NOT_A_CODE,
+  toCharCode,
+  TypedObject
+} from "../shared";
 
 export const REGEXP = /^_[0-9A-VW-Za-vw-z]{2,}[0-9A-Za-z*~$=]$/;
 
-const CODES = new Array(0x100).fill(-1);
+const CODES = new Array(0x100).fill(NOT_A_CODE);
+
 Array.from(SYMBOLS, toCharCode)
   .forEach((charCode, i) => {
-    CODES[charCode] = i;
+    CODES[charCode] = LONG_BYTES[i];
     const upperCode = toCharCode(String.fromCharCode(charCode).toUpperCase());
     if (charCode !== upperCode) {
-      CODES[upperCode] = i;
+      CODES[upperCode] = CODES[charCode];
     }
   });
 
@@ -43,7 +49,7 @@ Object.keys(DECODE_ALIASES).forEach((key) => {
 
 const CHECK_CODES = [...CODES];
 Array.from(CHECK_EXTRAS, toCharCode)
-  .forEach((code, i) => CHECK_CODES[code] = 0x20 + i);
+  .forEach((code, i) => CHECK_CODES[code] = LONG_BYTES[0x20 + i]);
 
 //alias the 'u' to uppercase
 CHECK_CODES[toCharCode("U")] = CHECK_CODES[toCharCode("u")];
@@ -72,7 +78,7 @@ export function decode(encoded: string): Uint8Array {
   let checksum = 0;
 
   while (bytePos < fullWordsEnd) {
-    let unpacked = Long.UZERO;
+    let unpacked = Long.ZERO;
 
     for (let shift = WORD_SHIFT_START; shift > -1; shift -= WORD_SHIFT) {
       unpacked = unpackChar(encoded, charPos++, unpacked, shift);
@@ -87,7 +93,7 @@ export function decode(encoded: string): Uint8Array {
 
   // remainder
   if (bytePos < bytesCount) {
-    let unpacked = Long.UZERO;
+    let unpacked = Long.ZERO;
 
     for (let shift = WORD_SHIFT_START; charPos <= length; shift -= WORD_SHIFT) {
       unpacked = unpackChar(encoded, charPos++, unpacked, shift);
@@ -102,7 +108,7 @@ export function decode(encoded: string): Uint8Array {
 
   checksum %= CHECK_PRIME;
   const checkDigit = encoded.charCodeAt(charPos);
-  if (CHECK_CODES[checkDigit] !== checksum) {
+  if (CHECK_CODES[checkDigit].low !== checksum) {
     throw new Error(`Incorrect string -- check digits do not match. Expected: ${CHECK_CODES[checkDigit]}, but calculated ${checksum}`)
   }
 
@@ -112,11 +118,11 @@ export function decode(encoded: string): Uint8Array {
 
 function unpackChar(encoded: string, charPos: number, unpacked: Long, shift: number): Long {
   const charCode = encoded.charCodeAt(charPos);
-  const value = charCode < CODES.length ? CODES[charCode] : -1;
-  if (value < 0) {
+  const value = charCode < CODES.length ? CODES[charCode] : NOT_A_CODE;
+  if (value === NOT_A_CODE) {
     throw new Error(`invalid character code: '${charCode}' at position ${charPos}`);
   }
-  return unpacked.or(Long.fromInt(value, true).shiftLeft(shift));
+  return unpacked.or(value.shiftLeft(shift));
 }
 
 function unpackByte(unpacked: Long, shift: number): number {

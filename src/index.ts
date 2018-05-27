@@ -1,6 +1,6 @@
 import {decodeFromString} from "./decode";
 import {Factory, createFactory} from "./factory";
-import {JSON_reviver} from "./jsonReviver";
+import {JSON_reviver} from "./json-reviver";
 import {IdentifierCodec} from "./identifier";
 import {registerCodec} from "./finder";
 import {createListCodec} from "./types/lists";

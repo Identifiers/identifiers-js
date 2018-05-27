@@ -8,13 +8,17 @@ import {
   WORD_SHIFT_START,
   WORD_SIZE
 } from "./constants";
-import {toCharCode} from "../shared";
+import {
+  LONG_BYTES,
+  NOT_A_CODE,
+  toCharCode
+} from "../shared";
 
 export const REGEXP = /^[/-9?-Za-z¿-ý]{2,}þ$/;
 
-const CODES = new Array(0x100).fill(-1);
+const CODES: Long[] = new Array(0x100).fill(NOT_A_CODE);
 Array.from(SYMBOLS, toCharCode)
-  .forEach((code, i) => CODES[code] = i);
+  .forEach((code, i) => CODES[code] = LONG_BYTES[i]);
 
 
 //faster than a full regex test
@@ -39,7 +43,7 @@ export function decode(encoded: string): Uint8Array {
   let bytePos = 0;
 
   while (bytePos < fullWordsEnd) {
-    let unpacked = Long.UZERO;
+    let unpacked = Long.ZERO;
 
     for (let shift = WORD_SHIFT_START; shift > -1; shift -= WORD_SHIFT) {
       unpacked = unpackChar(encoded, charPos++, unpacked, shift);
@@ -52,7 +56,7 @@ export function decode(encoded: string): Uint8Array {
 
   // remainder
   if (bytePos < bytesCount) {
-    let unpacked = Long.UZERO;
+    let unpacked = Long.ZERO;
 
     for (let shift = WORD_SHIFT_START; charPos < length; shift -= WORD_SHIFT) {
       unpacked = unpackChar(encoded, charPos++, unpacked, shift);
@@ -69,11 +73,11 @@ export function decode(encoded: string): Uint8Array {
 
 function unpackChar(encoded: string, charPos: number, unpacked: Long, shift: number): Long {
   const charCode = encoded.charCodeAt(charPos);
-  const value = charCode < CODES.length ? CODES[charCode] : -1;
-  if (value < 0) {
+  const value = charCode < CODES.length ? CODES[charCode] : NOT_A_CODE;
+  if (value === NOT_A_CODE) {
     throw new Error(`invalid character code: '${charCode}' at position ${charPos}`);
   }
-  return unpacked.or(Long.fromInt(value, true).shiftLeft(shift));
+  return unpacked.or(value.shiftLeft(shift));
 }
 
 function unpackByte(unpacked: Long, shift: number): number {

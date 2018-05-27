@@ -1,6 +1,5 @@
 import * as Long from "long";
 import {
-  BYTE_MASK,
   BYTE_SHIFT,
   BYTE_SHIFT_START,
   CHECK_EXTRAS,
@@ -11,7 +10,11 @@ import {
   WORD_SHIFT_START,
   WORD_SIZE
 } from "./constants";
-import {toCharCode} from "../shared";
+import {
+  BYTE_MASK,
+  LONG_BYTES,
+  toCharCode
+} from "../shared";
 
 const BITS_MASK = 0x1f;
 const PREFIX_CODE = toCharCode(PREFIX);
@@ -39,7 +42,7 @@ export function encode(unencoded: Uint8Array): string {
   let checksum = 0;
 
   while (bytePos < fullWordsEnd) {
-    let packed = Long.UZERO;
+    let packed = Long.ZERO;
 
     for (let shift = BYTE_SHIFT_START; shift > -1; shift -= BYTE_SHIFT) {
       const byte = unencoded[bytePos++];
@@ -54,7 +57,7 @@ export function encode(unencoded: Uint8Array): string {
 
   // remainder
   if (bytePos < unencoded.length) {
-    let packed = Long.UZERO;
+    let packed = Long.ZERO;
     for (let shift = BYTE_SHIFT_START; bytePos < unencoded.length; shift -= BYTE_SHIFT) {
       const byte = unencoded[bytePos++];
       packed = packByte(byte, packed, shift);
@@ -89,7 +92,7 @@ export function encode(unencoded: Uint8Array): string {
 }
 
 function packByte(byte: number, packed: Long, shift: number): Long {
-  return packed.or(Long.fromInt(byte & BYTE_MASK, true).shiftLeft(shift));
+  return packed.or(LONG_BYTES[byte & BYTE_MASK].shiftLeft(shift));
 }
 
 function packChar(packed: Long, shift: number): number {
