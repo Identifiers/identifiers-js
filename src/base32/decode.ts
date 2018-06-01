@@ -11,7 +11,6 @@ import {
   WORD_SIZE
 } from "./constants";
 import {
-  BYTE_MASK,
   LONG_BYTES,
   NOT_A_CODE,
   toCharCode,
@@ -20,6 +19,7 @@ import {
 
 export const REGEXP = /^_[0-9A-VW-Za-vw-z]{2,}[0-9A-Za-z*~$=]$/;
 
+const BYTE_MASK = 0xff;
 const CODES = new Array(0x100).fill(NOT_A_CODE);
 
 Array.from(SYMBOLS, toCharCode)

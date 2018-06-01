@@ -9,7 +9,6 @@ import {
   WORD_SIZE
 } from "./constants";
 import {
-  BYTE_MASK,
   LONG_BYTES,
   toCharCode
 } from "../shared";
@@ -65,7 +64,7 @@ export function encode(unencoded: Uint8Array): string {
 }
 
 function packByte(byte: number, packed: Long, shift: number): Long {
-  return packed.or(LONG_BYTES[byte & BYTE_MASK].shiftLeft(shift));
+  return packed.or(LONG_BYTES[byte].shiftLeft(shift));
 }
 
 function packChar(packed: Long, shift: number): number {

@@ -2,7 +2,6 @@ import * as msgpack from "msgpack-lite";
 import * as Long from "long";
 
 
-export const BYTE_MASK = 0xff;
 export const NOT_A_CODE = Long.fromInt(-1, false);
 export const LONG_BYTES: Long[] = new Array(0x100);
 for (let i = 0; i < 0x100; i++) {

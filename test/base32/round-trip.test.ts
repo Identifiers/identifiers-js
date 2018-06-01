@@ -31,12 +31,22 @@ describe("base32 tests", () => {
     expect(testDec).to.deep.equal(one);
   });
 
-  it("converts a known string value to and from base32", () => {
+  it("converts a 5-character string value to and from base32", () => {
     const bytes = Uint8Array.from(
       Array.from("green")
         .map(char => char.charCodeAt(0)));
     const testEnc = encode(bytes);
     expect(testEnc).to.equal("_cxs6asbeb");
+    const testDec = decode(testEnc);
+    expect(testDec).to.deep.equal(bytes);
+  });
+
+  it("converts a longer string value to and from base32", () => {
+    const bytes = Uint8Array.from(
+      Array.from("yellow")
+        .map(char => char.charCodeAt(0)));
+    const testEnc = encode(bytes);
+    expect(testEnc).to.equal("_f5jprv3few2");
     const testDec = decode(testEnc);
     expect(testDec).to.deep.equal(bytes);
   });
