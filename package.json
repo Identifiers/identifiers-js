@@ -56,6 +56,7 @@
     "build:webpack": "rimraf browser-test && node_modules/.bin/webpack",
     "build": "yarn run clean & yarn run build:commonjs & yarn run build:webpack",
     "test": "mocha --opts mocha.opts",
+    "benchmark": "ts-node benchmark",
     "coverage": "nyc mocha --opts mocha.opts && nyc report --reporter=text-lcov | coveralls",
     "prepublishOnly": "yarn run build"
   },
@@ -66,10 +67,6 @@
   "nyc": {
     "include": [
       "src/**/*.ts"
-    ],
-    "exclude": [
-      "src/base32/benchmark.ts",
-      "src/base128/benchmark.ts"
     ],
     "extension": [
       ".ts"

@@ -1,17 +1,23 @@
-import {encode} from "./encode";
-import {decode} from "./decode";
+import {decode} from "../src/base128/decode";
+import {encode} from "../src/base128/encode";
+import {msgpackCodec} from "../src/shared";
+
+import * as benchmark from "benchmark";
 import * as faker from "faker";
 import * as msgpack from "msgpack-lite";
-import * as benchmark from "benchmark";
-import {msgpackCodec} from "../shared";
+
+/*
+Doesn't work on OS X :(
+sudo dtrace -n 'profile-97/execname == "node" && arg1/{@[jstack(150, 8000)] = count(); } tick-60s { exit(0); }' > stacks.out
+ */
 
 const encoderOptions = { codec: msgpackCodec };
-const suite = new benchmark.Suite();
+const suite = new benchmark.Suite("base128");
 const randomBytes: Uint8Array[] = [];
 for (let i = 0; i < 10; i++) {
   const bytes = new Array(100);
   for (let b = 0; b < 20; b++) {
-    bytes[b] = Math.floor(256 * Math.random());
+    bytes[b] = Math.floor(0xff * Math.random());
   }
   randomBytes.push(Uint8Array.from(bytes));
 }
@@ -27,9 +33,10 @@ for (let i = 0; i < 2; i++) {
 }
 const strBytes = strings.map(str => msgpack.encode(str, encoderOptions));
 
+console.log("base128 benchmark started");
 suite
-    .add("random bytes", randomBytesTest)
-    .add("identifier values", randomValuesTest)
+  .add("random bytes", randomBytesTest)
+  .add("identifier values", randomValuesTest)
   .on("cycle", (event: benchmark.Event) => console.log(`step: ${event.target}`))
   .run();
 
