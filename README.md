@@ -18,7 +18,7 @@ Identifiers-js is written in TypeScript and generates ES5 JavaScript.
 ```js
 import * as IDs from "identifiers";
 ```
-### JavaScript
+#### JavaScript
 ```js
 const IDs = require('identifiers');
 ```

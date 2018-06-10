@@ -51,6 +51,17 @@ describe("base32 tests", () => {
     expect(testDec).to.deep.equal(bytes);
   });
 
+  it("converts a higher-value byte array", () => {
+    const expected = "_xkakcp";
+    const bytes = Uint8Array.of(236, 213, 54);  //[-20, -43, 54]
+
+    const actualBytes = decode(expected);
+    expect(actualBytes).to.deep.equal(bytes);
+
+    const actualStr = encode(bytes);
+    expect(actualStr).to.equal(expected);
+  });
+
   it("understands the base32 alias characters", () => {
     const testEnc = "_00011111abcdefghjkmnpqrstvwxyzabcdefghjkmnpqrstvwxyzh";
     const aliasedEnc = "_0Oo1iIlLabcdefghjkmnpqrstvwxyzABCDEFGHJKMNPQRSTVWXYZH";
