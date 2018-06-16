@@ -18,8 +18,9 @@ base-128  11111112|22222233|33333444|44445555|55566666|66777777|78888888
    * 7 bytes needed to pack 8 base-128 numerals without gaps. That means a 7-byte word.
  */
 export const WORD_SIZE = 0x7;
-export const CHARS_PER_WORD = 0x8;
 export const BYTE_SHIFT = 0x8;
+
+const CHARS_PER_WORD = 0x8;
 export const BYTE_SHIFT_START = WORD_SIZE * CHARS_PER_WORD - BYTE_SHIFT;
 export const WORD_SHIFT = 0x7;
 export const WORD_SHIFT_START = WORD_SIZE * CHARS_PER_WORD - WORD_SHIFT;
