@@ -31,14 +31,35 @@ describe("base128 round-trip", () => {
   });
 
   it("converts a known string value to and from base 128", () => {
-    const bytes = Uint8Array.from(
+    let bytes = Uint8Array.from(
       Array.from("greener")
         .map(char => char.charCodeAt(0)));
-    const testEnc = encode(bytes);
+    let testEnc = encode(bytes);
     expect(testEnc).to.equal("mÚÊÔesÈðþ");
-    const testDec = decode(testEnc);
+    let testDec = decode(testEnc);
+    expect(testDec).to.deep.equal(bytes);
+
+    bytes = Uint8Array.from(
+      Array.from("chartreuse")
+        .map(char => char.charCodeAt(0)));
+    testEnc = encode(bytes);
+    expect(testEnc).to.equal("kØ@KGÏâãtÚêÎþ");
+    testDec = decode(testEnc);
     expect(testDec).to.deep.equal(bytes);
   });
+
+  it("converts a higher-value byte array", () => {
+    const expected = "ôoZÞþ";
+    const bytes = Uint8Array.of(236, 213, 54);  //[-20, -43, 54]
+
+    const actualStr = encode(bytes);
+    expect(actualStr).to.equal(expected);
+
+    const actualBytes = decode(expected);
+    expect(actualBytes).to.deep.equal(bytes);
+
+  });
+
 
   it("converts random byte arrays to and from base 128", () => {
     const bytes: Uint8Array[] = [];
