@@ -1,12 +1,15 @@
+/*
+  This base32 algorithm is based on Mikael Grev's MiGBase64 algorithm: http://migbase64.sourceforge.net
+  which is licensed under the BSD Open Source license.
+ */
 import * as Long from "long";
 import {
-  BYTE_SHIFT,
   BYTE_SHIFT_START,
+  BYTE_SIZE,
   CHECK_EXTRAS,
   CHECK_PRIME,
   PREFIX,
   SYMBOLS,
-  WORD_SHIFT,
   WORD_SHIFT_START,
   WORD_SIZE
 } from "./constants";
@@ -30,7 +33,7 @@ export function encode(unencoded: Uint8Array): string {
   }
 
   const wordCount = unencoded.length / WORD_SIZE;
-  const charCount = Math.ceil(wordCount * BYTE_SHIFT) + 2; // + 2 is prefix, check digit
+  const charCount = Math.ceil(wordCount * BYTE_SIZE) + 2; // + 2 is prefix, check digit
   const fullWordsEnd = Math.trunc(wordCount) * WORD_SIZE;
   const result = new Array(charCount);
 
@@ -43,13 +46,13 @@ export function encode(unencoded: Uint8Array): string {
   while (bytePos < fullWordsEnd) {
     let packed = Long.ZERO;
 
-    for (let shift = BYTE_SHIFT_START; shift > -1; shift -= BYTE_SHIFT) {
+    for (let shift = BYTE_SHIFT_START; shift > -1; shift -= BYTE_SIZE) {
       const byte = unencoded[bytePos++];
       packed = packByte(byte, packed, shift);
       checksum += byte;
     }
 
-    for (let shift = WORD_SHIFT_START; shift > -1; shift -= WORD_SHIFT) {
+    for (let shift = WORD_SHIFT_START; shift > -1; shift -= WORD_SIZE) {
       result[charPos++] = packChar(packed, shift);
     }
   }
@@ -57,7 +60,7 @@ export function encode(unencoded: Uint8Array): string {
   // remainder
   if (bytePos < unencoded.length) {
     let packed = Long.ZERO;
-    for (let shift = BYTE_SHIFT_START; bytePos < unencoded.length; shift -= BYTE_SHIFT) {
+    for (let shift = BYTE_SHIFT_START; bytePos < unencoded.length; shift -= BYTE_SIZE) {
       const byte = unencoded[bytePos++];
       packed = packByte(byte, packed, shift);
       checksum += byte;
@@ -68,19 +71,19 @@ export function encode(unencoded: Uint8Array): string {
     let shift = WORD_SHIFT_START;
 
     result[charPos++] = packChar(packed, shift);
-    result[charPos++] = packChar(packed, shift -= WORD_SHIFT);
+    result[charPos++] = packChar(packed, shift -= WORD_SIZE);
 
     if (remainder > 1) {
-      result[charPos++] = packChar(packed, shift -= WORD_SHIFT);
-      result[charPos++] = packChar(packed, shift -= WORD_SHIFT);
+      result[charPos++] = packChar(packed, shift -= WORD_SIZE);
+      result[charPos++] = packChar(packed, shift -= WORD_SIZE);
     }
 
     if (remainder > 2) {
-      result[charPos++] = packChar(packed, shift -= WORD_SHIFT);
+      result[charPos++] = packChar(packed, shift -= WORD_SIZE);
     }
 
     if (remainder > 3) {
-      result[charPos++] = packChar(packed, shift - WORD_SHIFT);
+      result[charPos++] = packChar(packed, shift - WORD_SIZE);
       result[charPos++] = packChar(packed, WORD_SIZE);
     }
   }

@@ -1,12 +1,15 @@
+/*
+  This base32 algorithm is based on Mikael Grev's MiGBase64 algorithm: http://migbase64.sourceforge.net
+  which is licensed under the BSD Open Source license.
+ */
 import * as Long from "long";
 import {
-  BYTE_SHIFT,
   BYTE_SHIFT_START,
+  BYTE_SIZE,
   CHECK_EXTRAS,
   CHECK_PRIME,
   PREFIX,
   SYMBOLS,
-  WORD_SHIFT,
   WORD_SHIFT_START,
   WORD_SIZE
 } from "./constants";
@@ -69,7 +72,7 @@ export function decode(encoded: string): Uint8Array {
   }
 
   const length = encoded.length - 2; //skip prefix, check digit
-  const bytesCount = Math.trunc(length * WORD_SIZE / BYTE_SHIFT);
+  const bytesCount = Math.trunc(length * WORD_SIZE / BYTE_SIZE);
   const fullWordsEnd = Math.trunc(bytesCount / WORD_SIZE) * WORD_SIZE;
   const result = new Uint8Array(bytesCount);
 
@@ -80,11 +83,11 @@ export function decode(encoded: string): Uint8Array {
   while (bytePos < fullWordsEnd) {
     let unpacked = Long.ZERO;
 
-    for (let shift = WORD_SHIFT_START; shift > -1; shift -= WORD_SHIFT) {
+    for (let shift = WORD_SHIFT_START; shift > -1; shift -= WORD_SIZE) {
       unpacked = unpackChar(encoded, charPos++, unpacked, shift);
     }
 
-    for (let shift = BYTE_SHIFT_START; shift > -1; shift -= BYTE_SHIFT) {
+    for (let shift = BYTE_SHIFT_START; shift > -1; shift -= BYTE_SIZE) {
       const byte = unpackByte(unpacked, shift);
       result[bytePos++] = byte;
       checksum += byte;
@@ -95,11 +98,11 @@ export function decode(encoded: string): Uint8Array {
   if (bytePos < bytesCount) {
     let unpacked = Long.ZERO;
 
-    for (let shift = WORD_SHIFT_START; charPos <= length; shift -= WORD_SHIFT) {
+    for (let shift = WORD_SHIFT_START; charPos <= length; shift -= WORD_SIZE) {
       unpacked = unpackChar(encoded, charPos++, unpacked, shift);
     }
 
-    for (let shift = BYTE_SHIFT_START; bytePos < bytesCount; shift -= BYTE_SHIFT) {
+    for (let shift = BYTE_SHIFT_START; bytePos < bytesCount; shift -= BYTE_SIZE) {
       const byte = unpackByte(unpacked, shift);
       result[bytePos++] = byte;
       checksum += byte;
