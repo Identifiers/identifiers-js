@@ -22,6 +22,14 @@ describe("base128 round-trip", () => {
     expect(testDec).to.deep.equal(m);
   });
 
+  it("converts a known single-character value with a code point > 128 to and from base 128", () => {
+    const y = Uint8Array.of("ÿ".charCodeAt(0));
+    const testEnc = encode(y);
+    expect(testEnc).to.equal("ýzþ");
+    const testDec = decode(testEnc);
+    expect(testDec).to.deep.equal(y);
+  });
+
   it("converts a known string value to and from base 128", () => {
     const bytes = Uint8Array.from(
       Array.from("greener")

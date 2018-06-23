@@ -23,6 +23,14 @@ describe("base32 tests", () => {
     expect(testDec).to.deep.equal(m);
   });
 
+  it("converts a known single-character value with a code point > 128 to and from base 128", () => {
+    const y = Uint8Array.of("ÿ".charCodeAt(0));
+    const testEnc = encode(y);
+    expect(testEnc).to.equal("_zw~");
+    const testDec = decode(testEnc);
+    expect(testDec).to.deep.equal(y);
+  });
+
   it("converts a known small single-byte array to and from base32", () => {
     const one = Uint8Array.of(1);
     const testEnc = encode(one);
