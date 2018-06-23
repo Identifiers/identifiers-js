@@ -2,6 +2,7 @@ import {expect} from "chai";
 
 import {decode, REGEXP} from "../../src/base128/decode";
 import {encode} from "../../src/base128/encode";
+import {toCharCode} from "../../src/shared";
 
 
 describe("base128 round-trip", () => {
@@ -15,7 +16,7 @@ describe("base128 round-trip", () => {
   });
 
   it("converts a known single-character value to and from base 128", () => {
-    const m = Uint8Array.of("m".charCodeAt(0));
+    const m = Uint8Array.of(toCharCode("m"));
     const testEnc = encode(m);
     expect(testEnc).to.equal("pzþ");
     const testDec = decode(testEnc);
@@ -23,7 +24,7 @@ describe("base128 round-trip", () => {
   });
 
   it("converts a known single-character value with a code point > 128 to and from base 128", () => {
-    const y = Uint8Array.of("ÿ".charCodeAt(0));
+    const y = Uint8Array.of(toCharCode("ÿ"));
     const testEnc = encode(y);
     expect(testEnc).to.equal("ýzþ");
     const testDec = decode(testEnc);
@@ -32,16 +33,14 @@ describe("base128 round-trip", () => {
 
   it("converts a known string value to and from base 128", () => {
     let bytes = Uint8Array.from(
-      Array.from("greener")
-        .map(char => char.charCodeAt(0)));
+      Array.from("greener").map(toCharCode));
     let testEnc = encode(bytes);
     expect(testEnc).to.equal("mÚÊÔesÈðþ");
     let testDec = decode(testEnc);
     expect(testDec).to.deep.equal(bytes);
 
     bytes = Uint8Array.from(
-      Array.from("chartreuse")
-        .map(char => char.charCodeAt(0)));
+      Array.from("chartreuse").map(toCharCode));
     testEnc = encode(bytes);
     expect(testEnc).to.equal("kØ@KGÏâãtÚêÎþ");
     testDec = decode(testEnc);

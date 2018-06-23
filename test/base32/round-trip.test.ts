@@ -3,6 +3,7 @@ import {expect} from "chai";
 
 import {decode, DECODE_ALIASES, REGEXP} from "../../src/base32/decode";
 import {encode} from "../../src/base32/encode";
+import {toCharCode} from "../../src/shared";
 
 
 describe("base32 tests", () => {
@@ -16,7 +17,7 @@ describe("base32 tests", () => {
   });
 
   it("converts a known single-character value to and from base32", () => {
-    const m = Uint8Array.of("m".charCodeAt(0));
+    const m = Uint8Array.of(toCharCode("m"));
     const testEnc = encode(m);
     expect(testEnc).to.equal("_dm=");
     const testDec = decode(testEnc);
@@ -24,7 +25,7 @@ describe("base32 tests", () => {
   });
 
   it("converts a known single-character value with a code point > 128 to and from base 128", () => {
-    const y = Uint8Array.of("ÿ".charCodeAt(0));
+    const y = Uint8Array.of(toCharCode("ÿ"));
     const testEnc = encode(y);
     expect(testEnc).to.equal("_zw~");
     const testDec = decode(testEnc);
@@ -41,8 +42,7 @@ describe("base32 tests", () => {
 
   it("converts a 5-character string value to and from base32", () => {
     const bytes = Uint8Array.from(
-      Array.from("green")
-        .map(char => char.charCodeAt(0)));
+      Array.from("green").map(toCharCode));
     const testEnc = encode(bytes);
     expect(testEnc).to.equal("_cxs6asbeb");
     const testDec = decode(testEnc);
@@ -51,8 +51,7 @@ describe("base32 tests", () => {
 
   it("converts a longer string value to and from base32", () => {
     const bytes = Uint8Array.from(
-      Array.from("yellow")
-        .map(char => char.charCodeAt(0)));
+      Array.from("yellow").map(toCharCode));
     const testEnc = encode(bytes);
     expect(testEnc).to.equal("_f5jprv3few2");
     const testDec = decode(testEnc);
