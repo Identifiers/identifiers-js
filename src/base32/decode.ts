@@ -72,7 +72,7 @@ export function decode(encoded: string): Uint8Array {
   }
 
   const length = encoded.length - 2; //skip prefix, check digit
-  const bytesCount = Math.trunc(length * WORD_SIZE / BYTE_SIZE);
+  const bytesCount = calcBytesCount(length);
   const fullWordsEnd = Math.trunc(bytesCount / WORD_SIZE) * WORD_SIZE;
   const result = new Uint8Array(bytesCount);
 
@@ -118,6 +118,11 @@ export function decode(encoded: string): Uint8Array {
   return result;
 }
 
+
+// V8 deoptimizes the division for "lost precision"
+function calcBytesCount(length: number) {
+  return Math.trunc(length * WORD_SIZE / BYTE_SIZE);
+}
 
 function unpackChar(encoded: string, charPos: number, unpacked: Long, shift: number): Long {
   const charCode = encoded.charCodeAt(charPos);
