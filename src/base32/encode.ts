@@ -31,7 +31,7 @@ export function encode(unencoded: Uint8Array): string {
     return PREFIX;
   }
 
-  const wordCount = calcWordCount(unencoded.length);
+  const wordCount = unencoded.length / WORD_SIZE;
   const charCount = Math.ceil(wordCount * BYTE_SIZE) + 2; // + 2 is prefix, check digit
   const fullWordsEnd = Math.trunc(wordCount) * WORD_SIZE;
   const result = new Array(charCount);
@@ -92,11 +92,6 @@ export function encode(unencoded: Uint8Array): string {
   return String.fromCharCode(...result);
 }
 
-
-// V8 deoptimizes the division for "lost precision"
-function calcWordCount(length: number) {
-  return length / WORD_SIZE;
-}
 
 function packByte(byte: number, packed: Long, shift: number): Long {
   return packed.or(LONG_BYTES[byte].shiftLeft(shift));
