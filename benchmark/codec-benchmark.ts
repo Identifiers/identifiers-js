@@ -32,10 +32,10 @@ const strBytes = strings.map(str => msgpack.encode(str, encoderOptions));
 
 console.log("codec benchmark started");
 suite
-  .add("base32 random bytes", base32RandomBytesTest)
   .add("base32 identifier values", base32RandomValuesTest)
-  .add("base128 random bytes", base128RandomBytesTest)
+  .add("base32 random bytes", base32RandomBytesTest)
   .add("base128 identifier values", base128RandomValuesTest)
+  .add("base128 random bytes", base128RandomBytesTest)
   .on("cycle", (event: benchmark.Event) => console.log(`step: ${event.target}`))
   .run();
 
