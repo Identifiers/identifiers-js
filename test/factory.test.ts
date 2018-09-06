@@ -179,6 +179,23 @@ describe("identifier factory methods", () => {
     });
   });
 
+  describe("composite", () => {
+    it("creates a composite list identifier", () => {
+      const id1 = factory.integer(3);
+      const id2 = factory.string("mac");
+      const actual = factory.composite.list(id1, id2);
+      validateCreatedIdentifier([id1, id2], actual);
+    });
+
+    it("creates a composite map identifier", () => {
+      const id1 = factory.boolean(true);
+      const id2 = factory.datetime(5758484765);
+      const idMap = {a: id1, b: id2};
+      const actual = factory.composite.map(idMap);
+      validateCreatedIdentifier(idMap, actual);
+    });
+  });
+
   describe("datetime", () => {
     const immutableDateExpectation = (expected: ImmutableDate, actual: ImmutableDate) => expected.time === actual.time;
 

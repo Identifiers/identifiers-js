@@ -1,10 +1,8 @@
 import * as S from "js.spec";
 
-import {codecSymbol, existsPredicate} from "./shared";
+import {codecSymbol, identifierSpec} from "./shared";
 import {Identifier, IdentifierCodec} from "./identifier";
-import {SEMANTIC_TYPE_MASK} from "./semantic";
-import {SEMANTIC_TYPE_FLAG} from "./semantic";
-
+import {SEMANTIC_TYPE_FLAG, SEMANTIC_TYPE_MASK} from "./semantic";
 
 const codecs: IdentifierCodec<any>[] = [];
 
@@ -35,21 +33,6 @@ function createUnknownCodec<INPUT, VALUE, ENCODED>(typeCode: number): Identifier
 
   return codecForTypeCode(typeCode);
 }
-
-const codecAssignedSpec = S.spec.predicate("codec assigned", S.spec.object);
-
-function hasCodecSymbol<VALUE>(identifier: Identifier<VALUE>): boolean {
-  // @ts-ignore: codec not part of identifier interface
-  return S.valid(codecAssignedSpec, identifier[codecSymbol]);
-}
-
-const identifierSpec = S.spec.and("identifier",
-  hasCodecSymbol,
-  S.spec.map("identifier structure", {
-    type: S.spec.string,
-    value: existsPredicate
-  })
-);
 
 export function findCodec<INPUT, VALUE, ENCODED>(identifier: Identifier<VALUE>): IdentifierCodec<INPUT, VALUE, ENCODED> {
   S.assert(identifierSpec, identifier);

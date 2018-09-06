@@ -1,5 +1,5 @@
 import {decodeFromString} from "./decode";
-import {Factory, createFactory} from "./factory";
+import {Factory, createFactory, CompositeFactory, createListFactory, createMapFactory} from "./factory";
 import {JSON_reviver} from "./json-reviver";
 import {IdentifierCodec} from "./identifier";
 import {registerCodec} from "./finder";
@@ -7,6 +7,7 @@ import {createListCodec} from "./types/lists";
 import {createMapCodec} from "./types/maps";
 import {stringCodec} from "./types/string";
 import {booleanCodec} from "./types/boolean";
+import * as composite from "./types/composite";
 import {integerCodec} from "./types/integer";
 import {floatCodec} from "./types/float";
 import {longCodec, LongInput, LongLike} from "./types/long";
@@ -16,6 +17,7 @@ import {uuidCodec, UuidInput, UuidLike} from "./types/uuid";
 import {ImmutableDate} from "./types/immutable-date";
 import {geoCodec, GeoLike} from "./types/geo";
 
+
 function processCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>): Factory<INPUT, VALUE> {
   const listCodec = createListCodec(itemCodec);
   const mapCodec = createMapCodec(itemCodec);
@@ -23,6 +25,15 @@ function processCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, V
   registerCodec(listCodec);
   registerCodec(mapCodec);
   return createFactory(itemCodec, listCodec, mapCodec);
+}
+
+function createCompositeFactory(): CompositeFactory {
+  registerCodec(composite.listCodec);
+  registerCodec(composite.mapCodec);
+  return {
+    list: createListFactory(composite.listCodec),
+    map: createMapFactory(composite.mapCodec)
+  };
 }
 
 export interface Factories {
@@ -35,6 +46,7 @@ export interface Factories {
   readonly uuid: Factory<UuidInput, UuidLike>
   readonly datetime: Factory<DatetimeInput, ImmutableDate>
   readonly geo: Factory<GeoLike, GeoLike>
+  readonly composite: CompositeFactory
 }
 
 /**
@@ -49,7 +61,8 @@ const factory: Factories = {
   bytes: processCodec(bytesCodec),
   uuid: processCodec(uuidCodec),
   datetime: processCodec(datetimeCodec),
-  geo: processCodec(geoCodec)
+  geo: processCodec(geoCodec),
+  composite: createCompositeFactory()
 };
 
 export {

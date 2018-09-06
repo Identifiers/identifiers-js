@@ -36,9 +36,14 @@ export function toDebugString<VALUE>(identifier: Identifier<VALUE>): string {
 }
 
 function encodeToBytes<VALUE>(identifier: Identifier<VALUE>): Uint8Array {
+  const tuple = encodeIdTuple(identifier);
+  return encodeBytes(tuple);
+}
+
+export function encodeIdTuple<VALUE, ENCODED>(identifier: Identifier<VALUE>): IDTuple<ENCODED> {
   const codec = findCodec(identifier);
   const value = encodeWithCodec(codec, identifier.value);
-  return encodeBytes([codec.typeCode, value]);
+  return [codec.typeCode, value as ENCODED];
 }
 
 export function encodeWithCodec<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<INPUT, VALUE, ENCODED>, value: VALUE): ENCODED {

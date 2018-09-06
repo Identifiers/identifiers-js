@@ -4,7 +4,7 @@ import {TypedObject} from "../shared";
 
 export const MAP_TYPE_CODE = 0x10;
 
-function mapValues<IN, OUT>(map: TypedObject<IN>, mapFn: (value: IN) => OUT, sortKeys: boolean): TypedObject<OUT> {
+export function mapValues<IN, OUT>(map: TypedObject<IN>, mapFn: (value: IN) => OUT, sortKeys: boolean): TypedObject<OUT> {
   const mapped: TypedObject<OUT> = {};
   const keys = Object.keys(map);
   if (sortKeys) {
@@ -23,7 +23,7 @@ type MapValuesOptions = { spec: S.Spec };
 /**
  * Spec to apply an item spec to every value in a map.
  */
-class MapValuesSpec extends S.AbstractSpec {
+export class MapValuesSpec extends S.AbstractSpec {
   constructor(itemSpec: S.Spec, prefix: string) {
     super(`${prefix}(${itemSpec})`, { spec: itemSpec });
   }

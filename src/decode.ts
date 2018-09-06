@@ -5,7 +5,7 @@ import * as decode128 from "./base128/decode";
 import * as decode32 from "./base32/decode";
 import {Identifier, IdentifierCodec} from "./identifier";
 import {codecForTypeCode} from "./finder";
-import {existsPredicate, IDTuple, msgpackCodec} from "./shared";
+import {decodedIdSpec, IDTuple, msgpackCodec} from "./shared";
 import {createIdentifier} from "./factory";
 
 /**
@@ -15,7 +15,12 @@ import {createIdentifier} from "./factory";
  */
 export function decodeFromString<INPUT, VALUE, ENCODED>(encoded: string): Identifier<VALUE> {
   const bytes = decodeString(encoded);
-  const [typeCode, decoded] = decodeBytes(bytes);
+  const idTuple = decodeBytes(bytes);
+  return decodeToIdentifier(idTuple);
+}
+
+export function decodeToIdentifier<INPUT, VALUE, ENCODED>(tuple: IDTuple<ENCODED>): Identifier<VALUE> {
+  const [typeCode, decoded] = tuple;
   const codec: IdentifierCodec<INPUT, VALUE, ENCODED> = codecForTypeCode(typeCode);
   const value = decodeWithCodec(codec, decoded);
   return createIdentifier<INPUT, VALUE, ENCODED>(codec, value);
@@ -36,14 +41,9 @@ export function decodeString(encoded: string): Uint8Array {
 
 const decoderOptions = {codec: msgpackCodec};
 
-const decodedBytesSpec = S.spec.tuple("decoded bytes array",
-  Number.isInteger,
-  existsPredicate
-);
-
-export function decodeBytes<VALUE>(bytes: Uint8Array): IDTuple<VALUE> {
+export function decodeBytes<ENCODED>(bytes: Uint8Array): IDTuple<ENCODED> {
   const decoded = msgpack.decode(bytes, decoderOptions);
-  S.assert(decodedBytesSpec, decoded);
+  S.assert(decodedIdSpec, decoded);
   return decoded;
 }
 

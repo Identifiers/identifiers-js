@@ -1,6 +1,7 @@
 import * as msgpack from "msgpack-lite";
 import * as Long from "long";
-
+import {Identifier} from "./identifier";
+import * as S from "js.spec";
 
 export const NOT_A_CODE = Long.fromInt(-1, false);
 export const LONG_BYTES: Long[] = new Array(0x100);
@@ -67,3 +68,23 @@ export interface IDTuple<VALUE> extends Array<number | VALUE> {
   0: number,
   1: VALUE
 }
+
+const codecAssignedSpec = S.spec.predicate("codec assigned", S.spec.object);
+
+function hasCodecSymbol<VALUE>(identifier: Identifier<VALUE>): boolean {
+  // @ts-ignore: codec not part of identifier interface
+  return S.valid(codecAssignedSpec, identifier[codecSymbol]);
+}
+
+export const identifierSpec = S.spec.and("identifier",
+    hasCodecSymbol,
+    S.spec.map("identifier structure", {
+      type: S.spec.string,
+      value: existsPredicate
+    })
+);
+
+export const decodedIdSpec = S.spec.tuple("decoded identifier array",
+    Number.isInteger,
+    existsPredicate
+);
