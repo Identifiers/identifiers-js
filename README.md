@@ -62,7 +62,28 @@ Identifiers-js supports list and map identifiers in the factories. Each type fac
 const listId = IDs.factory.boolean.list(true, true, false);
 const mapId = IDs.factory.long.map({a: 335843, b: -997});
 ```
+### Composite Identifiers
+A composite identifier is a list or map of mixed-type identifiers. One can compose a single identifier from multiple types of identifiers. A composite identifier can include any other type of identifier.
 
+```js
+const id1 = IDs.factory.boolean(true);
+const id2 = IDs.factory.string.list('q', 'pr');
+
+// composite list
+const compositeListId = IDs.factory.composite.list(id1, id2);
+
+// composite map
+const compositeMapId = IDs.factory.composite.map({a: id1, b: id2});
+```
+The values of a composite are the identifiers themselves, so one would read them as normal identifiers in a collection.
+
+```js
+// given the example composite IDs above...
+
+const aBooleanValue = compositeListId.value[0].value;
+
+const aStringListValue = compositeMapId.value.b.value;
+```
 ### JSON Support
 Identifiers-js has support for both generating and parsing JSON data values. Identifier instances safely encode themselves into a `JSON.stringify()` process. Additionally, a JSON [`reviver`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse) is provided for `JSON.parse()` calls.
 
@@ -99,12 +120,17 @@ These types are defined in the [Identifiers specification](https://github.com/Id
 * list
 * map
 
+#### Composites
+* list
+* map
 
 # Factory API Reference
 The factory has methods for each type of identifier. These methods can consume various inputs to build an identifier.
 
 Each identifier type's factory has methods to construct structural identifiers of their type. Each structural factory method accepts the same inputs as the single value methods, but in structural form.
+
 #### String
+
 ```js
 const id = IDs.factory.string('Hello');
 console.log(id.type)
@@ -120,6 +146,7 @@ IDs.factory.string.list(['an', 'array', 'of', 'strings']);
 IDs.factory.string.map({a: 'oil', b: 'vinegar'});
 ```
 #### Boolean
+
 ```js
 const id = IDs.factory.boolean(true);
 
@@ -134,6 +161,7 @@ IDs.factory.boolean.list([false, false, true]);
 IDs.factory.boolean.map({a: false, b: true});
 ```
 #### Integer
+
 ```js
 const id = IDs.factory.integer(15);
 
@@ -148,6 +176,7 @@ IDs.factory.integer.list([1, 2, 4]);
 IDs.factory.integer.map({a: 55, b: -9550});
 ```
 #### Float
+
 ```js
 const id = IDs.factory.float(-0.58305);
 
@@ -162,6 +191,7 @@ IDs.factory.float.list([1.1, 2.2, 4.4]);
 IDs.factory.float.map({a: 80.1, b: -625.11});
 ```
 #### Long
+
 ```js
 const id = IDs.factory.long(8125);
 
@@ -181,6 +211,7 @@ IDs.factory.long.list([{low: 224456, high: -4}, 2, 4]);
 IDs.factory.long.map({a: {low: -1, high: 0}, b: -95503343432});
 ```
 #### Bytes
+
 ```js
 const id = IDs.factory.bytes([100, 0, 12, 33]);
 
@@ -271,7 +302,7 @@ IDs.factory.datetime.list([3576585434, new Date(10000000)]);
 IDs.factory.datetime.map({a: 3576585434, b: new Date()});
 ```
 #### Geo
-Base identifier type of geo is a [list of 2 floats](#float). Factory only accepts a geo-like objects:
+Base identifier type of geo is a [list of 2 floats](#float). Factory accepts a geo-like object.
 
 ```js
 /*
