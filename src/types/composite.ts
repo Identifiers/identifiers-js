@@ -57,8 +57,8 @@ export const mapCodec: IdentifierCodec<TypedObject<Identifier<any>>, TypedObject
   typeCode: COMPOSITE_TYPE_CODE | MAP_TYPE_CODE,
   specForIdentifier: specForMapInput,
   specForDecoding: specForDecodingMap,
-  forIdentifier: asIsCodec.forIdentifier,
+  forIdentifier: (map) => mapValues(map, asIsCodec.forIdentifier, true),
   toDebugString: generateDebugStringMap,
-  encode: (map) => mapValues(map, encodeIdTuple, true),
-  decode: (map) => mapValues(map, decodeToIdentifier, false)
+  encode: (map) => mapValues(map, encodeIdTuple),
+  decode: (map) => mapValues(map, decodeToIdentifier)
 };

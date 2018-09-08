@@ -43,12 +43,12 @@
     "nyc": "13.0.1",
     "rimraf": "2.6.2",
     "source-map-support": "0.5.9",
-    "spec": "git://github.com/Identifiers/spec.git",
+    "spec": "git+https://github.com/Identifiers/spec.git",
     "ts-loader": "5.0.0",
     "ts-node": "7.0.1",
     "typescript": "3.0.3",
     "v8-profiler": "5.7.0",
-    "webpack": "4.17.1",
+    "webpack": "4.17.2",
     "webpack-cli": "3.1.0"
   },
   "scripts": {

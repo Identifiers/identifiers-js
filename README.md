@@ -9,11 +9,11 @@
 npm install identifiers-js
 ```
 For yarn:
+
 ```sh
 yarn add identifiers-js
 ```
 
-Identifiers-js is written in TypeScript and generates ES5 JavaScript.
 #### TypeScript
 ```js
 import * as ID from "identifiers";

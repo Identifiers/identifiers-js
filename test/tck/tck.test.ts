@@ -55,6 +55,18 @@ describe("TCK tests", () => {
       testTck(tck);
     });
   });
+
+  describe.skip("composite", () => {
+    it("supports list", () => {
+      const tck = require("spec/tck/files/composites/list.json");
+      testTck(tck);
+    });
+
+    it("supports map", () => {
+      const tck = require("spec/tck/files/composites/map.json");
+      testTck(tck);
+    });
+  });
 });
 
 
@@ -62,24 +74,24 @@ interface TCK {
   typeCode: number;
   type: string;
   value: any;
-  base128: string;
-  base32: string;
+  data: string;
+  human: string;
 }
 
 function testTck(tck: TCK[]): void {
   tck.forEach(test => {
-    roundTripTest(test, test.base128);
-    roundTripTest(test, test.base32, true);
+    roundTripTest(test, test.data);
+    roundTripTest(test, test.human, true);
   });
 }
 
-function roundTripTest(test: TCK, encoded: string, isBase32?: boolean): void {
+function roundTripTest(test: TCK, encoded: string, isHuman?: boolean): void {
   const id = IDs.decodeFromString(encoded);
   expect(id.type).to.equal(test.type);
   // JSON.stringify strips out the functions so we can just compare values.
   expect(JSON.stringify(id.value)).to.equal(JSON.stringify(test.value));
 
-  const toString = isBase32 ? id.toHumanString() : id.toDataString();
+  const toString = isHuman ? id.toHumanString() : id.toDataString();
   expect(toString).to.equal(encoded);
 
   // @ts-ignore: codec not part of identifier interface

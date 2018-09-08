@@ -153,7 +153,7 @@ function createMapExpectation<VALUE>(valueMapper: (value: VALUE) => any) {
     const m2 = decodedMap.value;
     const k1 = Object.keys(m1);
     const k2 = Object.keys(m2);
-    expect(k1).to.contain.members(k2);
+    expect(k1).to.have.ordered.members(k2);
     k1.forEach((key) => expect(valueMapper(m1[key])).to.equal(valueMapper(m2[key])));
   }
 }
