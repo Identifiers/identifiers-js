@@ -16,19 +16,19 @@ yarn add identifiers-js
 Identifiers-js is written in TypeScript and generates ES5 JavaScript.
 #### TypeScript
 ```js
-import * as IDs from "identifiers";
+import * as ID from "identifiers";
 ```
 #### JavaScript
 ```js
-const IDs = require('identifiers');
+const ID = require('identifiers');
 ```
-The `IDs` reference comes with methods to parse Identifier strings as well as a factory to create Identifier instances. For further details see the [Factory API Reference](#factory-api-reference) section.
+The `ID` reference comes with methods to parse Identifier strings as well as a factory to create Identifier instances. For further details see the [Factory API Reference](#factory-api-reference) section.
 
 #### Immutability
 Identifier instances are immutable. Their values are also immutable.
 
 ```js
-const integerId = IDs.factory.integer(22);
+const integerId = ID.factory.integer(22);
 /*
   Identifiers have the following shape:
   {
@@ -48,9 +48,10 @@ const dataString = integerId.toDataString();
 const humanString = integerId.toHumanString();
 
 // decode the identifier
-const decodedId = IDs.parse(dataString);
+const decodedId = ID.parse(dataString);
+
 // parse() can decode either type of encoded string
-const decodedId2 = IDs.parse(humanString);
+const decodedId2 = ID.parse(humanString);
 
 console.log(decodedId.value === decodedId2.value);
 // -> true
@@ -59,21 +60,21 @@ console.log(decodedId.value === decodedId2.value);
 Identifiers-js supports list and map identifiers in the factories. Each type factory has a `.list()` and `.map()` factory method which sets the type of structure.
 
 ```js
-const listId = IDs.factory.boolean.list(true, true, false);
-const mapId = IDs.factory.long.map({a: 335843, b: -997});
+const listId = ID.factory.boolean.list(true, true, false);
+const mapId = ID.factory.long.map({a: 335843, b: -997});
 ```
 ### Composite Identifiers
 A composite identifier is a list or map of mixed-type identifiers. One can compose a single identifier from multiple types of identifiers. A composite identifier can include any other type of identifier.
 
 ```js
-const id1 = IDs.factory.boolean(true);
-const id2 = IDs.factory.string.list('q', 'pr');
+const id1 = ID.factory.boolean(true);
+const id2 = ID.factory.string.list('q', 'pr');
 
 // composite list
-const compositeListId = IDs.factory.composite.list(id1, id2);
+const compositeListId = ID.factory.composite.list(id1, id2);
 
 // composite map
-const compositeMapId = IDs.factory.composite.map({a: id1, b: id2});
+const compositeMapId = ID.factory.composite.map({a: id1, b: id2});
 ```
 The values of a composite are the identifiers themselves, so one would read them as normal identifiers in a collection.
 
@@ -88,14 +89,14 @@ const aStringListValue = compositeMapId.value.b.value;
 Identifiers-js has support for both generating and parsing JSON data values. Identifier instances safely encode themselves into a `JSON.stringify()` process. Additionally, a JSON [`reviver`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse) is provided for `JSON.parse()` calls.
 
 ```js
-const id = IDs.factory.string('Hello, World!');
+const id = ID.factory.string('Hello, World!');
 const anObject = { a: 'a message', b: id };
 const json = JSON.stringify(anObject);
 
 console.log(json);
 // -> { "a": "a message", "b": "Ç/IÒÁIÖêqÉ34uwâêl7Tþ" }
 
-const parsedObject = JSON.parse(json, IDs.JSON_reviver);
+const parsedObject = JSON.parse(json, ID.JSON_reviver);
 const parsedId = parsedObject.b;
 
 console.log(parsedId.value);
@@ -132,68 +133,69 @@ Each identifier type's factory has methods to construct structural identifiers o
 #### String
 
 ```js
-const id = IDs.factory.string('Hello');
+const id = ID.factory.string('Hello');
 console.log(id.type)
 // -> 'string'
 console.log(typeof id.value);
 // -> 'string'
 
 // list factory functions can accept a vararg of values
-IDs.factory.string.list('Hello', 'friend', 'welcome!');
-// list factory functions can accept a single array of values too
-IDs.factory.string.list(['an', 'array', 'of', 'strings']);
+ID.factory.string.list('Hello', 'friend', 'welcome!');
 
-IDs.factory.string.map({a: 'oil', b: 'vinegar'});
+// list factory functions can accept a single array of values too
+ID.factory.string.list(['an', 'array', 'of', 'strings']);
+
+ID.factory.string.map({a: 'oil', b: 'vinegar'});
 ```
 #### Boolean
 
 ```js
-const id = IDs.factory.boolean(true);
+const id = ID.factory.boolean(true);
 
 console.log(id.type)
 // -> 'boolean'
 console.log(typeof id.value);
 // -> 'boolean'
 
-IDs.factory.boolean.list(true, false, true);
-IDs.factory.boolean.list([false, false, true]);
+ID.factory.boolean.list(true, false, true);
+ID.factory.boolean.list([false, false, true]);
 
-IDs.factory.boolean.map({a: false, b: true});
+ID.factory.boolean.map({a: false, b: true});
 ```
 #### Integer
 
 ```js
-const id = IDs.factory.integer(15);
+const id = ID.factory.integer(15);
 
 console.log(id.type)
 // -> 'integer'
 console.log(typeof id.value);
 // -> 'number'
 
-IDs.factory.integer.list(-10000, 0, 2234);
-IDs.factory.integer.list([1, 2, 4]);
+ID.factory.integer.list(-10000, 0, 2234);
+ID.factory.integer.list([1, 2, 4]);
 
-IDs.factory.integer.map({a: 55, b: -9550});
+ID.factory.integer.map({a: 55, b: -9550});
 ```
 #### Float
 
 ```js
-const id = IDs.factory.float(-0.58305);
+const id = ID.factory.float(-0.58305);
 
 console.log(id.type)
 // -> 'float'
 console.log(typeof id.value);
 // -> 'number'
 
-IDs.factory.float.list(3.665, 0.1, -664.12234);
-IDs.factory.float.list([1.1, 2.2, 4.4]);
+ID.factory.float.list(3.665, 0.1, -664.12234);
+ID.factory.float.list([1.1, 2.2, 4.4]);
 
-IDs.factory.float.map({a: 80.1, b: -625.11});
+ID.factory.float.map({a: 80.1, b: -625.11});
 ```
 #### Long
 
 ```js
-const id = IDs.factory.long(8125);
+const id = ID.factory.long(8125);
 
 console.log(id.type)
 // -> 'long'
@@ -204,16 +206,16 @@ console.log(id.value)
 // { low: 8125, high: 0 }
 
 // Accepts long-like objects
-IDs.factory.long({low: -4434, high: 22});
-IDs.factory.long.list(-10, 21, {low: 96, high: 34});
-IDs.factory.long.list([{low: 224456, high: -4}, 2, 4]);
+ID.factory.long({low: -4434, high: 22});
+ID.factory.long.list(-10, 21, {low: 96, high: 34});
+ID.factory.long.list([{low: 224456, high: -4}, 2, 4]);
 
-IDs.factory.long.map({a: {low: -1, high: 0}, b: -95503343432});
+ID.factory.long.map({a: {low: -1, high: 0}, b: -95503343432});
 ```
 #### Bytes
 
 ```js
-const id = IDs.factory.bytes([100, 0, 12, 33]);
+const id = ID.factory.bytes([100, 0, 12, 33]);
 
 console.log(id.type)
 // -> 'bytes'
@@ -221,25 +223,27 @@ console.log(typeof id.value);
 // -> 'array'
 
 // bytes can accept Buffer
-IDs.factory.bytes(Buffer.from([255, 0, 128]));
+ID.factory.bytes(Buffer.from([255, 0, 128]));
+
 // bytes can accept ArrayBuffer
-IDs.factory.bytes(new ArrayBuffer(16));
+ID.factory.bytes(new ArrayBuffer(16));
+
 // bytes can accept Array-Like objects
-IDs.factory.bytes(Uint8Array.of(255, 0, 128));
-IDs.factory.bytes(Uint8ClampedArray.of(100, 99, 38));
-IDs.factory.bytes({length: 2, '0': 1, '1': 75});
+ID.factory.bytes(Uint8Array.of(255, 0, 128));
+ID.factory.bytes(Uint8ClampedArray.of(100, 99, 38));
+ID.factory.bytes({length: 2, '0': 1, '1': 75});
 
-IDs.factory.bytes.list([10, 1, 0, 0], [212, 196]);
-IDs.factory.bytes.list([[1, 2, 4]]);
+ID.factory.bytes.list([10, 1, 0, 0], [212, 196]);
+ID.factory.bytes.list([[1, 2, 4]]);
 
-IDs.factory.bytes.map({a: [50, 0], b: [45, 61, 121]});
+ID.factory.bytes.map({a: [50, 0], b: [45, 61, 121]});
 ```
 ### Semantic Identifiers
 #### UUID
 Base identifier type is [bytes](#bytes) so the factory accepts multiple types of byte array inputs. The array-like input must contain 16 bytes. The factory also accepts a uuid-encoded string.
 
 ```js
-const id = IDs.factory.uuid('8cdcbe23-c04e-4ea2-ae51-15c9cf16e1b3');
+const id = ID.factory.uuid('8cdcbe23-c04e-4ea2-ae51-15c9cf16e1b3');
 
 console.log(id.type)
 // -> 'uuid'
@@ -254,20 +258,20 @@ console.log(typeof id.value);
  */
 
 // Accepts a 16-byte array, as well as any other array-like type the bytes identifier accepts
-IDs.factory.uuid([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
-IDs.factory.uuid(Buffer.from([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]));
-IDs.factory.uuid(Uint8Array.of(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15));
+ID.factory.uuid([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+ID.factory.uuid(Buffer.from([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]));
+ID.factory.uuid(Uint8Array.of(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15));
 
 // can mix input types in factory
-IDs.factory.uuid.list([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], '13f3eae9-18d6-46fc-9b3a-d6d32aaee26c');
+ID.factory.uuid.list([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], '13f3eae9-18d6-46fc-9b3a-d6d32aaee26c');
 
 // can accept a single array of values
-IDs.factory.uuid.list([
+ID.factory.uuid.list([
   'cebfc569-2ba6-4cd7-ba25-f51d64c13087', 
   [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 
   Uint8ClampedArray.of(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)]);
 
-IDs.factory.uuid.map({
+ID.factory.uuid.map({
   a: '7894746d-62a5-425f-adb7-0a609ababf3f',
   b: Buffer.from([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
 });
@@ -276,7 +280,7 @@ IDs.factory.uuid.map({
 Base identifier type is [long](#long) so the factory accepts the same multiple types of long inputs. It also accepts a JS Date object as an input.
 
 ```js
-const id = IDs.factory.datetime(new Date());
+const id = ID.factory.datetime(new Date());
 
 console.log(id.type)
 // -> 'datetime'
@@ -295,12 +299,12 @@ console.log(typeof id.value)
  */
 
 //accepts unix time values
-IDs.factory.datetime(10000000);
+ID.factory.datetime(10000000);
 
-IDs.factory.datetime.list(new Date(), 10000000);
-IDs.factory.datetime.list([3576585434, new Date(10000000)]);
+ID.factory.datetime.list(new Date(), 10000000);
+ID.factory.datetime.list([3576585434, new Date(10000000)]);
 
-IDs.factory.datetime.map({a: 3576585434, b: new Date()});
+ID.factory.datetime.map({a: 3576585434, b: new Date()});
 ```
 #### Geo
 Base identifier type of geo is a [list of 2 floats](#float). Factory  accepts a geo-like object or a list of 2 floats (lat, then long).
@@ -313,7 +317,7 @@ Base identifier type of geo is a [list of 2 floats](#float). Factory  accepts a 
   }
  */
 
-const id = IDs.factory.geo({latitude: 14.8653, longitude: -23.0987877});
+const id = ID.factory.geo({latitude: 14.8653, longitude: -23.0987877});
 
 console.log(id.type)
 // -> 'geo'
@@ -328,14 +332,14 @@ console.log(typeof id.value)
  */
 
 // accepts two floats; first is latitude, second is longitude
-IDs.factory.geo(-45.6768494, 13.224);
+ID.factory.geo(-45.6768494, 13.224);
 
 // accepts mixed types of inputs (both geo-like and 2-element float arrays
-IDs.factory.geo.list({latitude: 14.8653, longitude: -23.0987877}, [90.0, 100.7685944]);
+ID.factory.geo.list({latitude: 14.8653, longitude: -23.0987877}, [90.0, 100.7685944]);
 
 // accepts a single array of geos
-IDs.factory.geo.list([[0.23433, -0.1001002], {latitude: 0.0, longitude: 10.11}]);
+ID.factory.geo.list([[0.23433, -0.1001002], {latitude: 0.0, longitude: 10.11}]);
 
 // accepts mixed types of inputs to create a map
-IDs.factory.geo.map({a: {latitude: 14.262, longitude: -123.0923}, b: [10.0021, longitude: 90.4}});
+ID.factory.geo.map({a: {latitude: 14.262, longitude: -123.0923}, b: [10.0021, longitude: 90.4}});
 ```
