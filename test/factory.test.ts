@@ -361,24 +361,33 @@ console.log(actualId.toString(), '\n');
   });
 
   describe("geo", () => {
-    it("creates identifier from input", () => {
+    it("creates identifier from GeoLike input", () => {
       const value = {latitude: 1, longitude: -44};
       const actual = factory.geo(value);
       validateCreatedIdentifier(value, actual);
     });
 
+    it("creates identifier from array input", () => {
+      const value = [-43.1, 0.9952];
+      const actual = factory.geo(value);
+      const [latitude, longitude] = value;
+      validateCreatedIdentifier({latitude, longitude}, actual);
+    });
+
     it("creates list identifier", () => {
       const v1 = {latitude: 66.4, longitude: 0.994};
-      const v2 = {latitude: 1.2234, longitude: -80.14};
+      const v2 = [1.2234, -80.14];
       const actual = factory.geo.list(v1, v2);
-      validateCreatedIdentifier([v1, v2], actual);
+      const [latitude, longitude] = v2;
+      validateCreatedIdentifier([v1, {latitude, longitude}], actual);
     });
 
     it("creates map identifier", () => {
-      const v1 = {latitude: 66.4, longitude: 0.994};
+      const v1 = [66.4, 0.994];
       const v2 = {latitude: 1.2234, longitude: -80.14};
-      const expected = {t: v1, z: v2};
-      const actual = factory.geo.map(expected);
+      const actual = factory.geo.map({t: v1, z: v2});
+      const [latitude, longitude] = v1;
+      const expected = {t: {latitude, longitude}, z: v2};
       validateCreatedIdentifier(expected, actual);
     });
   });

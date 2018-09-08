@@ -10,6 +10,7 @@ describe("geo codec", () => {
     expect({latitude: 10.4, longitude: -122.22, altitude: 1}).to.conform(geoCodec.specForIdentifier);
     expect({latitude: 90, longitude: 180}).to.conform(geoCodec.specForIdentifier);
     expect({latitude: -90, longitude: -180}).to.conform(geoCodec.specForIdentifier);
+    expect([-90, -180]).to.conform(geoCodec.specForIdentifier);
   });
 
   it("rejects bad identifier values", () => {
@@ -17,6 +18,7 @@ describe("geo codec", () => {
     expect({latitude: 0, longitude: -180.1}).to.not.conform(geoCodec.specForIdentifier);
     expect({latitude: 91, longitude: 0}).to.not.conform(geoCodec.specForIdentifier);
     expect({latitude: -91, longitude: 0}).to.not.conform(geoCodec.specForIdentifier);
+    expect([-180, -180]).to.not.conform(geoCodec.specForIdentifier);
     expect("sandwich").to.not.conform(geoCodec.specForIdentifier);
   });
 

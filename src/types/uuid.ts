@@ -9,6 +9,7 @@ import {bytesCodec, bytesDecodingSpec, BytesInput, bytesInputSpec, forBytesIdent
 import {calculateSemanticTypeCode} from "../semantic";
 import {toCharCode, TypedObject} from "../shared";
 
+
 export interface UuidLike {
   readonly bytes: number[];
   toString(): string;

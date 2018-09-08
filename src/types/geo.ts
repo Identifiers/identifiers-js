@@ -7,12 +7,13 @@ import {IdentifierCodec} from "../identifier";
 import {calculateSemanticTypeCode} from "../semantic";
 import {floatCodec} from "./float";
 import {LIST_TYPE_CODE} from "./lists";
-import {asIsCodec} from "./shared-types";
 
 export interface GeoLike {
   readonly latitude: number;
   readonly longitude: number;
 }
+
+export type GeoInput = GeoLike | number[];
 
 function inDegreeRange(range: number): S.PredFn {
   return function degrees(value) { return value >= -range && value <= range; };
@@ -26,36 +27,53 @@ const longitudeSpec = S.spec.and("longitude",
   S.spec.number,
   inDegreeRange(180));
 
-const geoIdentifierSpec = S.spec.map("GeoLike", {
+const geoLikeSpec = S.spec.map("GeoLike", {
   latitude: latitudeSpec,
   longitude: longitudeSpec
 });
 
-function forGeoIdentifier({latitude, longitude}: GeoLike): GeoLike {
-  return { latitude, longitude };
+const geoArraySpec = S.spec.tuple("[lat, long]", latitudeSpec, longitudeSpec);
+
+const geoInputSpec = S.spec.or("GeoInput spec", {
+  "GeoLike": geoLikeSpec,
+  "geo array": geoArraySpec
+});
+
+function isGeoLike(input: GeoInput): input is GeoLike {
+  return (<GeoLike>input).latitude !== undefined;
+}
+
+function forGeoIdentifier(input: GeoInput): GeoLike {
+  let latitude, longitude;
+  if (isGeoLike(input)) {
+    // Sadly object destructuring doesn't work with already-declared vars: {latitude, longitude} = input;
+    latitude = input.latitude;
+    longitude = input.longitude;
+  } else {
+    [latitude, longitude] = input;
+  }
+  return {latitude, longitude};
 }
 
 function encodeGeo({latitude, longitude}: GeoLike): number[] {
   return [latitude, longitude];
 }
 
-const decodeGeoSpec = S.spec.tuple("lat/long", latitudeSpec, longitudeSpec);
-
 function decodeToGeo([latitude, longitude]: number[]): GeoLike {
-  return { latitude, longitude };
+  return {latitude, longitude};
 }
 
 function generateDebugString(value: GeoLike): string {
   return `lat:${value.latitude}/long:${value.longitude}`;
 }
 
-export const geoCodec: IdentifierCodec<GeoLike, GeoLike, number[]> = {
+export const geoCodec: IdentifierCodec<GeoInput, GeoLike, number[]> = {
   type: "geo",
   typeCode: calculateSemanticTypeCode(LIST_TYPE_CODE | floatCodec.typeCode, 2),
-  specForIdentifier: geoIdentifierSpec,
+  specForIdentifier: geoInputSpec,
   forIdentifier: forGeoIdentifier,
   toDebugString: generateDebugString,
   encode: encodeGeo,
-  specForDecoding: decodeGeoSpec,
+  specForDecoding: geoArraySpec,
   decode: decodeToGeo,
 };

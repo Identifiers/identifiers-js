@@ -260,6 +260,7 @@ IDs.factory.uuid(Uint8Array.of(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
 
 // can mix input types in factory
 IDs.factory.uuid.list([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], '13f3eae9-18d6-46fc-9b3a-d6d32aaee26c');
+
 // can accept a single array of values
 IDs.factory.uuid.list([
   'cebfc569-2ba6-4cd7-ba25-f51d64c13087', 
@@ -302,7 +303,7 @@ IDs.factory.datetime.list([3576585434, new Date(10000000)]);
 IDs.factory.datetime.map({a: 3576585434, b: new Date()});
 ```
 #### Geo
-Base identifier type of geo is a [list of 2 floats](#float). Factory accepts a geo-like object.
+Base identifier type of geo is a [list of 2 floats](#float). Factory  accepts a geo-like object or a list of 2 floats (lat, then long).
 
 ```js
 /*
@@ -326,9 +327,15 @@ console.log(typeof id.value)
   }
  */
 
-IDs.factory.geo.list({latitude: 14.8653, longitude: -23.0987877}, {latitude: 90.0, longitude: 100.7685944});
-// accepts a single array of geos
-IDs.factory.geo.list([{latitude: 0.23433, longitude: -0.1001002}, {latitude: 0.0, longitude: 10.11}]);
+// accepts two floats; first is latitude, second is longitude
+IDs.factory.geo(-45.6768494, 13.224);
 
-IDs.factory.geo.map({a: {latitude: 14.262, longitude: -123.0923}, b: {latitude: 10.0021, longitude: 90.4}});
+// accepts mixed types of inputs (both geo-like and 2-element float arrays
+IDs.factory.geo.list({latitude: 14.8653, longitude: -23.0987877}, [90.0, 100.7685944]);
+
+// accepts a single array of geos
+IDs.factory.geo.list([[0.23433, -0.1001002], {latitude: 0.0, longitude: 10.11}]);
+
+// accepts mixed types of inputs to create a map
+IDs.factory.geo.map({a: {latitude: 14.262, longitude: -123.0923}, b: [10.0021, longitude: 90.4}});
 ```

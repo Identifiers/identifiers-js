@@ -15,7 +15,7 @@ import {datetimeCodec, DatetimeInput} from "./types/datetime";
 import {bytesCodec, BytesInput} from "./types/bytes";
 import {uuidCodec, UuidInput, UuidLike} from "./types/uuid";
 import {ImmutableDate} from "./types/immutable-date";
-import {geoCodec, GeoLike} from "./types/geo";
+import {geoCodec, GeoInput, GeoLike} from "./types/geo";
 
 
 function processCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>): Factory<INPUT, VALUE> {
@@ -45,7 +45,7 @@ export interface Factories {
   readonly bytes: Factory<BytesInput, number[]>
   readonly uuid: Factory<UuidInput, UuidLike>
   readonly datetime: Factory<DatetimeInput, ImmutableDate>
-  readonly geo: Factory<GeoLike, GeoLike>
+  readonly geo: Factory<GeoInput, GeoLike>
   readonly composite: CompositeFactory
 }
 

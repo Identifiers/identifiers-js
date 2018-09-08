@@ -4,7 +4,6 @@ import {IdentifierCodec} from "../identifier";
 import {longCodec} from "./long";
 import {calculateSemanticTypeCode} from "../semantic";
 import {createImmutableDate, ImmutableDate} from "./immutable-date";
-import {asIsCodec} from "./shared-types";
 
 
 const datetimeInputSpec = S.spec.or("DatetimeInput spec", {

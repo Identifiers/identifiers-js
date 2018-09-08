@@ -121,8 +121,9 @@ describe("round-trip identifiers to strings using factory functions", () => {
 
   it("geo", () => {
     roundTrip(ID.factory.geo({latitude: -49, longitude: 102.43}));
-    roundTrip(ID.factory.geo.list({latitude: 1, longitude: 1}, {latitude: -64, longitude: -179}));
-    roundTrip(ID.factory.geo.map({a: {latitude: -49, longitude: 102.43}}));
+    roundTrip(ID.factory.geo([19.0009, 10.998]));
+    roundTrip(ID.factory.geo.list([1, 1], {latitude: -64, longitude: -179}));
+    roundTrip(ID.factory.geo.map({a: {latitude: -49, longitude: 102.43}, b: [67.44, -120.253]}));
   });
 });
 
