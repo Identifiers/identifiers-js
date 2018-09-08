@@ -25,6 +25,7 @@ export const integerCodec: IdentifierCodec<number> = {
   specForIdentifier: integerSpec,
   specForDecoding: integerSpec,
   forIdentifier: asIsCodec.forIdentifier,
+  toDebugString: asIsCodec.toDebugString,
   encode: asIsCodec.encode,
   decode: asIsCodec.decode
 };

@@ -1,6 +1,7 @@
 import * as S from "js.spec";
 
 import {IdentifierCodec} from "../identifier";
+import {asIsCodec} from "./shared-types";
 
 export type BytesInput = ArrayLike<number> | ArrayBuffer | Buffer;
 
@@ -56,6 +57,7 @@ export const bytesCodec: IdentifierCodec<BytesInput, number[], ArrayBuffer> = {
   specForIdentifier: bytesInputSpec,
   specForDecoding: bytesDecodingSpec,
   forIdentifier: forBytesIdentifier,
+  toDebugString: asIsCodec.toDebugString,
   encode: (value) => new Uint8Array(value).buffer,
   decode: (decoded) => Array.from(new Uint8Array(decoded))
 };

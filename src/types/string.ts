@@ -12,6 +12,7 @@ export const stringCodec: IdentifierCodec<string> = {
   specForIdentifier: stringSpec,
   specForDecoding: stringSpec,
   forIdentifier: asIsCodec.forIdentifier,
+  toDebugString: asIsCodec.toDebugString,
   encode: asIsCodec.encode,
   decode: asIsCodec.decode
 };

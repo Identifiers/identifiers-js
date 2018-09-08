@@ -32,7 +32,8 @@ export function toBase32String<VALUE>(identifier: Identifier<VALUE>): string {
  * @returns a string representation of the identifier
  */
 export function toDebugString<VALUE>(identifier: Identifier<VALUE>): string {
-  return `ID«${identifier.type}»: ${JSON.stringify(identifier.value)}`;
+  const codec = findCodec(identifier);
+  return `ID«${identifier.type}»${codec.toDebugString(identifier.value)}`;
 }
 
 function encodeToBytes<VALUE>(identifier: Identifier<VALUE>): Uint8Array {

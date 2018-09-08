@@ -7,6 +7,7 @@ import {IdentifierCodec} from "../identifier";
 import {calculateSemanticTypeCode} from "../semantic";
 import {floatCodec} from "./float";
 import {LIST_TYPE_CODE} from "./lists";
+import {asIsCodec} from "./shared-types";
 
 export interface GeoLike {
   readonly latitude: number;
@@ -49,6 +50,7 @@ export const geoCodec: IdentifierCodec<GeoLike, GeoLike, number[]> = {
   typeCode: calculateSemanticTypeCode(LIST_TYPE_CODE | floatCodec.typeCode, 2),
   specForIdentifier: geoIdentifierSpec,
   forIdentifier: forGeoIdentifier,
+  toDebugString: asIsCodec.toDebugString,
   encode: encodeGeo,
   specForDecoding: decodeGeoSpec,
   decode: decodeToGeo,

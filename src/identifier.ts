@@ -74,6 +74,13 @@ export interface IdentifierCodec<INPUT, VALUE = INPUT, ENCODED = VALUE> {
   forIdentifier(input: INPUT): VALUE;
 
   /**
+   * Generate a debug string for the identifier value.
+   * @param value the identifier's value
+   * @returns a human-discernible debug string
+   */
+  toDebugString(value: VALUE): string;
+
+  /**
    * Convert an Identifier's value into a value that can be encoded.
    * @param value the value to encode
    * @returns the encoded value

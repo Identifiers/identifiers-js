@@ -11,6 +11,7 @@ export const floatCodec: IdentifierCodec<number> = {
   specForIdentifier: floatSpec,
   specForDecoding: floatSpec,
   forIdentifier: asIsCodec.forIdentifier,
+  toDebugString: asIsCodec.toDebugString,
   encode: asIsCodec.encode,
   decode: asIsCodec.decode
 };

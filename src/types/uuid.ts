@@ -90,6 +90,7 @@ export const uuidCodec: IdentifierCodec<UuidInput, UuidLike, ArrayBuffer> = {
   typeCode: calculateSemanticTypeCode(bytesCodec.typeCode, 0),
   specForIdentifier: uuidInputSpec,
   forIdentifier: forUuidIdentifier,
+  toDebugString: (uuid) => uuid.toString(),
   encode: (uuid) => bytesCodec.encode(uuid.bytes),
   specForDecoding: uuidDecodingSpec,
   decode: (bytes) => forUuidIdentifier(bytes)

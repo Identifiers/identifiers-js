@@ -4,6 +4,7 @@ import * as S from "js.spec";
 import {createMapCodec, MAP_TYPE_CODE} from "../../src/types/maps";
 import {IdentifierCodec} from "../../src/identifier";
 import {stringCodec} from "../../src/types/string";
+import {asIsCodec} from "../../src/types/shared-types";
 
 
 describe("create a map codec from an item codec", () => {
@@ -27,13 +28,14 @@ describe("create a map codec from an item codec", () => {
         (value) => {spy.sfi++; return true;}),
       forIdentifier: (value) => {spy.fi++; return value + 1;},
       encode: (value) => {spy.e++; return value + 1;},
+      toDebugString: asIsCodec.toDebugString,
       specForDecoding: S.spec.and("spy forDecoding", (value) => {spy.sfd++; return true;}),
       decode: (value) => {spy.d++; return value - 1;}
     };
     const codecUnderTest = createMapCodec(itemCodec);
 
-    const values = {a: 1, b:2, c: 3};
-    const expected = {a: 2, b:3, c: 4};
+    const values = {a: 1, b: 2, c: 3};
+    const expected = {a: 2, b: 3, c: 4};
 
     it("has the correct type and typeCode", () => {
       expect(codecUnderTest.type).to.equal(`${itemCodec.type}-map`);
@@ -98,7 +100,8 @@ describe("create a map codec from an item codec", () => {
 describe("map codec", () => {
   it("correctly encodes a map with different-ordered keys", () => {
     const codecUnderTest = createMapCodec(stringCodec);
-    const value2 = {b: "there", a: "hi"};
+    const value = {b: "there", a: "hi"};
+    const value2 = codecUnderTest.forIdentifier(value);
     const actual2 = codecUnderTest.encode(value2);
 
     expect(Object.keys(actual2)).to.have.ordered.members(["a", "b"]);

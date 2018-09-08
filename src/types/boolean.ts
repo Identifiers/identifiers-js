@@ -11,6 +11,7 @@ export const booleanCodec: IdentifierCodec<boolean> = {
   specForIdentifier: booleanSpec,
   specForDecoding: booleanSpec,
   forIdentifier: asIsCodec.forIdentifier,
+  toDebugString: asIsCodec.toDebugString,
   encode: asIsCodec.encode,
   decode: asIsCodec.decode
 };

@@ -4,7 +4,7 @@ import {TypedObject} from "../shared";
 
 export const MAP_TYPE_CODE = 0x10;
 
-export function mapValues<IN, OUT>(map: TypedObject<IN>, mapFn: (value: IN) => OUT, sortKeys: boolean): TypedObject<OUT> {
+export function mapValues<IN, OUT>(map: TypedObject<IN>, mapFn: (value: IN) => OUT, sortKeys?: boolean): TypedObject<OUT> {
   const mapped: TypedObject<OUT> = {};
   const keys = Object.keys(map);
   if (sortKeys) {
@@ -71,13 +71,24 @@ export function createMapCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec
     S.spec.object,
     new MapValuesSpec(itemCodec.specForDecoding, "decoded Map values"));
 
+  function generateDebugString(map: TypedObject<VALUE>): string {
+    const stringMap = mapValues(map, itemCodec.toDebugString);
+
+    const keys = Object.keys(stringMap);
+    const joined = keys
+        .map((key) => `${key}: ${stringMap[key]}`)
+        .join(", ");
+    return `{${joined}}`;
+  }
+
   return {
     type: mapType,
     typeCode: MAP_TYPE_CODE | itemCodec.typeCode,
     specForIdentifier: forIdentifierMapSpec,
     specForDecoding: forDecodingMapSpec,
-    forIdentifier: (map) => mapValues(map, itemCodec.forIdentifier, false),
-    encode: (map) => mapValues(map, itemCodec.encode, true),
-    decode: (map) => mapValues(map, itemCodec.decode, false)
+    forIdentifier: (map) => mapValues(map, itemCodec.forIdentifier, true),
+    toDebugString: generateDebugString,
+    encode: (map) => mapValues(map, itemCodec.encode),
+    decode: (map) => mapValues(map, itemCodec.decode)
   }
 }

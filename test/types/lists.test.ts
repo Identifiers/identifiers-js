@@ -4,6 +4,7 @@ import * as S from "js.spec";
 import {calculateListTypeCode, createListCodec, LIST_OF_LISTS, LIST_OF_MAPS, LIST_TYPE_CODE} from "../../src/types/lists";
 import {IdentifierCodec} from "../../src/identifier";
 import {MAP_TYPE_CODE} from "../../src/types/maps";
+import {asIsCodec} from "../../src/types/shared-types";
 
 
 const spy = {
@@ -25,6 +26,7 @@ describe("create a list codec from an item codec", () => {
       specForIdentifier: S.spec.and("spy forIdentifier", (value) => {spy.sfi++; return true;}),
       forIdentifier: (value) => {spy.fi++; return value + 1;},
       encode: (value) => {spy.e++; return value + 1;},
+      toDebugString: asIsCodec.toDebugString,
       specForDecoding: S.spec.and("spy forDecoding", (value) => {spy.sfd++; return true;}),
       decode: (value) => {spy.d++; return value - 1;}
     };

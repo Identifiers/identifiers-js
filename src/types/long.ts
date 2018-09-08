@@ -107,12 +107,17 @@ function readLong(encoded: Int64BE): LongLike {
   return {high: long.high, low: long.low};
 }
 
+function generateDebugString(value: LongLike): string {
+  return Long.fromValue({...value, unsigned: false}).toString();
+}
+
 export const longCodec: IdentifierCodec<LongInput, LongLike, EncodedLong> = {
   type: "long",
   typeCode: 0x4,
   specForIdentifier: longInputSpec,
   specForDecoding: decodeSpec,
   forIdentifier: forIdentifierValue,
+  toDebugString: generateDebugString,
   encode: encodeValue,
   decode: decodeValue
 };

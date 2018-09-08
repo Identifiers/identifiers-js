@@ -4,6 +4,7 @@ import {IdentifierCodec} from "../identifier";
 import {longCodec} from "./long";
 import {calculateSemanticTypeCode} from "../semantic";
 import {createImmutableDate, ImmutableDate} from "./immutable-date";
+import {asIsCodec} from "./shared-types";
 
 
 const datetimeInputSpec = S.spec.or("DatetimeInput spec", {
@@ -25,6 +26,7 @@ export const datetimeCodec: IdentifierCodec<DatetimeInput, ImmutableDate, number
   // JS number has sufficient space for Dates; don't need to use Long
   specForDecoding: decodeSpec,
   forIdentifier: createImmutableDate,
+  toDebugString: (date) => date.toISOString(),
   encode: (date) => date.time,
   decode: createImmutableDate
 };
