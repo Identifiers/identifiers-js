@@ -45,12 +45,16 @@ function decodeToGeo([latitude, longitude]: number[]): GeoLike {
   return { latitude, longitude };
 }
 
+function generateDebugString(value: GeoLike): string {
+  return `lat:${value.latitude}/long:${value.longitude}`;
+}
+
 export const geoCodec: IdentifierCodec<GeoLike, GeoLike, number[]> = {
   type: "geo",
   typeCode: calculateSemanticTypeCode(LIST_TYPE_CODE | floatCodec.typeCode, 2),
   specForIdentifier: geoIdentifierSpec,
   forIdentifier: forGeoIdentifier,
-  toDebugString: asIsCodec.toDebugString,
+  toDebugString: generateDebugString,
   encode: encodeGeo,
   specForDecoding: decodeGeoSpec,
   decode: decodeToGeo,

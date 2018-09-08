@@ -35,7 +35,7 @@ describe("identifier factory methods", () => {
       expectedValue: any,
       actualId: Identifier<any>,
       expectation?: (expected: any, actual: any) => void): void {
-
+console.log(actualId.toString(), '\n');
     expect(actualId).to.be.frozen.and.conform(identifierSpec);
     if (expectation) {
       expectation(expectedValue, actualId.value);
@@ -360,6 +360,26 @@ describe("identifier factory methods", () => {
     });
   });
 
-  // todo geo
+  describe("geo", () => {
+    it("creates identifier from input", () => {
+      const value = {latitude: 1, longitude: -44};
+      const actual = factory.geo(value);
+      validateCreatedIdentifier(value, actual);
+    });
 
+    it("creates list identifier", () => {
+      const v1 = {latitude: 66.4, longitude: 0.994};
+      const v2 = {latitude: 1.2234, longitude: -80.14};
+      const actual = factory.geo.list(v1, v2);
+      validateCreatedIdentifier([v1, v2], actual);
+    });
+
+    it("creates map identifier", () => {
+      const v1 = {latitude: 66.4, longitude: 0.994};
+      const v2 = {latitude: 1.2234, longitude: -80.14};
+      const expected = {t: v1, z: v2};
+      const actual = factory.geo.map(expected);
+      validateCreatedIdentifier(expected, actual);
+    });
+  });
 });
