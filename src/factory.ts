@@ -3,6 +3,7 @@ import * as S from "js.spec";
 import * as encode from "./encode";
 import {Identifier, IdentifierCodec} from "./identifier";
 import {codecSymbol, deepFreeze, TypedObject} from "./shared";
+import {CompositeIdMap} from "./types/composite";
 
 
 export type ItemFactory<INPUT, VALUE> = (input: INPUT) => Identifier<VALUE>;
@@ -19,8 +20,8 @@ export type Factory<INPUT, VALUE, ITEMFACTORY extends ItemFactory<INPUT, VALUE> 
   };
 
 export interface CompositeFactory {
-  list(...inputs: Identifier<any>[]): Identifier<any>
-  map(input: TypedObject<Identifier<any>>): Identifier<any>
+  list(...inputs: Identifier<any>[]): Identifier<Identifier<any>[]>
+  map(input: CompositeIdMap): Identifier<CompositeIdMap>
 }
 
 

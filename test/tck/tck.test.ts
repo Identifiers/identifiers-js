@@ -1,7 +1,7 @@
 import * as chai from "chai";
 const expect = chai.expect;
 
-import * as IDs from "../../src";
+import * as ID from "../../src";
 
 const codecSymbol = Symbol.for("id-codec");
 
@@ -56,15 +56,42 @@ describe("TCK tests", () => {
     });
   });
 
-  describe.skip("composite", () => {
+  describe("composite", () => {
+    function jsonifyID(id: any) {
+      return {type: id.type, value: JSON.stringify(id.value)};
+    }
+
     it("supports list", () => {
+      function testListValue(idValue: any[], testValue: any[]): void {
+        const actual = idValue.map(jsonifyID);
+        const expected = testValue.map(jsonifyID);
+        expect(actual).to.deep.equal(expected);
+      }
+
       const tck = require("spec/tck/files/composites/list.json");
-      testTck(tck);
+      tck.forEach((test: TCK) => {
+        roundTripTest(test, testListValue);
+        roundTripTest(test, testListValue, true);
+      });
     });
 
     it("supports map", () => {
+      function jsonifyMapID(id: any) {
+        return Object.keys(id).reduce(
+            (acc, key) => ({...acc, [key]: jsonifyID(id[key])}), {});
+      }
+
+      function testMapValue(idValue: any, testValue: any): void {
+        const actual = jsonifyMapID(idValue);
+        const expected = jsonifyMapID(testValue);
+        expect(actual).to.deep.equal(expected);
+      }
+
       const tck = require("spec/tck/files/composites/map.json");
-      testTck(tck);
+      tck.forEach((test: TCK) => {
+        roundTripTest(test, testMapValue);
+        roundTripTest(test, testMapValue, true);
+      });
     });
   });
 });
@@ -76,23 +103,38 @@ interface TCK {
   value: any;
   data: string;
   human: string;
+  mixedHuman: string;
 }
 
 function testTck(tck: TCK[]): void {
+  function testValue(idValue: any, testValue: any) {
+    // JSON.stringify strips out the functions so we can just compare values.
+    expect(JSON.stringify(idValue)).to.equal(JSON.stringify(testValue));
+  }
+
   tck.forEach(test => {
-    roundTripTest(test, test.data);
-    roundTripTest(test, test.human, true);
+    roundTripTest(test, testValue);
+    roundTripTest(test, testValue, true);
   });
 }
 
-function roundTripTest(test: TCK, encoded: string, isHuman?: boolean): void {
-  const id = IDs.decodeFromString(encoded);
-  expect(id.type).to.equal(test.type);
-  // JSON.stringify strips out the functions so we can just compare values.
-  expect(JSON.stringify(id.value)).to.equal(JSON.stringify(test.value));
+function roundTripTest(test: TCK,
+                       valueExpectation: (idValue: any, testValue: any) => void,
+                       isHuman?: boolean): void {
 
-  const toString = isHuman ? id.toHumanString() : id.toDataString();
-  expect(toString).to.equal(encoded);
+  const encoded = isHuman ? test.mixedHuman : test.data;
+  const id = ID.decodeFromString(encoded);
+  expect(id.type).to.equal(test.type);
+
+  valueExpectation(id.value, test.value);
+
+  if (isHuman) {
+    const toString = id.toHumanString();
+    expect(toString).to.equal(test.human);
+  } else {
+    const toString = id.toDataString();
+    expect(toString).to.equal(encoded);
+  }
 
   // @ts-ignore: codec not part of identifier interface
   const codec = id[codecSymbol];

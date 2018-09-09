@@ -3396,9 +3396,9 @@ spdx-license-ids@^1.0.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-1.2.2.tgz#c9df7a3424594ade6bd11900d596696dc06bac57"
 
-"spec@git+https://github.com/Identifiers/spec.git":
+spec@identifiers/spec#120d4c7:
   version "0.0.0"
-  resolved "git+https://github.com/Identifiers/spec.git#ef6d074d7b3b14cbd980019fb37118d555fe0ce3"
+  resolved "https://codeload.github.com/identifiers/spec/tar.gz/120d4c710a5cf97c71d1463a8030c612ce37d708"
 
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"
