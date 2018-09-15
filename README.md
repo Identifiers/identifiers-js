@@ -4,23 +4,6 @@
 [![Coverage Status](https://coveralls.io/repos/github/Identifiers/identifiers-js/badge.svg?branch=master)](https://coveralls.io/github/Identifiers/identifiers-js?branch=master)
 [![Known Vulnerabilities](https://snyk.io/test/github/identifiers/identifiers-js/badge.svg?targetFile=package.json)](https://snyk.io/test/github/identifiers/identifiers-js?targetFile=package.json)
 
-## TS generation
-
-One idea is to create a standalone index.d.ts that exports everything into one module called ID.
-
-Another is to just let it ride and don't try to cram it all together. That leads to ugliness like:
-
-```js
-import * as ID from "identifiers-js";
-import {Identifier} from "identifiers-js/lib/identifier";
-```
-RxJs does this:
-
-```
-import * as rxOps from "rxjs/operators";
-```
-So all the generated d.ts files aren't in "lib" but in the module root directly.
-
 ## Installation and Usage
 ```sh
 npm install identifiers-js
