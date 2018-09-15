@@ -4,7 +4,7 @@
  */
 import * as S from "js.spec";
 
-import {IdentifierCodec} from "../identifier";
+import {IdentifierCodec} from "../identifier-codec";
 import {bytesCodec, bytesDecodingSpec, BytesInput, bytesInputSpec, forBytesIdentifier, isValidLength} from "./bytes";
 import {calculateSemanticTypeCode} from "../semantic";
 import {toCharCode, TypedObject} from "../shared";

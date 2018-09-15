@@ -2,9 +2,10 @@ import * as msgpack from "msgpack-lite";
 
 import * as base128 from "./base128/encode";
 import * as base32 from "./base32/encode";
-import {Identifier, IdentifierCodec} from "./identifier";
+import {Identifier} from "./identifier";
 import {findCodec} from "./finder";
 import {IDTuple, msgpackCodec} from "./shared";
+import {IdentifierCodec} from "./identifier-codec";
 
 /**
  * Convert an Identifier into a base-128 encoded identifier string.

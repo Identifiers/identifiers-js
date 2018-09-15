@@ -11,6 +11,8 @@ for (let i = 0; i < 0x100; i++) {
 
 export type TypedObject<T> = { [key: string]: T };
 
+export type MapIdentifier<VALUE> = Identifier<TypedObject<VALUE>>;
+
 /**
  * Msgpack codec configured to make life easier for codecs.
  */

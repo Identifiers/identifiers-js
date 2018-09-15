@@ -2,7 +2,7 @@ import {expect} from "chai";
 import * as S from "js.spec";
 
 import {createMapCodec, MAP_TYPE_CODE} from "../../src/types/maps";
-import {IdentifierCodec} from "../../src/identifier";
+import {IdentifierCodec} from "../../src/identifier-codec";
 import {stringCodec} from "../../src/types/string";
 import {asIsCodec} from "../../src/types/shared-types";
 
@@ -15,7 +15,7 @@ describe("create a map codec from an item codec", () => {
     sfd: 0,
     d: 0,
     reset: function () {
-      this.sfi = this.fi = this.e = this.sfd = this.d = this.is = 0;
+      this.sfi = this.fi = this.e = this.sfd = this.d = 0;
     }
   };
 

@@ -1,9 +1,10 @@
 import * as S from "js.spec";
 
 import * as encode from "./encode";
-import {Identifier, IdentifierCodec} from "./identifier";
-import {codecSymbol, deepFreeze, TypedObject} from "./shared";
-import {CompositeIdMap} from "./types/composite";
+import {Identifier} from "./identifier";
+import {codecSymbol, deepFreeze, MapIdentifier, TypedObject} from "./shared";
+import {CompositeIdList, CompositeIdMap} from "./types/composite";
+import {IdentifierCodec} from "./identifier-codec";
 
 
 export type ItemFactory<INPUT, VALUE> = (input: INPUT) => Identifier<VALUE>;
@@ -11,7 +12,7 @@ export type ItemFactory<INPUT, VALUE> = (input: INPUT) => Identifier<VALUE>;
 export type ListInput<INPUT> = INPUT[] | INPUT;
 export type ListFactory<INPUT, VALUE> = (...inputs: ListInput<INPUT>[]) => Identifier<VALUE[]>;
 
-export type MapFactory<INPUT, VALUE> = (input: TypedObject<INPUT>) => Identifier<TypedObject<VALUE>>;
+export type MapFactory<INPUT, VALUE> = (input: TypedObject<INPUT>) => MapIdentifier<VALUE>;
 
 export type Factory<INPUT, VALUE, ITEMFACTORY extends ItemFactory<INPUT, VALUE> = ItemFactory<INPUT, VALUE>> =
   ITEMFACTORY & {
@@ -20,7 +21,7 @@ export type Factory<INPUT, VALUE, ITEMFACTORY extends ItemFactory<INPUT, VALUE> 
   };
 
 export interface CompositeFactory {
-  list(...inputs: Identifier<any>[]): Identifier<Identifier<any>[]>
+  list(...inputs: CompositeIdList): Identifier<CompositeIdList>
   map(input: CompositeIdMap): Identifier<CompositeIdMap>
 }
 

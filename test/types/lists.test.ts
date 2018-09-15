@@ -2,7 +2,7 @@ import {expect} from "chai";
 import * as S from "js.spec";
 
 import {calculateListTypeCode, createListCodec, LIST_OF_LISTS, LIST_OF_MAPS, LIST_TYPE_CODE} from "../../src/types/lists";
-import {IdentifierCodec} from "../../src/identifier";
+import {IdentifierCodec} from "../../src/identifier-codec";
 import {MAP_TYPE_CODE} from "../../src/types/maps";
 import {asIsCodec} from "../../src/types/shared-types";
 
@@ -14,7 +14,7 @@ const spy = {
   sfd: 0,
   d: 0,
   reset: function() {
-    this.sfi = this.fi = this.e = this.sfd = this.d = this.is = 0;
+    this.sfi = this.fi = this.e = this.sfd = this.d = 0;
   }
 };
 

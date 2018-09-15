@@ -1,4 +1,4 @@
-import {Identifier, IdentifierCodec} from "../identifier";
+import {Identifier} from "../identifier";
 import {decodedIdSpec, identifierSpec, IDTuple, TypedObject} from "../shared";
 import {LIST_TYPE_CODE} from "./lists";
 import * as S from "js.spec";
@@ -6,6 +6,7 @@ import {asIsCodec} from "./shared-types";
 import {decodeToIdentifier} from "../decode";
 import {encodeIdTuple} from "../encode";
 import {MAP_TYPE_CODE, mapValues, MapValuesSpec} from "./maps";
+import {IdentifierCodec} from "../identifier-codec";
 
 export type CompositeIdList = Identifier<any>[];
 

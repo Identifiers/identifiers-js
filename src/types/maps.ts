@@ -1,5 +1,5 @@
 import * as S from "js.spec";
-import {IdentifierCodec} from "../identifier";
+import {IdentifierCodec} from "../identifier-codec";
 import {TypedObject} from "../shared";
 
 

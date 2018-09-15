@@ -35,7 +35,7 @@ describe("identifier factory methods", () => {
       expectedValue: any,
       actualId: Identifier<any>,
       expectation?: (expected: any, actual: any) => void): void {
-console.log(actualId.toString(), '\n');
+
     expect(actualId).to.be.frozen.and.conform(identifierSpec);
     if (expectation) {
       expectation(expectedValue, actualId.value);

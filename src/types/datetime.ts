@@ -1,6 +1,6 @@
 import * as S from "js.spec";
 
-import {IdentifierCodec} from "../identifier";
+import {IdentifierCodec} from "../identifier-codec";
 import {longCodec} from "./long";
 import {calculateSemanticTypeCode} from "../semantic";
 import {createImmutableDate, ImmutableDate} from "./immutable-date";

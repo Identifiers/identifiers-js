@@ -3,7 +3,7 @@
   This identifier is based on the Geo microformat: http://microformats.org/wiki/geo
  */
 import * as S from "js.spec";
-import {IdentifierCodec} from "../identifier";
+import {IdentifierCodec} from "../identifier-codec";
 import {calculateSemanticTypeCode} from "../semantic";
 import {floatCodec} from "./float";
 import {LIST_TYPE_CODE} from "./lists";

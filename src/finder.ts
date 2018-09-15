@@ -1,8 +1,9 @@
 import * as S from "js.spec";
 
 import {codecSymbol, identifierSpec} from "./shared";
-import {Identifier, IdentifierCodec} from "./identifier";
+import {Identifier} from "./identifier";
 import {SEMANTIC_TYPE_FLAG, SEMANTIC_TYPE_MASK} from "./semantic";
+import {IdentifierCodec} from "./identifier-codec";
 
 const codecs: IdentifierCodec<any>[] = [];
 

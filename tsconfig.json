@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
-    "alwaysStrict": true,
+    "declaration": true,
+    "declarationDir": "lib",
     "lib": [
       "es6"
     ],
     "module": "commonjs",
-    "noImplicitAny": true,
     "outDir": "./lib",
     "pretty": true,
     "sourceMap": true,
-    "strictNullChecks": true,
+    "strict": true,
     "target": "es5"
   },
   "include": [

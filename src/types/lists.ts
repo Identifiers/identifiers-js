@@ -1,6 +1,6 @@
 import * as S from "js.spec";
 
-import {IdentifierCodec} from "../identifier";
+import {IdentifierCodec} from "../identifier-codec";
 import {MAP_TYPE_CODE} from "./maps";
 
 

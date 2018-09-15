@@ -2,7 +2,7 @@ import * as S from "js.spec";
 import {Int64BE} from "int64-buffer";
 import * as Long from "long";
 
-import {IdentifierCodec} from "../identifier";
+import {IdentifierCodec} from "../identifier-codec";
 import {integerSpec} from "./integer";
 import {existsPredicate} from "../shared";
 
@@ -29,10 +29,6 @@ export type LongLikeWithUnsigned = LongLike & {
   unsigned?: boolean
 };
 
-/**
- * Input type for long identifier that takes either a number or a LongLike object. Some Long-like objects
- * have an unsigned field.
- */
 export type LongInput = number | LongLikeWithUnsigned;
 
 /**
