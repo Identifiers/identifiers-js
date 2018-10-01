@@ -4,11 +4,12 @@ import {IdentifierCodec} from "../identifier-codec";
 import {asIsCodec} from "./shared-types";
 
 
-//32-bit signed value
-const MAX_INT = 2 ** 31;
-const MIN_INT = -MAX_INT;
+//32-bit signed value range
+export const MAX_INT = 0x7fffffff;
+export const MIN_INT = -0x80000000;
+
 function is32BitInteger(value: number) {
-  return value >= MIN_INT && value < MAX_INT;
+  return value >= MIN_INT && value <= MAX_INT;
 }
 
 /**

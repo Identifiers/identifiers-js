@@ -65,6 +65,7 @@ describe("round-trip identifiers to strings using factory functions", () => {
   });
 
   it("long", () => {
+    roundTrip(ID.factory.long(-4095));
     roundTrip(ID.factory.long(8700));
     roundTrip(ID.factory.long(2 ** 63));
     roundTrip(ID.factory.long(Long.fromBits(63, 65535)));

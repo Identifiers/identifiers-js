@@ -3,7 +3,7 @@ import {Int64BE} from "int64-buffer";
 import * as Long from "long";
 
 import {IdentifierCodec} from "../identifier-codec";
-import {integerSpec} from "./integer";
+import {integerSpec, MAX_INT, MIN_INT} from "./integer";
 import {existsPredicate} from "../shared";
 
 
@@ -82,19 +82,25 @@ function forIdentifierValue(input: LongInput): LongLike {
 }
 
 /*
-  If number is a 32-bit int value (high != 0) then just use number so msgpack will store as int32
+  If number is a 32-bit int value then use number so msgpack will store as int32 or smaller.
   If over that size use Int64BE.
 */
 function encodeValue({high, low}: LongLike): EncodedLong {
-  return high === 0
-    ? low
-    : new Int64BE(high, low);
+    // min test
+    if (high === -1 && low >= MIN_INT) {
+      return low;
+    }
+    // max test
+    if (high === 0 && low <= MAX_INT) {
+      return low;
+    }
+    return new Int64BE(high, low);
 }
 
 function decodeValue(encoded: EncodedLong): LongLike {
   return Int64BE.isInt64BE(encoded)
     ? readLong(encoded)
-    : {high: 0, low: encoded}
+    : {high: encoded < 0 ? -1 : 0, low: encoded}
 }
 
 function readLong(encoded: Int64BE): LongLike {

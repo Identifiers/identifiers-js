@@ -6,6 +6,9 @@ chai.use(jsSpecChai);
 import {Int64BE} from "int64-buffer";
 
 import {longCodec} from "../../src/types/long";
+import {symbol} from "js.spec";
+import minCount = symbol.minCount;
+import {MAX_INT, MIN_INT} from "../../src/types/integer";
 
 
 describe("long codec", () => {
@@ -22,9 +25,11 @@ describe("long codec", () => {
     });
 
     it("supports encoding 32-bit numbers", () => {
-      const value = 4;
-      const actual = longCodec.encode({high: 0, low: value});
-      expect(actual).equals(value);
+      let actual = longCodec.encode({high: 0, low: MAX_INT});
+      expect(actual).equals(MAX_INT);
+
+      actual = longCodec.encode({high: -1, low: MIN_INT});
+      expect(actual).equals(MIN_INT);
     });
 
     it("supports encoding larger numbers", () => {
