@@ -1,9 +1,9 @@
 import * as S from "js.spec";
-import {Int64BE} from "int64-buffer";
+import {Int64, Int64BE, Uint64BE} from "int64-buffer";
 import * as Long from "long";
 
 import {IdentifierCodec} from "../identifier-codec";
-import {integerSpec, MAX_INT, MIN_INT} from "./integer";
+import {integerSpec} from "./integer";
 import {existsPredicate} from "../shared";
 
 
@@ -34,7 +34,7 @@ export type LongInput = number | LongLikeWithUnsigned;
 /**
  * Encoded type of long. Can be either a number or a byte array
  */
-export type EncodedLong = Int64BE | number;
+export type EncodedLong = number | Int64BE | Uint64BE;
 
 const longLikeSpec = S.spec.map("long value", {
   high: integerSpec,
@@ -63,7 +63,8 @@ const longInputSpec = S.spec.or("long input", {
 
 const decodeSpec = S.spec.or("decoded long", {
   "number": integerSpec,
-  "Int64BE": Int64BE.isInt64BE
+  "Int64BE": Int64BE.isInt64BE,
+  "Uint64BE": Uint64BE.isUint64BE
 });
 
 function isLongLike(input: LongInput): input is LongLike {
@@ -83,27 +84,30 @@ function forIdentifierValue(input: LongInput): LongLike {
 
 /*
   If number is a 32-bit int value then use number so msgpack will store as int32 or smaller.
-  If over that size use Int64BE.
+  If over that size use Int64BE or Uint64BE.
 */
 function encodeValue({high, low}: LongLike): EncodedLong {
-    // min test
-    if (high === -1 && low >= MIN_INT) {
+    // min 32-bit int test
+    if (high === -1 && low < 0) {
       return low;
     }
-    // max test
-    if (high === 0 && low <= MAX_INT) {
+    // max 32-bit int test
+    if (high === 0 && low > -1) {
       return low;
     }
-    return new Int64BE(high, low);
+
+    return high < 0
+      ? new Int64BE(high, low)
+      : new Uint64BE(high, low);
 }
 
 function decodeValue(encoded: EncodedLong): LongLike {
-  return Int64BE.isInt64BE(encoded)
-    ? readLong(encoded)
-    : {high: encoded < 0 ? -1 : 0, low: encoded}
+  return typeof encoded === "number"
+    ? {high: encoded < 0 ? -1 : 0, low: encoded}
+    : readLong(encoded)
 }
 
-function readLong(encoded: Int64BE): LongLike {
+function readLong(encoded: Int64): LongLike {
   const array = encoded.toArray(true);
   const long = Long.fromBytes(array);
   return {high: long.high, low: long.low};

@@ -3,12 +3,10 @@ import * as chai from "chai";
 import jsSpecChai from "js.spec-chai";
 chai.use(jsSpecChai);
 
-import {Int64BE} from "int64-buffer";
+import {Int64, Int64BE, Uint64BE} from "int64-buffer";
 
 import {longCodec} from "../../src/types/long";
-import {symbol} from "js.spec";
-import minCount = symbol.minCount;
-import {MAX_INT, MIN_INT} from "../../src/types/integer";
+import * as Long from "long";
 
 
 describe("long codec", () => {
@@ -25,17 +23,27 @@ describe("long codec", () => {
     });
 
     it("supports encoding 32-bit numbers", () => {
-      let actual = longCodec.encode({high: 0, low: MAX_INT});
-      expect(actual).equals(MAX_INT);
+      const maxInt = 0x7fffffff;
+      let actual = longCodec.encode({high: 0, low: maxInt});
+      expect(actual).equals(maxInt);
 
-      actual = longCodec.encode({high: -1, low: MIN_INT});
-      expect(actual).equals(MIN_INT);
+      const minInt = -0x80000000;
+      actual = longCodec.encode({high: -1, low: minInt});
+      expect(actual).equals(minInt);
     });
 
     it("supports encoding larger numbers", () => {
+      const actualPos = longCodec.encode(Long.fromNumber(Number.MAX_SAFE_INTEGER)) as Int64;
+      expect(Uint64BE.isUint64BE(actualPos)).to.be.true;
+      expect(actualPos.toArray()).to.contain.ordered.members([0, 31, 255, 255, 255, 255, 255, 255]);
+
+      const actualNeg = longCodec.encode(Long.fromNumber(Number.MIN_SAFE_INTEGER)) as Int64;
+      expect(Int64BE.isInt64BE(actualNeg)).to.be.true;
+      expect(actualNeg.toArray()).to.contain.ordered.members([255, 224, 0, 0, 0, 0, 0, 1]);
+
       const value = {high: 4221, low: 3};
-      const actual = longCodec.encode(value) as Int64BE;
-      expect(Int64BE.isInt64BE(actual)).to.be.true;
+      const actual = longCodec.encode(value) as Int64;
+      expect(Uint64BE.isUint64BE(actual)).to.be.true;
       expect(actual.toArray()).to.contain.ordered.members([0, 0, 16, 125, 0, 0, 0, 3]);
     });
 

@@ -5,8 +5,8 @@ import {asIsCodec} from "./shared-types";
 
 
 //32-bit signed value range
-export const MAX_INT = 0x7fffffff;
-export const MIN_INT = -0x80000000;
+const MIN_INT = -0x80000000;
+const MAX_INT = 0x7fffffff;
 
 function is32BitInteger(value: number) {
   return value >= MIN_INT && value <= MAX_INT;
