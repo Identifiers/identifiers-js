@@ -150,18 +150,13 @@ describe("identifier factory methods", () => {
       const value = 9967574044;
       const actual = factory.long(value);
       const long = Long.fromNumber(value);
-      validateCreatedIdentifier({low: long.low, high: long.high}, actual);
+      validateCreatedIdentifier(long, actual);
     });
 
     it("creates an identifier from a Long", () => {
       const value = Long.fromNumber(19404);
       const actual = factory.long(value);
-      validateCreatedIdentifier({low: value.low, high: value.high}, actual);
-    });
-
-    it("rejects a Long that is unsigned", () => {
-      const value = Long.fromNumber(19404, true);
-      expect(() => factory.long(value)).to.throw();
+      validateCreatedIdentifier(value, actual);
     });
 
     it("creates a list identifier from numbers", () => {
@@ -170,20 +165,14 @@ describe("identifier factory methods", () => {
       const actual = factory.long.list(v1, v2);
       const l1 = Long.fromNumber(v1);
       const l2 = Long.fromNumber(v2);
-      validateCreatedIdentifier([
-        {low: l1.low, high: l1.high},
-        {low: l2.low, high: l2.high}
-      ], actual);
+      validateCreatedIdentifier([l1, l2], actual);
     });
 
     it("creates a list identifier from Longs", () => {
       const l1 = Long.fromNumber(-276534);
       const l2 = Long.fromNumber(15);
       const actual: Identifier<LongLike[]> = factory.long.list(l1, l2);
-      validateCreatedIdentifier([
-        {low: l1.low, high: l1.high},
-        {low: l2.low, high: l2.high}
-      ], actual);
+      validateCreatedIdentifier([l1, l2], actual);
     });
 
     it("creates a list identifier from both number and Long", () => {
@@ -191,10 +180,7 @@ describe("identifier factory methods", () => {
       const v2 = -685849345;
       const actual: Identifier<LongLike[]> = factory.long.list(l1, v2);
       const l2 = Long.fromNumber(v2);
-      validateCreatedIdentifier([
-        {low: l1.low, high: l1.high},
-        {low: l2.low, high: l2.high}
-      ], actual);
+      validateCreatedIdentifier([l1, l2], actual);
     });
 
     it("creates a map identifier", () => {
@@ -203,8 +189,8 @@ describe("identifier factory methods", () => {
       const l2 = Long.fromNumber(v2);
       const values = {b: l1, a: v2};
       const expected = {
-        b: {low: l1.low, high: l1.high},
-        a: {low: l2.low, high: l2.high}
+        a: l2,
+        b: l1
       };
       const actual = factory.long.map(values);
       validateCreatedIdentifier(expected, actual);
@@ -284,6 +270,7 @@ describe("identifier factory methods", () => {
     });
 
     const uuidListExpectation = (expected: number[][], actual: UuidLike[]) => {
+      expect(actual).to.have.lengthOf(expected.length);
       for (let i = 0; i < expected.length; i++) {
         uuidExpectation(expected[i], actual[i]);
       }
@@ -336,6 +323,7 @@ describe("identifier factory methods", () => {
     });
 
     const immutableDateListExpectation = (expected: number[], actual: ImmutableDate[]) => {
+      expect(actual).to.have.lengthOf(expected.length);
       const l2 = actual.map((id) => id.time);
       expect(expected).to.contain.ordered.members(l2);
     };

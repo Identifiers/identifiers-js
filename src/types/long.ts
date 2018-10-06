@@ -23,16 +23,17 @@ export interface LongLike {
    * The low 32 bits as a signed value.
    */
   readonly low: number;
+
+  /**
+   * Unsigned flag. Default is false.
+   */
+  unsigned?: boolean;
 }
 
-export type LongLikeWithUnsigned = LongLike & {
-  unsigned?: boolean
-};
-
-export type LongInput = number | LongLikeWithUnsigned;
+export type LongInput = number | LongLike;
 
 /**
- * Encoded type of long. Can be either a number or a byte array
+ * Encoded type of long. Can be either a number or a byte array.
  */
 export type EncodedLong = number | Int64BE | Uint64BE;
 
@@ -40,9 +41,7 @@ const longLikeSpec = S.spec.map("long value", {
   high: integerSpec,
   low: integerSpec,
   [S.symbol.optional]: {
-    unsigned: S.spec.and("unsigned flag should be false",
-      S.spec.boolean,
-      S.spec.predicate("not true", (value) => !value))
+    unsigned: S.spec.boolean
   }
 });
 
@@ -50,7 +49,7 @@ const longLikeSpec = S.spec.map("long value", {
   Convert a long-like input into a plain object. Must explicitly mask out 'unsigned' as js.spec will fail
   if key is defined, but value is undefined.
  */
-function toPlainLongLike({high, low, unsigned}: LongLikeWithUnsigned): LongLikeWithUnsigned {
+function toPlainLongLike({high, low, unsigned}: LongLike): LongLike {
   return existsPredicate(unsigned)
     ? {high, low, unsigned}
     : {high, low};
@@ -58,6 +57,7 @@ function toPlainLongLike({high, low, unsigned}: LongLikeWithUnsigned): LongLikeW
 
 const longInputSpec = S.spec.or("long input", {
   "number": Number.isInteger,
+  "Long": Long.isLong,
   "LongLike": (value) => S.valid(longLikeSpec, toPlainLongLike(value))
 });
 
@@ -67,57 +67,60 @@ const decodeSpec = S.spec.or("decoded long", {
   "Uint64BE": Uint64BE.isUint64BE
 });
 
-function isLongLike(input: LongInput): input is LongLike {
-  return typeof input === "object";
+function isNumber(input: any): input is number {
+  return typeof input === "number";
 }
 
 /*
  Convert the input into a plain LongLike object, either from number or another LongLike object.
  */
-function forIdentifierValue(input: LongInput): LongLike {
-  if (isLongLike(input)) {
-    return {high: input.high, low: input.low};
+function forIdentifierValue(input: LongInput): Long {
+  let long: Long;
+  if (Long.isLong(input)) {
+    long = input as Long;
+  } else if (isNumber(input)) {
+    long = Long.fromNumber(input);
+  } else {
+    long = Long.fromBits(input.low, input.high, input.unsigned);
   }
-  const long = Long.fromNumber(input);
-  return {high: long.high, low: long.low};
+  return long.toSigned();
 }
 
 /*
   If number is a 32-bit int value then use number so msgpack will store as int32 or smaller.
   If over that size use Int64BE or Uint64BE.
 */
-function encodeValue({high, low}: LongLike): EncodedLong {
-    // min 32-bit int test
-    if (high === -1 && low < 0) {
-      return low;
-    }
-    // max 32-bit int test
-    if (high === 0 && low > -1) {
-      return low;
-    }
+function encodeValue({high, low}: Long): EncodedLong {
+  // min 32-bit int test
+  if (high === -1 && low < 0) {
+    return low;
+  }
+  // max 32-bit int test
+  if (high === 0 && low > -1) {
+    return low;
+  }
 
-    return high < 0
-      ? new Int64BE(high, low)
-      : new Uint64BE(high, low);
+  return high < 0
+    ? new Int64BE(high, low)
+    : new Uint64BE(high, low);
 }
 
-function decodeValue(encoded: EncodedLong): LongLike {
-  return typeof encoded === "number"
-    ? {high: encoded < 0 ? -1 : 0, low: encoded}
+function decodeValue(encoded: EncodedLong): Long {
+  return isNumber(encoded)
+    ? Long.fromNumber(encoded)
     : readLong(encoded)
 }
 
-function readLong(encoded: Int64): LongLike {
+function readLong(encoded: Int64): Long {
   const array = encoded.toArray(true);
-  const long = Long.fromBytes(array);
-  return {high: long.high, low: long.low};
+  return Long.fromBytesBE(array, false);
 }
 
-function generateDebugString(value: LongLike): string {
-  return Long.fromValue({...value, unsigned: false}).toString();
+function generateDebugString(value: Long): string {
+  return value.toString();
 }
 
-export const longCodec: IdentifierCodec<LongInput, LongLike, EncodedLong> = {
+export const longCodec: IdentifierCodec<LongInput, Long, EncodedLong> = {
   type: "long",
   typeCode: 0x4,
   specForIdentifier: longInputSpec,

@@ -14,6 +14,7 @@ describe("long codec", () => {
     it("validates good identifier values", () => {
       expect(77).to.conform(longCodec.specForIdentifier);
       expect({high: 21, low: 9843}).to.conform(longCodec.specForIdentifier);
+      expect(Long.fromNumber(1, true)).to.conform(longCodec.specForIdentifier);
     });
 
     it("rejects bad identifier values", () => {
@@ -24,24 +25,24 @@ describe("long codec", () => {
 
     it("supports encoding 32-bit numbers", () => {
       const maxInt = 0x7fffffff;
-      let actual = longCodec.encode({high: 0, low: maxInt});
+      let actual = longCodec.encode(Long.fromNumber(maxInt));
       expect(actual).equals(maxInt);
 
       const minInt = -0x80000000;
-      actual = longCodec.encode({high: -1, low: minInt});
+      actual = longCodec.encode(Long.fromNumber(minInt));
       expect(actual).equals(minInt);
     });
 
     it("supports encoding larger numbers", () => {
-      const actualPos = longCodec.encode(Long.fromNumber(Number.MAX_SAFE_INTEGER)) as Int64;
-      expect(Uint64BE.isUint64BE(actualPos)).to.be.true;
-      expect(actualPos.toArray()).to.contain.ordered.members([0, 31, 255, 255, 255, 255, 255, 255]);
-
       const actualNeg = longCodec.encode(Long.fromNumber(Number.MIN_SAFE_INTEGER)) as Int64;
       expect(Int64BE.isInt64BE(actualNeg)).to.be.true;
       expect(actualNeg.toArray()).to.contain.ordered.members([255, 224, 0, 0, 0, 0, 0, 1]);
 
-      const value = {high: 4221, low: 3};
+      const actualPos = longCodec.encode(Long.fromNumber(Number.MAX_SAFE_INTEGER)) as Int64;
+      expect(Uint64BE.isUint64BE(actualPos)).to.be.true;
+      expect(actualPos.toArray()).to.contain.ordered.members([0, 31, 255, 255, 255, 255, 255, 255]);
+
+      const value = Long.fromBits(3, 4221);
       const actual = longCodec.encode(value) as Int64;
       expect(Uint64BE.isUint64BE(actual)).to.be.true;
       expect(actual.toArray()).to.contain.ordered.members([0, 0, 16, 125, 0, 0, 0, 3]);
@@ -55,13 +56,13 @@ describe("long codec", () => {
     it("supports decoding numbers", () => {
       const value = 37;
       const actual = longCodec.decode(value);
-      expect(actual).to.deep.equal({high: 0, low: 37});
+      expect(actual).to.deep.equal(new Long(37));
     });
 
     it("supports decoding Int64BE", () => {
       const value = new Int64BE(77975744723112);
       const actual = longCodec.decode(value);
-      expect(actual).to.deep.equal({high: 18155, low: 613464232});
+      expect(actual).to.deep.equal(Long.fromBits(613464232, 18155));
     });
   });
 });

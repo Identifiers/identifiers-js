@@ -2,6 +2,8 @@ import * as chai from "chai";
 const expect = chai.expect;
 
 import * as ID from "../../src";
+import * as Long from "long";
+import {long} from "../../src/types-export";
 
 const codecSymbol = Symbol.for("id-codec");
 
@@ -30,7 +32,22 @@ describe("TCK tests", () => {
 
     it("supports long", () => {
       const tck = require("spec/tck/files/primitives/long.json");
-      testTck(tck);
+      function testLongValue(idValue: any, testValue: any) {
+        if (Long.isLong(idValue)) {
+          expect(idValue.toString()).to.equal(testValue);
+          return;
+        }
+        if (Array.isArray(idValue)) {
+          const idList = idValue.map(value => value.toString());
+          expect(idList).to.deep.equal(testValue);
+          return;
+        }
+        // assume map
+        const idMap = Object.keys(idValue).reduce(
+            (acc, key) => ({...acc, [key]: idValue[key].toString()}), {});
+      }
+
+      testTck(tck, testLongValue);
     });
 
     it("supports bytes", () => {
@@ -58,7 +75,13 @@ describe("TCK tests", () => {
 
   describe("composite", () => {
     function jsonifyID(id: any) {
-      return {type: id.type, value: JSON.stringify(id.value)};
+      let value: string;
+      if (id.type.startsWith("long")) {
+        value = id.value.toString();
+      } else {
+        value = JSON.stringify(id.value);
+      }
+      return {type: id.type, value};
     }
 
     it("supports list", () => {
@@ -69,10 +92,7 @@ describe("TCK tests", () => {
       }
 
       const tck = require("spec/tck/files/composites/list.json");
-      tck.forEach((test: TCK) => {
-        roundTripTest(test, testListValue);
-        roundTripTest(test, testListValue, true);
-      });
+      testTck(tck, testListValue);
     });
 
     it("supports map", () => {
@@ -88,10 +108,7 @@ describe("TCK tests", () => {
       }
 
       const tck = require("spec/tck/files/composites/map.json");
-      tck.forEach((test: TCK) => {
-        roundTripTest(test, testMapValue);
-        roundTripTest(test, testMapValue, true);
-      });
+      testTck(tck, testMapValue);
     });
   });
 });
@@ -106,15 +123,15 @@ interface TCK {
   mixedHuman: string;
 }
 
-function testTck(tck: TCK[]): void {
+function testTck(tck: TCK[], valueExpectation?: (idValue: any, testValue: any) => void): void {
   function testValue(idValue: any, testValue: any) {
     // JSON.stringify strips out the functions so we can just compare values.
     expect(JSON.stringify(idValue)).to.equal(JSON.stringify(testValue));
   }
 
   tck.forEach(test => {
-    roundTripTest(test, testValue);
-    roundTripTest(test, testValue, true);
+    roundTripTest(test, valueExpectation || testValue);
+    roundTripTest(test, valueExpectation || testValue, true);
   });
 }
 
