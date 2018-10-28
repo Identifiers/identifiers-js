@@ -1,7 +1,7 @@
-import * as msgpack from "msgpack-lite";
 import * as Long from "long";
-import {Identifier} from "./identifier";
 import * as S from "js.spec";
+
+import {Identifier} from "./identifier";
 
 export const NOT_A_CODE = Long.fromInt(-1, false);
 export const LONG_BYTES: Long[] = new Array(0x100);
@@ -16,14 +16,7 @@ export type MapIdentifier<VALUE> = Identifier<TypedObject<VALUE>>;
 /**
  * Msgpack codec configured to make life easier for codecs.
  */
-export const msgpackCodec = msgpack.createCodec({
-  // decodes int64 to buffer instead of number
-  int64: true,
-  // use UInt8Array instead of Buffer
-  uint8array: true,
-  // uses ArrayBuffer instead of Buffer for bin types
-  binarraybuffer: true
-});
+
 
 /**
  * Symbol key to store codec in an identifier instance.

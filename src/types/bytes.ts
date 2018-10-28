@@ -3,7 +3,7 @@ import * as S from "js.spec";
 import {IdentifierCodec} from "../identifier-codec";
 import {asIsCodec} from "./shared-types";
 
-export type BytesInput = ArrayLike<number> | ArrayBuffer | Buffer;
+export type BytesInput = ArrayLike<number> | ArrayBuffer;
 
 
 function isArrayBuffer(input: BytesInput): input is ArrayBuffer {
@@ -19,7 +19,7 @@ export function forBytesIdentifier(input: BytesInput): number[] {
   // copies the input content
   return Array.from(
     isArrayBuffer(input)
-      ? new Uint8Array(input)
+      ? new Uint8Array(input) // creates a view, does not copy the buffer
       : input);
 }
 
@@ -48,16 +48,20 @@ export const bytesInputSpec = S.spec.and("bytes identifier",
   isValidType,
   containsOnlyBytes);
 
-export const bytesDecodingSpec = S.spec.predicate("bytes decoding", isArrayBuffer);
+function isUint8Array(value: any): value is Uint8Array {
+  return value instanceof Uint8Array;
+}
+
+export const bytesDecodingSpec = S.spec.predicate("bytes decoding", isUint8Array);
 
 // msgpack sees ArrayBuffer and that triggers bin encoding.
-export const bytesCodec: IdentifierCodec<BytesInput, number[], ArrayBuffer> = {
+export const bytesCodec: IdentifierCodec<BytesInput, number[], Uint8Array> = {
   type: "bytes",
   typeCode: 0x5,
   specForIdentifier: bytesInputSpec,
   specForDecoding: bytesDecodingSpec,
   forIdentifier: forBytesIdentifier,
   toDebugString: asIsCodec.toDebugString,
-  encode: (value) => new Uint8Array(value).buffer,
-  decode: (decoded) => Array.from(new Uint8Array(decoded))
+  encode: (value) => new Uint8Array(value),
+  decode: (decoded) => Array.from(decoded)
 };

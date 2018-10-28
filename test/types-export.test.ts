@@ -20,7 +20,6 @@ const bytesId: ID.Identifier<number[]> = factory.bytes([9, 21]);
 factory.bytes(Uint8ClampedArray.of(1, 2, 3));
 factory.bytes(Uint8Array.of(1, 2, 3));
 factory.bytes(new ArrayBuffer(2));
-factory.bytes(Buffer.from([23, 14, 0]));
 
 const geoId: ID.Identifier<ID.geo.GeoLike> = ID.factory.geo({latitude: 1, longitude: 4});
 

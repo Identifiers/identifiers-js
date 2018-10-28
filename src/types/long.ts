@@ -1,10 +1,10 @@
 import * as S from "js.spec";
-import {Int64, Int64BE, Uint64BE} from "int64-buffer";
 import * as Long from "long";
 
 import {IdentifierCodec} from "../identifier-codec";
 import {integerSpec} from "./integer";
 import {existsPredicate} from "../shared";
+import {asIsCodec} from "./shared-types";
 
 
 /**
@@ -33,9 +33,9 @@ export interface LongLike {
 export type LongInput = number | LongLike;
 
 /**
- * Encoded type of long. Can be either a number or a byte array.
+ * Encoded type of long. Can be either a number or Long.
  */
-export type EncodedLong = number | Int64BE | Uint64BE;
+export type EncodedLong = number | Long;
 
 const longLikeSpec = S.spec.map("long value", {
   high: integerSpec,
@@ -63,8 +63,7 @@ const longInputSpec = S.spec.or("long input", {
 
 const decodeSpec = S.spec.or("decoded long", {
   "number": integerSpec,
-  "Int64BE": Int64BE.isInt64BE,
-  "Uint64BE": Uint64BE.isUint64BE
+  "Long": Long.isLong
 });
 
 function isNumber(input: any): input is number {
@@ -86,34 +85,10 @@ function forIdentifierValue(input: LongInput): Long {
   return long.toSigned();
 }
 
-/*
-  If number is a 32-bit int value then use number so msgpack will store as int32 or smaller.
-  If over that size use Int64BE or Uint64BE.
-*/
-function encodeValue({high, low}: Long): EncodedLong {
-  // min 32-bit int test
-  if (high === -1 && low < 0) {
-    return low;
-  }
-  // max 32-bit int test
-  if (high === 0 && low > -1) {
-    return low;
-  }
-
-  return high < 0
-    ? new Int64BE(high, low)
-    : new Uint64BE(high, low);
-}
-
 function decodeValue(encoded: EncodedLong): Long {
   return isNumber(encoded)
     ? Long.fromNumber(encoded)
-    : readLong(encoded)
-}
-
-function readLong(encoded: Int64): Long {
-  const array = encoded.toArray(true);
-  return Long.fromBytesBE(array, false);
+    : encoded.toSigned()
 }
 
 function generateDebugString(value: Long): string {
@@ -127,6 +102,6 @@ export const longCodec: IdentifierCodec<LongInput, Long, EncodedLong> = {
   specForDecoding: decodeSpec,
   forIdentifier: forIdentifierValue,
   toDebugString: generateDebugString,
-  encode: encodeValue,
+  encode: asIsCodec.encode,
   decode: decodeValue
 };

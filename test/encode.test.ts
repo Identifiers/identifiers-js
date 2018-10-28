@@ -1,9 +1,10 @@
 import {expect} from "chai";
-import * as msgpack from "msgpack-lite";
+import * as msgpack from "msgpack-typed-numbers";
 
 import * as encode from "../src/encode";
 import {testCodec} from "./tests-shared";
 import {IDTuple} from "../src/shared";
+
 
 describe("encode tests", () => {
 

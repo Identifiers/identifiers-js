@@ -1,10 +1,10 @@
-import * as msgpack from "msgpack-lite";
+import * as msgpack from "msgpack-typed-numbers";
 
 import * as base128 from "./base128/encode";
 import * as base32 from "./base32/encode";
 import {Identifier} from "./identifier";
 import {findCodec} from "./finder";
-import {IDTuple, msgpackCodec} from "./shared";
+import {IDTuple} from "./shared";
 import {IdentifierCodec} from "./identifier-codec";
 
 /**
@@ -52,8 +52,6 @@ export function encodeWithCodec<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<IN
   return codec.encode(value);
 }
 
-const encoderOptions = {codec: msgpackCodec};
-
 export function encodeBytes<VALUE>(tuple: IDTuple<VALUE>): Uint8Array {
-  return msgpack.encode(tuple, encoderOptions);
+  return msgpack.encode(tuple);
 }

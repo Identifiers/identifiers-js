@@ -1,3 +1,5 @@
+import * as Long from "long";
+
 import {IdentifierCodec} from "./identifier-codec";
 import {CompositeFactory, createFactory, createListFactory, createMapFactory, Factory} from "./factory";
 import {createListCodec} from "./types/lists";
@@ -13,7 +15,7 @@ import {bytesCodec} from "./types/bytes";
 import {uuidCodec} from "./types/uuid";
 import {datetimeCodec} from "./types/datetime";
 import {geoCodec} from "./types/geo";
-import {LongInput, LongLike} from "./types/long";
+import {LongInput} from "./types/long";
 import {DatetimeInput} from "./types/datetime";
 import {BytesInput} from "./types/bytes";
 import {UuidInput, UuidLike} from "./types/uuid";
@@ -25,7 +27,7 @@ export interface Factories {
   readonly boolean: Factory<boolean, boolean>
   readonly integer: Factory<number, number>
   readonly float: Factory<number, number>
-  readonly long: Factory<LongInput, LongLike>
+  readonly long: Factory<LongInput, Long>
   readonly bytes: Factory<BytesInput, number[]>
   readonly uuid: Factory<UuidInput, UuidLike>
   readonly datetime: Factory<DatetimeInput, ImmutableDate>

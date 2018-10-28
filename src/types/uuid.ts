@@ -86,7 +86,7 @@ function createUuidLike(hex: string, bytes: number[]): UuidLike {
   }
 }
 
-export const uuidCodec: IdentifierCodec<UuidInput, UuidLike, ArrayBuffer> = {
+export const uuidCodec: IdentifierCodec<UuidInput, UuidLike, Uint8Array> = {
   type: "uuid",
   typeCode: calculateSemanticTypeCode(bytesCodec.typeCode, 0),
   specForIdentifier: uuidInputSpec,
@@ -94,5 +94,5 @@ export const uuidCodec: IdentifierCodec<UuidInput, UuidLike, ArrayBuffer> = {
   toDebugString: (uuid) => uuid.toString(),
   encode: (uuid) => bytesCodec.encode(uuid.bytes),
   specForDecoding: uuidDecodingSpec,
-  decode: (bytes) => forUuidIdentifier(bytes)
+  decode: (bytes) => forBytesUuid(Array.from(bytes))
 };

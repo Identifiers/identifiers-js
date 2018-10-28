@@ -1,9 +1,11 @@
 import {expect} from "chai";
 import * as chai from "chai";
-import jsSpecChai from "js.spec-chai";
-chai.use(jsSpecChai);
+import {Float} from "msgpack-typed-numbers";
 
 import {floatCodec} from "../../src/types/float";
+
+import jsSpecChai from "js.spec-chai";
+chai.use(jsSpecChai);
 
 
 describe("float codec", () => {
@@ -20,8 +22,8 @@ describe("float codec", () => {
 
   it("supports encoding", () => {
     const value = 22.5001;
-    const actual = floatCodec.encode(value);
-    expect(actual).to.equal(value);
+    const actual = floatCodec.encode(value) as Float;
+    expect(actual.value).to.equal(value);
   });
 
   it("validates good decoded values", () => {

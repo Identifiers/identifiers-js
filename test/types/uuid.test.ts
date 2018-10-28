@@ -14,7 +14,6 @@ describe("uuid codec", () => {
     expect(bytes).to.conform(uuidCodec.specForIdentifier);
     expect(Uint8Array.of(...bytes)).to.conform(uuidCodec.specForIdentifier);
     expect(new ArrayBuffer(16)).to.conform(uuidCodec.specForIdentifier);
-    expect(Buffer.from(bytes)).to.conform(uuidCodec.specForIdentifier);
     expect({length: 16, ...bytes}).to.conform(uuidCodec.specForIdentifier);
   });
 
@@ -29,12 +28,12 @@ describe("uuid codec", () => {
   it("supports encoding", () => {
     const bytes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
     const actual = uuidCodec.encode({bytes});
-    expect(actual).to.be.an("arraybuffer");
-    expect(actual).to.deep.equal(new Uint8Array(bytes).buffer);
+    expect(actual).to.be.an("uint8array");
+    expect(actual).to.deep.equal(new Uint8Array(bytes));
   });
 
   it("validates good decoded values", () => {
-    const value = new Uint8Array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]).buffer;
+    const value = new Uint8Array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
     expect(value).to.conform(uuidCodec.specForDecoding);
   });
 
@@ -42,13 +41,12 @@ describe("uuid codec", () => {
     expect("92d716ce-ea62-4ace-aba9-b58fdf7a2df2").to.not.conform(uuidCodec.specForDecoding);
     const value = [0, 255];
     expect(value).to.not.conform(uuidCodec.specForDecoding);
-    expect(Buffer.from(value)).to.not.conform(uuidCodec.specForDecoding);
     expect(Uint8Array.from(value)).to.not.conform(uuidCodec.specForDecoding);
   });
 
   it("supports decoding", () => {
     const bytes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-    const actual = uuidCodec.decode(Uint8Array.from(bytes).buffer);
+    const actual = uuidCodec.decode(Uint8Array.from(bytes));
     expect(actual).to.deep.include({bytes});
   });
 

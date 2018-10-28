@@ -1,15 +1,15 @@
 import * as chai from "chai";
 import {expect} from "chai";
-import * as msgpack from "msgpack-lite";
+import * as S from "js.spec";
+import * as msgpack from "msgpack-typed-numbers";
 
 import * as base128 from "../src/base128/encode";
 import * as decode from "../src/decode";
-import jsSpecChai from "js.spec-chai";
 import {asIsCodec} from "../src/types/shared-types";
-import * as S from "js.spec";
 
-
+import jsSpecChai from "js.spec-chai";
 chai.use(jsSpecChai);
+
 
 describe("decode tests", () => {
 

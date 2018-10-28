@@ -1,11 +1,11 @@
-import * as msgpack from "msgpack-lite";
 import * as S from "js.spec";
+import * as msgpack from "msgpack-typed-numbers";
 
 import * as decode128 from "./base128/decode";
 import * as decode32 from "./base32/decode";
 import {Identifier} from "./identifier";
 import {codecForTypeCode} from "./finder";
-import {decodedIdSpec, IDTuple, msgpackCodec} from "./shared";
+import {decodedIdSpec, IDTuple} from "./shared";
 import {createIdentifier} from "./factory";
 import {IdentifierCodec} from "./identifier-codec";
 
@@ -40,10 +40,8 @@ export function decodeString(encoded: string): Uint8Array {
   throw new Error(`cannot decode to identifier: '${encoded}'`);
 }
 
-const decoderOptions = {codec: msgpackCodec};
-
 export function decodeBytes<ENCODED>(bytes: Uint8Array): IDTuple<ENCODED> {
-  const decoded = msgpack.decode(bytes, decoderOptions);
+  const decoded = msgpack.decode(bytes);
   S.assert(decodedIdSpec, decoded);
   return decoded;
 }

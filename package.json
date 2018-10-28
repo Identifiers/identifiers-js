@@ -21,18 +21,17 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "int64-buffer": "^0.1.10",
     "js.spec": "^1.0.0-23",
     "long": "^4.0.0",
-    "msgpack-lite": "^0.1.26"
+    "msgpack-typed-numbers": "^0.0.1"
   },
   "devDependencies": {
     "@types/benchmark": "1.0.31",
-    "@types/chai": "4.1.6",
+    "@types/chai": "4.1.7",
     "@types/faker": "4.1.4",
     "@types/long": "4.0.0",
     "@types/mocha": "5.2.5",
-    "@types/msgpack-lite": "0.1.6",
+    "@types/node": "10.12.0",
     "benchmark": "2.1.4",
     "chai": "4.2.0",
     "coveralls": "3.0.2",
@@ -41,16 +40,16 @@
     "js.spec-chai": "0.1.7",
     "mocha": "5.2.0",
     "mocha-lcov-reporter": "1.3.0",
-    "nyc": "13.0.1",
+    "nyc": "13.1.0",
     "rimraf": "2.6.2",
     "source-map-support": "0.5.9",
     "spec": "identifiers/spec#f7ec735c6dba2bd092d04e952fbdc5a63bdcd4fc",
-    "ts-loader": "5.2.1",
+    "ts-loader": "5.2.2",
     "ts-node": "7.0.1",
     "tsconfig-paths-webpack-plugin": "3.2.0",
-    "typescript": "3.1.1",
+    "typescript": "3.1.3",
     "v8-profiler": "5.7.0",
-    "webpack": "4.20.2",
+    "webpack": "4.23.1",
     "webpack-cli": "3.1.2"
   },
   "scripts": {
