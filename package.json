@@ -43,7 +43,7 @@
     "nyc": "13.1.0",
     "rimraf": "2.6.2",
     "source-map-support": "0.5.9",
-    "spec": "identifiers/spec#f7ec735c6dba2bd092d04e952fbdc5a63bdcd4fc",
+    "spec": "identifiers/spec#080f2606a66124d7b0f5ac92157f053fb96170f3",
     "ts-loader": "5.2.2",
     "ts-node": "7.0.1",
     "tsconfig-paths-webpack-plugin": "3.2.0",
