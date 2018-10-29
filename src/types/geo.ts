@@ -4,7 +4,7 @@
  */
 import * as S from "js.spec";
 import {IdentifierCodec} from "../identifier-codec";
-import {calculateSemanticTypeCode} from "../semantic";
+import {registerSemanticTypeCode} from "../semantic";
 import {EncodedFloat, floatCodec} from "./float";
 import {LIST_TYPE_CODE} from "./lists";
 
@@ -69,7 +69,7 @@ function generateDebugString(value: GeoLike): string {
 
 export const geoCodec: IdentifierCodec<GeoInput, GeoLike, EncodedFloat[]> = {
   type: "geo",
-  typeCode: calculateSemanticTypeCode(LIST_TYPE_CODE | floatCodec.typeCode, 2),
+  typeCode: registerSemanticTypeCode(LIST_TYPE_CODE | floatCodec.typeCode, 2),
   specForIdentifier: geoInputSpec,
   forIdentifier: forGeoIdentifier,
   toDebugString: generateDebugString,

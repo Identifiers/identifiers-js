@@ -1,16 +1,13 @@
 import * as S from "js.spec";
 
 import {IdentifierCodec} from "../identifier-codec";
-import {MAP_TYPE_CODE} from "./maps";
+import {MAP_OF, MAP_TYPE_CODE} from "./maps";
 
 
 export const LIST_TYPE_CODE = 0x8;
 export const LIST_OF = 0x20;
-export const LIST_OF_LISTS = LIST_OF | LIST_TYPE_CODE;
-export const LIST_OF_MAPS = LIST_OF | MAP_TYPE_CODE;
 
 export function createListCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<INPUT, VALUE, ENCODED>): IdentifierCodec<INPUT[], VALUE[], ENCODED[]> {
-
   const listTypeCode = calculateListTypeCode(itemCodec.typeCode);
   const listType = `${itemCodec.type}-list`;
   const forIdentifierListSpec = S.spec.and(`${listType} forIdentifier spec`,
@@ -41,11 +38,11 @@ export function createListCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCode
 }
 
 export function calculateListTypeCode(itemTypeCode: number): number {
-  if ((itemTypeCode & LIST_OF_MAPS) === LIST_OF_MAPS) {
-    throw new Error(`Cannot create a List of List of Maps. itemTypeCode: ${itemTypeCode}`);
+  if ((itemTypeCode & MAP_OF) === MAP_OF) {
+    throw new Error(`Cannot create a List of Map of something. itemTypeCode: ${itemTypeCode}`);
   }
-  if ((itemTypeCode & LIST_OF_LISTS) === LIST_OF_LISTS) {
-    throw new Error(`Cannot create a List of List of Lists. itemTypeCode: ${itemTypeCode}`);
+  if ((itemTypeCode & LIST_OF) === LIST_OF) {
+    throw new Error(`Cannot create a List of List of something. itemTypeCode: ${itemTypeCode}`);
   }
 
   const isStructural = itemTypeCode & LIST_TYPE_CODE || itemTypeCode & MAP_TYPE_CODE;

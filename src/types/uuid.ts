@@ -6,7 +6,7 @@ import * as S from "js.spec";
 
 import {IdentifierCodec} from "../identifier-codec";
 import {bytesCodec, bytesDecodingSpec, BytesInput, bytesInputSpec, forBytesIdentifier, isValidLength} from "./bytes";
-import {calculateSemanticTypeCode} from "../semantic";
+import {registerSemanticTypeCode} from "../semantic";
 import {toCharCode, TypedObject} from "../shared";
 
 
@@ -88,7 +88,7 @@ function createUuidLike(hex: string, bytes: number[]): UuidLike {
 
 export const uuidCodec: IdentifierCodec<UuidInput, UuidLike, Uint8Array> = {
   type: "uuid",
-  typeCode: calculateSemanticTypeCode(bytesCodec.typeCode, 0),
+  typeCode: registerSemanticTypeCode(bytesCodec.typeCode, 0),
   specForIdentifier: uuidInputSpec,
   forIdentifier: forUuidIdentifier,
   toDebugString: (uuid) => uuid.toString(),

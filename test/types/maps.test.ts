@@ -1,10 +1,11 @@
 import {expect} from "chai";
 import * as S from "js.spec";
 
-import {createMapCodec, MAP_TYPE_CODE} from "../../src/types/maps";
+import {calculateMapTypeCode, createMapCodec, MAP_OF, MAP_TYPE_CODE} from "../../src/types/maps";
 import {IdentifierCodec} from "../../src/identifier-codec";
 import {stringCodec} from "../../src/types/string";
 import {asIsCodec} from "../../src/types/shared-types";
+import {LIST_OF, LIST_TYPE_CODE} from "../../src/types/lists";
 
 
 describe("create a map codec from an item codec", () => {
@@ -21,7 +22,7 @@ describe("create a map codec from an item codec", () => {
 
   describe("test for correct usage of item codec", () => {
     const itemCodec: IdentifierCodec<number> =  {
-      typeCode: 1000,
+      typeCode: 7,
       type: "test",
       specForIdentifier: S.spec.and("spy forIdentifier",
         (value) => value !== Number.MAX_VALUE,
@@ -113,5 +114,32 @@ describe("MapValuesSpec", () => {
     const specUnderTest = createMapCodec(stringCodec).specForIdentifier;
     const actual = S.explainStr(specUnderTest, {a: 1});
     expect(actual).to.contain("string spec: isString failed for 1 at [a].");
+  });
+});
+
+describe("map typeCode calculation", () => {
+  it("correctly calculates the typeCode from a primitive typeCode", () => {
+    const actual = calculateMapTypeCode(1);
+    expect (actual).to.equal(1 | MAP_TYPE_CODE);
+  });
+
+  it("correctly calculates a map-of-lists typeCode from a list typeCode", () => {
+    const listTypeCode = 1 | LIST_TYPE_CODE;
+    const actual = calculateMapTypeCode(listTypeCode);
+    expect (actual).to.equal(listTypeCode | MAP_OF);
+  });
+
+  it("correctly calculates a map-of-maps typeCode from a map typeCode", () => {
+    const mapTypeCode = 1 | MAP_TYPE_CODE;
+    const actual = calculateMapTypeCode(mapTypeCode);
+    expect (actual).to.equal(mapTypeCode | MAP_OF);
+  });
+
+  it("throws an error when a list-of-something is passed in", () => {
+    expect(() => calculateMapTypeCode(LIST_OF)).to.throw("Cannot create a Map of List of something.");
+  });
+
+  it("throws an error when a map-of-something is passed in", () => {
+    expect(() => calculateMapTypeCode(MAP_OF)).to.throw("Cannot create a Map of Map of something.");
   });
 });

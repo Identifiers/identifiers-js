@@ -43,7 +43,8 @@ describe("TCK tests", () => {
         }
         // assume map
         const idMap = Object.keys(idValue).reduce(
-            (acc, key) => ({...acc, [key]: idValue[key].toString()}), {});
+          (acc, key) => ({...acc, [key]: idValue[key].toString()}), {});
+        expect(idMap).to.deep.equal(testValue);
       }
 
       testTck(tck, testLongValue);

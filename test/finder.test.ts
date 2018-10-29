@@ -2,7 +2,7 @@ import {expect} from "chai";
 
 import {codecSymbol} from "../src/shared";
 import {codecForTypeCode, findCodec} from "../src/finder";
-import {calculateSemanticTypeCode} from "../src/semantic";
+import {registerSemanticTypeCode} from "../src/semantic";
 import {testCodec} from "./tests-shared";
 import {Identifier} from "../src/identifier";
 
@@ -49,7 +49,7 @@ describe("codec finder", () => {
 
   describe("codecForTypeCode()", () => {
     it("throws error if it can't find a codec for a codeType", () => {
-      expect(() => codecForTypeCode(-200)).to.throw();
+      expect(() => codecForTypeCode(-1)).to.throw();
     });
 
     it("finds a registered codec", () => {
@@ -58,7 +58,7 @@ describe("codec finder", () => {
     });
 
     it("creates an unknown codec for an unknown semantic type", () => {
-      const semanticTypeCode = calculateSemanticTypeCode(testCodec.typeCode, 1000);
+      const semanticTypeCode = registerSemanticTypeCode(testCodec.typeCode, 10);
       const actual = codecForTypeCode(semanticTypeCode);
       expect(actual).to.include({
         ...testCodec,

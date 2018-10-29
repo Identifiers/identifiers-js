@@ -21,6 +21,7 @@ import {BytesInput} from "./types/bytes";
 import {UuidInput, UuidLike} from "./types/uuid";
 import {ImmutableDate} from "./types/immutable-date";
 import {GeoInput, GeoLike} from "./types/geo";
+import {SEMANTIC_TYPE_FLAG} from "./semantic";
 
 export interface Factories {
   readonly string: Factory<string, string>
@@ -41,6 +42,17 @@ export function processCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec<I
   registerCodec(itemCodec);
   registerCodec(listCodec);
   registerCodec(mapCodec);
+  if ((itemCodec.typeCode & SEMANTIC_TYPE_FLAG) === 0) {
+    // primitive type
+    const listOfListsCodec = createListCodec(listCodec);
+    const listOfMapsCodec = createListCodec(mapCodec);
+    const mapOfListsCodec = createMapCodec(listCodec);
+    const mapOfMapsCodec = createMapCodec(mapCodec);
+    registerCodec(listOfListsCodec);
+    registerCodec(listOfMapsCodec);
+    registerCodec(mapOfListsCodec);
+    registerCodec(mapOfMapsCodec);
+  }
   return createFactory(itemCodec, listCodec, mapCodec);
 }
 

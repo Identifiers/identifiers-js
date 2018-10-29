@@ -1,9 +1,12 @@
 import * as S from "js.spec";
 import {IdentifierCodec} from "../identifier-codec";
 import {TypedObject} from "../shared";
+import {LIST_OF, LIST_TYPE_CODE} from "./lists";
 
 
 export const MAP_TYPE_CODE = 0x10;
+export const MAP_OF = 0x40;
+
 
 export function mapValues<IN, OUT>(map: TypedObject<IN>, mapFn: (value: IN) => OUT, sortKeys?: boolean): TypedObject<OUT> {
   const mapped: TypedObject<OUT> = {};
@@ -84,7 +87,7 @@ export function createMapCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec
 
   return {
     type: mapType,
-    typeCode: MAP_TYPE_CODE | itemCodec.typeCode,
+    typeCode:calculateMapTypeCode(itemCodec.typeCode),
     specForIdentifier: forIdentifierMapSpec,
     specForDecoding: forDecodingMapSpec,
     forIdentifier: (map) => mapValues(map, itemCodec.forIdentifier, true),
@@ -92,4 +95,18 @@ export function createMapCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec
     encode: (map) => mapValues(map, itemCodec.encode),
     decode: (map) => mapValues(map, itemCodec.decode)
   }
+}
+
+export function calculateMapTypeCode(itemTypeCode: number): number {
+  if ((itemTypeCode & MAP_OF) === MAP_OF) {
+    throw new Error(`Cannot create a Map of Map of something. itemTypeCode: ${itemTypeCode}`);
+  }
+  if ((itemTypeCode & LIST_OF) === LIST_OF) {
+    throw new Error(`Cannot create a Map of List of something. itemTypeCode: ${itemTypeCode}`);
+  }
+
+  const isStructural = itemTypeCode & LIST_TYPE_CODE || itemTypeCode & MAP_TYPE_CODE;
+  return itemTypeCode | (isStructural
+      ? MAP_OF
+      : MAP_TYPE_CODE);
 }

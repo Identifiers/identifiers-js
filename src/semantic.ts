@@ -15,7 +15,7 @@ export const SEMANTIC_SLOT_SHIFT = 0x8;
 
 const SLOTS: number[] = [];
 
-export function calculateSemanticTypeCode(baseTypeCode: number, slot: number): number {
+export function registerSemanticTypeCode(baseTypeCode: number, slot: number): number {
   if (SLOTS[slot]) {
     throw new Error(`semantic slot ${slot} already taken by ${SLOTS[slot]}.`);
   }

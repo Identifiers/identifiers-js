@@ -2,7 +2,7 @@ import * as S from "js.spec";
 
 import {IdentifierCodec} from "../identifier-codec";
 import {longCodec} from "./long";
-import {calculateSemanticTypeCode} from "../semantic";
+import {registerSemanticTypeCode} from "../semantic";
 import {createImmutableDate, ImmutableDate} from "./immutable-date";
 
 
@@ -20,7 +20,7 @@ export type DatetimeInput = number | Date;
  */
 export const datetimeCodec: IdentifierCodec<DatetimeInput, ImmutableDate, number> = {
   type: "datetime",
-  typeCode: calculateSemanticTypeCode(longCodec.typeCode, 1),
+  typeCode: registerSemanticTypeCode(longCodec.typeCode, 1),
   specForIdentifier: datetimeInputSpec,
   // JS number has sufficient space for Dates; don't need to use Long
   specForDecoding: decodeSpec,

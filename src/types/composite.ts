@@ -1,18 +1,18 @@
 import {Identifier} from "../identifier";
 import {decodedIdSpec, identifierSpec, IDTuple, TypedObject} from "../shared";
-import {LIST_TYPE_CODE} from "./lists";
+import {LIST_OF} from "./lists";
 import * as S from "js.spec";
 import {asIsCodec} from "./shared-types";
 import {decodeToIdentifier} from "../decode";
 import {encodeIdTuple} from "../encode";
-import {MAP_TYPE_CODE, mapValues, MapValuesSpec} from "./maps";
+import {MAP_OF, mapValues, MapValuesSpec} from "./maps";
 import {IdentifierCodec} from "../identifier-codec";
 
 export type CompositeIdList = Identifier<any>[];
 
 export type CompositeIdMap = TypedObject<Identifier<any>>;
 
-const COMPOSITE_TYPE_CODE = 0x40;
+const COMPOSITE_TYPE_CODE = 0x18;
 
 const specForListInput = S.spec.and("composite-list forIdentifier",
     S.spec.array, // must be an array, not a Set
@@ -31,7 +31,7 @@ function toDebugStringList(list: CompositeIdList): string {
 
 export const listCodec: IdentifierCodec<CompositeIdList, CompositeIdList, IDTuple<any>[]> = {
   type: "composite-list",
-  typeCode: COMPOSITE_TYPE_CODE | LIST_TYPE_CODE,
+  typeCode: COMPOSITE_TYPE_CODE | LIST_OF,
   specForIdentifier: specForListInput,
   specForDecoding: specForDecodingList,
   forIdentifier: asIsCodec.forIdentifier,
@@ -58,7 +58,7 @@ function generateDebugStringMap(map: CompositeIdMap): string {
 
 export const mapCodec: IdentifierCodec<CompositeIdMap, CompositeIdMap, TypedObject<IDTuple<any>>> = {
   type: "composite-map",
-  typeCode: COMPOSITE_TYPE_CODE | MAP_TYPE_CODE,
+  typeCode: COMPOSITE_TYPE_CODE | MAP_OF,
   specForIdentifier: specForMapInput,
   specForDecoding: specForDecodingMap,
   forIdentifier: (map) => mapValues(map, asIsCodec.forIdentifier, true),
