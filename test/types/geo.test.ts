@@ -4,6 +4,7 @@ import jsSpecChai from "js.spec-chai";
 chai.use(jsSpecChai);
 
 import {geoCodec} from "../../src/types/geo";
+import {Float} from "msgpack-typed-numbers";
 
 describe("geo codec", () => {
   it("validates good identifier values", () => {
@@ -24,8 +25,11 @@ describe("geo codec", () => {
 
   it("supports encoding", () => {
     const value = {latitude: 20, longitude: 55};
-    const actual = geoCodec.encode(value);
-    expect(actual).to.contain.ordered.members([value.latitude, value.longitude]);
+    const actual = geoCodec.encode(value) as Float[];
+    expect(actual).has.length(2);
+    expect(actual[0]).is.instanceOf(Float);
+    expect(actual[1]).is.instanceOf(Float);
+    expect(actual.map(f => f.value)).to.contain.ordered.members([value.latitude, value.longitude]);
   });
 
   it("validates good decoded values", () => {
