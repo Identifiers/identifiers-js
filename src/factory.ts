@@ -70,7 +70,7 @@ export function createIdentifier<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<I
     toString: () => encode.toDebugString(identifier),
     toHumanString: () => encode.toBase32String(identifier),
     toDataString: () => encode.toBase128String(identifier),
-    toJSON: (key) => encode.toBase128String(identifier),
+    toJSON: () => encode.toBase128String(identifier),
     [codecSymbol]: codec
   };
   return deepFreeze(identifier);

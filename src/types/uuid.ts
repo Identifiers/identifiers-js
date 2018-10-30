@@ -13,6 +13,7 @@ import {toCharCode, TypedObject} from "../shared";
 export interface UuidLike {
   readonly bytes: number[];
   toString(): string;
+  toJSON(key?: string): string;
 }
 
 export type UuidInput = BytesInput | string;
@@ -82,7 +83,8 @@ function forBytesUuid(bytes: number[]): UuidLike {
 function createUuidLike(hex: string, bytes: number[]): UuidLike {
   return {
     bytes,
-    toString: () => hex
+    toString: () => hex,
+    toJSON: () => hex
   }
 }
 

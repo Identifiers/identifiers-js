@@ -1,6 +1,7 @@
 import {expect} from "chai";
 import * as chai from "chai";
 import jsSpecChai from "js.spec-chai";
+
 import {uuidCodec} from "../../src/types/uuid";
 
 chai.use(jsSpecChai);
@@ -27,7 +28,7 @@ describe("uuid codec", () => {
 
   it("supports encoding", () => {
     const bytes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-    const actual = uuidCodec.encode({bytes});
+    const actual = uuidCodec.encode({bytes, toJSON: () => ""});
     expect(actual).to.be.an("uint8array");
     expect(actual).to.deep.equal(new Uint8Array(bytes));
   });

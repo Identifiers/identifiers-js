@@ -3867,9 +3867,9 @@ spdx-license-ids@^1.0.2:
   resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-1.2.2.tgz#c9df7a3424594ade6bd11900d596696dc06bac57"
   integrity sha1-yd96NCRZSt5r0RkA1ZZpbcBrrFc=
 
-spec@identifiers/spec#e783df59a5c03d08369064b3ff27c37c6309edca:
+spec@identifiers/spec#b15580ac06647424dca33d9c80a24da3edca2467:
   version "0.0.0"
-  resolved "https://codeload.github.com/identifiers/spec/tar.gz/e783df59a5c03d08369064b3ff27c37c6309edca"
+  resolved "https://codeload.github.com/identifiers/spec/tar.gz/b15580ac06647424dca33d9c80a24da3edca2467"
 
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"
