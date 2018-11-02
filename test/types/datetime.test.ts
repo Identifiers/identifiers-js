@@ -20,8 +20,8 @@ describe("datetime codec", () => {
 
   it("supports encoding", () => {
     const value = createImmutableDate(new Date());
-    const actual = datetimeCodec.encode(value);
-    expect(actual).to.equal(value.time);
+    const actual = datetimeCodec.encode(value) as Long;
+    expect(actual.toNumber()).to.equal(value.time);
   });
 
   it("validates good decoded values", () => {

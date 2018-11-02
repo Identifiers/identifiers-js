@@ -87,7 +87,7 @@ export function createMapCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec
 
   return {
     type: mapType,
-    typeCode:calculateMapTypeCode(itemCodec.typeCode),
+    typeCode: calculateMapTypeCode(itemCodec.typeCode),
     specForIdentifier: forIdentifierMapSpec,
     specForDecoding: forDecodingMapSpec,
     forIdentifier: (map) => mapValues(map, itemCodec.forIdentifier, true),

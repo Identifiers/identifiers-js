@@ -40,7 +40,7 @@ export interface ImmutableDate {
  * @param value can be either a timestamp number or a Date instance
  * @returns an ImmutableDate instance
  */
-export function createImmutableDate(value: number| Date): ImmutableDate {
+export function createImmutableDate(value: number | Date): ImmutableDate {
   const time = typeof value === "number" ? value : value.getTime();
   const date = new Date(time);
   return Object.freeze({
