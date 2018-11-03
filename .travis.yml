@@ -1,6 +1,11 @@
 language: node_js
 node_js:
-  - 6
-  - 8
-  - 10
-after_success: "yarn coverage"
+- 6
+- 8
+- 10
+after_success: yarn coverage
+addons:
+  sauce_connect:
+    username: mattbishopL3
+  jwt:
+    secure: nqFC+xgDmGNo8B4VYRN/2zh9x++ZwWLJXJn7kEV5SB45DRVj+Z1lYDQxzVg1pPJN9/NQCOlfIy2vV8C7bT+L9ikmQ7js6nGEy7WVnrQdaCVeSEC8XE5dhvpMbEjk3R4dYQEVcA3zAKJwqk18InGnv0vM9Ge7xPoANkzBW0+xLEZUAML/aiDYbXRduh3PgtiGl+1C6DQC5uoHqZH5VhBPhjYxgJtXWUsJhRrypvlPZ9CgQU6m4fF32wajGmZj4MTci/yHFdFXNKYYDBEBANVU8nOCShQz7DRb+WHQlsOYebLCaEogh2vQuuvUHnZcvFONtGjnQf7Q54uND0o88bwqIziMBV3pqWaiRLNHl6k9pEVxiySe5MauZdDueI5Nr8juON9P7B95HZFsZOhlwNRsYTD26ZxBFj0ex8DjCIh2zs0gOY3t9qQdlrozYsj3uxg4NWLF5svC0UYmn+0Z7AfF1FDCFvMqrBIdkqnle8lsvdplf9KE9U76u9R5lFkqk09jgdL04ff3fKSlm1KSXW40fDsxlof1iTgNafJMdLYntT3+J+r2IhoDxTo1mnlfp0uhrwwtbH5HHrmemeUdlA88r8AUcOByAbCw7ZZmLlAGHc8CiPXdyVSdQ6bLPnFcp73RnHdNLM3JsB6EEkdYhcO8G8RJU6f7XDCGQ+8BqYOH7GI=
