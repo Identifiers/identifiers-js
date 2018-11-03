@@ -55,5 +55,12 @@ describe("uuid codec", () => {
     const hex = "98137765-b72f-480a-bd98-d3be3c2c7e53";
     const actual = uuidCodec.forIdentifier(hex);
     expect(actual.toString()).to.equal(hex);
-  })
+  });
+
+  it("generates a debug string", () => {
+    const hex = "84bf5017-411e-4277-805e-d63addce9ca2";
+    const value = uuidCodec.forIdentifier(hex);
+    const actual = uuidCodec.toDebugString(value);
+    expect (actual).to.equal(hex)
+  });
 });

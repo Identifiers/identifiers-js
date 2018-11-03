@@ -62,5 +62,11 @@ describe("long codec", () => {
       const actual = longCodec.decode(value);
       expect(actual).to.deep.equal(Long.fromBits(613464232, 18155));
     });
+
+    it("generates a debug string", () => {
+      const value = Long.fromBits(998,13421);
+      const actual = longCodec.toDebugString(value);
+      expect(actual).to.equal(value.toString());
+    });
   });
 });

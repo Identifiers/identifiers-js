@@ -104,8 +104,14 @@ describe("map codec", () => {
     const value = {b: "there", a: "hi"};
     const value2 = codecUnderTest.forIdentifier(value);
     const actual2 = codecUnderTest.encode(value2);
-
     expect(Object.keys(actual2)).to.have.ordered.members(["a", "b"]);
+  });
+
+  it("generates a debug string", () => {
+    const codecUnderTest = createMapCodec(stringCodec);
+    const value = {b: "there", a: "hi"};
+    const actual = codecUnderTest.toDebugString(value);
+    expect(actual).to.equal(`{b: "there", a: "hi"}`);
   });
 });
 

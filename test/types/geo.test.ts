@@ -43,4 +43,10 @@ describe("geo codec", () => {
     const actual = geoCodec.decode(value);
     expect(actual).to.deep.equal({latitude: value[0], longitude: value[1]});
   });
+
+  it("generates a debug string", () => {
+    const value = {latitude: 1, longitude: 2};
+    const actual = geoCodec.toDebugString(value);
+    expect(actual).to.equal("lat:1/long:2");
+  });
 });
