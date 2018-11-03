@@ -40,7 +40,7 @@ describe("create a list codec from an item codec", () => {
       expect(codecUnderTest.typeCode).to.equal(itemCodec.typeCode | LIST_TYPE_CODE);
     });
 
-    it("rejects nul lists for identifier", () => {
+    it("rejects null lists for identifier", () => {
       spy.reset();
       expect(S.valid(codecUnderTest.specForIdentifier, null)).to.equal(false);
     });
@@ -87,6 +87,11 @@ describe("create a list codec from an item codec", () => {
     it("rejects null list for decoding", () => {
       spy.reset();
       expect(S.valid(codecUnderTest.specForDecoding, null)).to.equal(false);
+    });
+
+    it("generates a debug string", () => {
+      const actual = codecUnderTest.toDebugString([1, 2]);
+      expect(actual).to.equal("[1, 2]");
     });
   });
 });

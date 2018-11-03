@@ -39,4 +39,10 @@ describe("datetime codec", () => {
     const actual = datetimeCodec.decode(value);
     expect(actual.time).to.equal(value);
   });
+
+  it("generates a debug string", () => {
+    const value = createImmutableDate(111111111);
+    const actual = datetimeCodec.toDebugString(value);
+    expect(actual).to.equal(value.toISOString());
+  });
 });
