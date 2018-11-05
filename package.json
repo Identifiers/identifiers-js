@@ -55,7 +55,8 @@
   "scripts": {
     "clean": "rimraf lib coverage .nyc_output .browser-test yarn-error.log",
     "build:commonjs": "tsc",
-    "build:webpack": "rimraf browser-test && node_modules/.bin/webpack",
+    "build:webpack-test": "rimraf .browser-test && node_modules/.bin/webpack --config=webpack/webpack.dev.config.js",
+    "build:webpack": "rimraf dist && node_modules/.bin/webpack --config=webpack/webpack.prod.config.js",
     "build": "yarn run clean & yarn run build:commonjs & yarn run build:webpack",
     "test": "mocha --opts mocha.opts",
     "benchmark": "ts-node benchmark",
@@ -66,7 +67,8 @@
   "files": [
     "src",
     "lib",
-    "typings"
+    "typings",
+    "dist"
   ],
   "nyc": {
     "include": [
