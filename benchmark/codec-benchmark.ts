@@ -2,13 +2,11 @@ import * as base32dec from "../src/base32/decode";
 import * as base32enc from "../src/base32/encode";
 import * as base128dec from "../src/base128/decode";
 import * as base128enc from "../src/base128/encode";
-import {msgpackCodec} from "../src/shared";
 
 import * as benchmark from "benchmark";
 import * as faker from "faker";
-import * as msgpack from "msgpack-lite";
+import * as msgpack from "msgpack-typed-numbers";
 
-const encoderOptions = { codec: msgpackCodec };
 const suite = new benchmark.Suite("codecs");
 const randomBytes: Uint8Array[] = [];
 for (let i = 0; i < 10; i++) {
@@ -28,7 +26,7 @@ for (let i = 0; i < 2; i++) {
     faker.date.recent().toString(),
     faker.random.uuid());
 }
-const strBytes = strings.map(str => msgpack.encode(str, encoderOptions));
+const strBytes = strings.map(str => msgpack.encode(str));
 
 console.log("codec benchmark started");
 suite
