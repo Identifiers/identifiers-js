@@ -6,6 +6,8 @@
 
 ## Installation and Usage
 
+Identifiers-js is published to NPM and includes packaging for TypeScript, node modules and minified JS.
+
 ```sh
 npm install identifiers-js
 ```
@@ -26,6 +28,12 @@ import * as ID from "identifiers";
 
 ```js
 const ID = require('identifiers');
+```
+
+#### Browsers
+
+```html
+<script src="https://unpkg.com/identifiers-js/dist/identifiers.bundle.js" crossorigin="anonymous"></script>
 ```
 
 The `ID` reference comes with methods to parse Identifier strings as well as a factory to create Identifier instances. For further details see the [Factory API Reference](#factory-api-reference) section.
