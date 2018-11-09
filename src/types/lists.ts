@@ -18,11 +18,24 @@ export function createListCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCode
     S.spec.array, // must be an array, not a Set
     S.spec.collection(`${listType} item spec`, itemCodec.specForDecoding));
 
-  function generateDebugString(list: VALUE[]): string {
+
+  function forIdentifier(list: INPUT[]): VALUE[] {
+    return list.map(itemCodec.forIdentifier);
+  }
+
+  function toDebugString(list: VALUE[]): string {
     const joined = list
       .map((value) => itemCodec.toDebugString(value))
       .join(", ");
     return `[${joined}]`;
+  }
+
+  function encodeList(list: VALUE[]): ENCODED[] {
+    return list.map(itemCodec.encode);
+  }
+
+  function decodeList(list: ENCODED[]): VALUE[] {
+    return list.map(itemCodec.decode);
   }
 
   return {
@@ -30,10 +43,10 @@ export function createListCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCode
     typeCode: listTypeCode,
     specForIdentifier: forIdentifierListSpec,
     specForDecoding: forDecodingListSpec,
-    forIdentifier: (list) => list.map(itemCodec.forIdentifier),
-    toDebugString: generateDebugString,
-    encode: (list) => list.map(itemCodec.encode),
-    decode: (list) => list.map(itemCodec.decode)
+    forIdentifier: forIdentifier,
+    toDebugString: toDebugString,
+    encode: encodeList,
+    decode: decodeList
   };
 }
 

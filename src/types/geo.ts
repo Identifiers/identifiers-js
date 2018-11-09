@@ -55,25 +55,25 @@ function forGeoIdentifier(input: GeoInput): GeoLike {
   return {latitude, longitude};
 }
 
+function toDebugString(value: GeoLike): string {
+  return `lat:${value.latitude}/long:${value.longitude}`;
+}
+
 function encodeGeo({latitude, longitude}: GeoLike): EncodedFloat[] {
   return [floatCodec.encode(latitude), floatCodec.encode(longitude)];
 }
 
-function decodeToGeo([latitude, longitude]: number[]): GeoLike {
+function decodeGeo([latitude, longitude]: number[]): GeoLike {
   return {latitude, longitude};
-}
-
-function generateDebugString(value: GeoLike): string {
-  return `lat:${value.latitude}/long:${value.longitude}`;
 }
 
 export const geoCodec: IdentifierCodec<GeoInput, GeoLike, EncodedFloat[]> = {
   type: "geo",
   typeCode: registerSemanticTypeCode(LIST_TYPE_CODE | floatCodec.typeCode, 2),
   specForIdentifier: geoInputSpec,
-  forIdentifier: forGeoIdentifier,
-  toDebugString: generateDebugString,
-  encode: encodeGeo,
   specForDecoding: geoArraySpec,
-  decode: decodeToGeo,
+  forIdentifier: forGeoIdentifier,
+  toDebugString: toDebugString,
+  encode: encodeGeo,
+  decode: decodeGeo,
 };

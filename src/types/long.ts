@@ -3,7 +3,7 @@ import * as Long from "long";
 
 import {IdentifierCodec} from "../identifier-codec";
 import {integerSpec} from "./integer";
-import {existsPredicate} from "../shared";
+import {exists, isNumber} from "../shared";
 import {asIsCodec} from "./shared-types";
 
 
@@ -50,7 +50,7 @@ const longLikeSpec = S.spec.map("long value", {
   if key is defined, but value is undefined.
  */
 function toPlainLongLike({high, low, unsigned}: LongLike): LongLike {
-  return existsPredicate(unsigned)
+  return exists(unsigned)
     ? {high, low, unsigned}
     : {high, low};
 }
@@ -66,14 +66,10 @@ const decodeSpec = S.spec.or("decoded long", {
   "Long": Long.isLong
 });
 
-function isNumber(input: any): input is number {
-  return typeof input === "number";
-}
-
 /*
  Convert the input into a plain LongLike object, either from number or another LongLike object.
  */
-function forIdentifierValue(input: LongInput): Long {
+function forIdentifier(input: LongInput): Long {
   let long: Long;
   if (Long.isLong(input)) {
     long = input as Long;
@@ -85,14 +81,14 @@ function forIdentifierValue(input: LongInput): Long {
   return long.toSigned();
 }
 
+function toDebugString(value: Long): string {
+  return value.toString();
+}
+
 function decodeValue(encoded: EncodedLong): Long {
   return isNumber(encoded)
     ? Long.fromNumber(encoded)
     : encoded.toSigned()
-}
-
-function generateDebugString(value: Long): string {
-  return value.toString();
 }
 
 export const longCodec: IdentifierCodec<LongInput, Long, EncodedLong> = {
@@ -100,8 +96,8 @@ export const longCodec: IdentifierCodec<LongInput, Long, EncodedLong> = {
   typeCode: 0x4,
   specForIdentifier: longInputSpec,
   specForDecoding: decodeSpec,
-  forIdentifier: forIdentifierValue,
-  toDebugString: generateDebugString,
+  forIdentifier: forIdentifier,
+  toDebugString: toDebugString,
   encode: asIsCodec.encode,
   decode: decodeValue
 };

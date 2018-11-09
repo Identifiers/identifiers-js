@@ -2,6 +2,8 @@
  * Identifier-centric immutable wrapper around a Date instance. It provides the Date methods often used in system that
  * treat dates as identifiers. One can get a Date instance for other cases.
  */
+import {isNumber} from "../shared";
+
 export interface ImmutableDate {
 
   /**
@@ -41,7 +43,9 @@ export interface ImmutableDate {
  * @returns an ImmutableDate instance
  */
 export function createImmutableDate(value: number | Date): ImmutableDate {
-  const time = typeof value === "number" ? value : value.getTime();
+  const time = isNumber(value)
+    ? value
+    : value.getTime();
   const date = new Date(time);
   return Object.freeze({
     time,

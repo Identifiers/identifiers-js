@@ -7,7 +7,7 @@ import * as S from "js.spec";
 import {IdentifierCodec} from "../identifier-codec";
 import {bytesCodec, bytesDecodingSpec, BytesInput, bytesInputSpec, forBytesIdentifier, isValidLength} from "./bytes";
 import {registerSemanticTypeCode} from "../semantic";
-import {toCharCode, TypedObject} from "../shared";
+import {isString, toCharCode, TypedObject} from "../shared";
 
 
 export interface UuidLike {
@@ -52,8 +52,8 @@ for (let i = 0; i < 0x100; i++) {
 }
 
 
-function forUuidIdentifier(value: UuidInput): UuidLike {
-  return typeof value === "string"
+function forIdentifier(value: UuidInput): UuidLike {
+  return isString(value)
     ? forStringUuid(value)
     : forBytesUuid(forBytesIdentifier(value));
 }
@@ -88,13 +88,25 @@ function createUuidLike(hex: string, bytes: number[]): UuidLike {
   }
 }
 
+function toDebugString(uuid: UuidLike): string {
+  return uuid.toString();
+}
+
+function encodeBytes(uuid: UuidLike) {
+  return bytesCodec.encode(uuid.bytes);
+}
+
+function decodeBytes(bytes: Uint8Array): UuidLike {
+  return forBytesUuid(Array.from(bytes));
+}
+
 export const uuidCodec: IdentifierCodec<UuidInput, UuidLike, Uint8Array> = {
   type: "uuid",
   typeCode: registerSemanticTypeCode(bytesCodec.typeCode, 0),
   specForIdentifier: uuidInputSpec,
-  forIdentifier: forUuidIdentifier,
-  toDebugString: (uuid) => uuid.toString(),
-  encode: (uuid) => bytesCodec.encode(uuid.bytes),
   specForDecoding: uuidDecodingSpec,
-  decode: (bytes) => forBytesUuid(Array.from(bytes))
+  forIdentifier: forIdentifier,
+  toDebugString: toDebugString,
+  encode: encodeBytes,
+  decode: decodeBytes
 };

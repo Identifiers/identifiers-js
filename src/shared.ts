@@ -14,11 +14,6 @@ export type TypedObject<T> = { [key: string]: T };
 export type MapIdentifier<VALUE> = Identifier<TypedObject<VALUE>>;
 
 /**
- * Msgpack codec configured to make life easier for codecs.
- */
-
-
-/**
  * Symbol key to store codec in an identifier instance.
  */
 export const codecSymbol: symbol = Symbol.for("id-codec");
@@ -29,8 +24,16 @@ export const codecSymbol: symbol = Symbol.for("id-codec");
  * @param value the value to test
  * @returns true if the value exists, regardless of it's actual value
  */
-export function existsPredicate(value: any): boolean {
+export function exists(value: any): boolean {
   return !!value || value != null;
+}
+
+export function isString(value: any): value is string {
+  return typeof value === "string";
+}
+
+export function isNumber(value: any): value is number {
+  return typeof value === "number";
 }
 
 /**
@@ -75,11 +78,11 @@ export const identifierSpec = S.spec.and("identifier",
     hasCodecSymbol,
     S.spec.map("identifier structure", {
       type: S.spec.string,
-      value: existsPredicate
+      value: exists
     })
 );
 
 export const decodedIdSpec = S.spec.tuple("decoded identifier array",
     Number.isInteger,
-    existsPredicate
+    exists
 );

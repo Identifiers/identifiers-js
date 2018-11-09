@@ -12,6 +12,7 @@ export type CompositeIdList = Identifier<any>[];
 
 export type CompositeIdMap = TypedObject<Identifier<any>>;
 
+
 const COMPOSITE_TYPE_CODE = 0x18;
 
 const specForListInput = S.spec.and("composite-list forIdentifier",
@@ -29,6 +30,14 @@ function toDebugStringList(list: CompositeIdList): string {
   return `[${joined}]`;
 }
 
+function encodeList(list: CompositeIdList): IDTuple<any>[] {
+  return list.map(encodeIdTuple);
+}
+
+function decodeList(list: IDTuple<any>[]): CompositeIdList {
+  return list.map(decodeToIdentifier);
+}
+
 export const listCodec: IdentifierCodec<CompositeIdList, CompositeIdList, IDTuple<any>[]> = {
   type: "composite-list",
   typeCode: COMPOSITE_TYPE_CODE | LIST_OF,
@@ -36,8 +45,8 @@ export const listCodec: IdentifierCodec<CompositeIdList, CompositeIdList, IDTupl
   specForDecoding: specForDecodingList,
   forIdentifier: asIsCodec.forIdentifier,
   toDebugString: toDebugStringList,
-  encode: (list) => list.map(encodeIdTuple),
-  decode: (list) => list.map(decodeToIdentifier)
+  encode: encodeList,
+  decode: decodeList
 };
 
 const specForMapInput = S.spec.and("composite-map forIdentifier spec",
@@ -48,7 +57,7 @@ const specForDecodingMap = S.spec.and("composite-map decode spec",
     S.spec.object,
     new MapValuesSpec(decodedIdSpec, "Map identifier values"));
 
-function generateDebugStringMap(map: CompositeIdMap): string {
+function toDebugStringMap(map: CompositeIdMap): string {
   const keys = Object.keys(map);
   const joined = keys
       .map((key) => `${key}: ${map[key].toString()}`)
@@ -56,13 +65,25 @@ function generateDebugStringMap(map: CompositeIdMap): string {
   return `{${joined}}`;
 }
 
+function forMapIdentifier(map: CompositeIdMap): CompositeIdMap {
+  return mapValues(map, asIsCodec.forIdentifier, true);
+}
+
+function encodeMap(map: CompositeIdMap): TypedObject<IDTuple<any>> {
+  return mapValues(map, encodeIdTuple);
+}
+
+function decodeMap(map: TypedObject<IDTuple<any>>): CompositeIdMap {
+  return mapValues(map, decodeToIdentifier);
+}
+
 export const mapCodec: IdentifierCodec<CompositeIdMap, CompositeIdMap, TypedObject<IDTuple<any>>> = {
   type: "composite-map",
   typeCode: COMPOSITE_TYPE_CODE | MAP_OF,
   specForIdentifier: specForMapInput,
   specForDecoding: specForDecodingMap,
-  forIdentifier: (map) => mapValues(map, asIsCodec.forIdentifier, true),
-  toDebugString: generateDebugStringMap,
-  encode: (map) => mapValues(map, encodeIdTuple),
-  decode: (map) => mapValues(map, decodeToIdentifier)
+  forIdentifier: forMapIdentifier,
+  toDebugString: toDebugStringMap,
+  encode: encodeMap,
+  decode: decodeMap
 };

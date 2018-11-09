@@ -75,7 +75,12 @@ export function createMapCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec
     S.spec.object,
     new MapValuesSpec(itemCodec.specForDecoding, "decoded Map values"));
 
-  function generateDebugString(map: TypedObject<VALUE>): string {
+
+  function forIdentifier(map: TypedObject<INPUT>): TypedObject<VALUE> {
+    return mapValues(map, itemCodec.forIdentifier, true);
+  }
+
+  function toDebugString(map: TypedObject<VALUE>): string {
     const stringMap = mapValues(map, itemCodec.toDebugString);
 
     const keys = Object.keys(stringMap);
@@ -85,15 +90,23 @@ export function createMapCodec<INPUT, VALUE, ENCODED>(itemCodec: IdentifierCodec
     return `{${joined}}`;
   }
 
+  function encodeMap(map: TypedObject<VALUE>): TypedObject<ENCODED> {
+    return mapValues(map, itemCodec.encode);
+  }
+
+  function decodeMap(map: TypedObject<ENCODED>): TypedObject<VALUE> {
+    return mapValues(map, itemCodec.decode);
+  }
+
   return {
     type: mapType,
     typeCode: calculateMapTypeCode(itemCodec.typeCode),
     specForIdentifier: forIdentifierMapSpec,
     specForDecoding: forDecodingMapSpec,
-    forIdentifier: (map) => mapValues(map, itemCodec.forIdentifier, true),
-    toDebugString: generateDebugString,
-    encode: (map) => mapValues(map, itemCodec.encode),
-    decode: (map) => mapValues(map, itemCodec.decode)
+    forIdentifier: forIdentifier,
+    toDebugString: toDebugString,
+    encode: encodeMap,
+    decode: decodeMap
   }
 }
 

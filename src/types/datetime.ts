@@ -5,6 +5,10 @@ import {IdentifierCodec} from "../identifier-codec";
 import {EncodedLong, longCodec} from "./long";
 import {registerSemanticTypeCode} from "../semantic";
 import {createImmutableDate, ImmutableDate} from "./immutable-date";
+import {isNumber} from "../shared";
+
+
+export type DatetimeInput = number | Date;
 
 
 const datetimeInputSpec = S.spec.or("DatetimeInput spec", {
@@ -12,13 +16,19 @@ const datetimeInputSpec = S.spec.or("DatetimeInput spec", {
   "number": Number.isInteger
 });
 
-export type DatetimeInput = number | Date;
-
 function decodeDatetime(encoded: EncodedLong): ImmutableDate {
-  if (typeof encoded === "number") {
-    return createImmutableDate(encoded);
-  }
-  return createImmutableDate(longCodec.decode(encoded).toNumber());
+  const value = isNumber(encoded)
+    ? encoded
+    : longCodec.decode(encoded).toNumber();
+  return createImmutableDate(value);
+}
+
+function toDebugString(date: ImmutableDate): string {
+  return date.toISOString();
+}
+
+function encodeDatetime(date: ImmutableDate): Long {
+  return Long.fromNumber(date.time);
 }
 
 /**
@@ -30,7 +40,7 @@ export const datetimeCodec: IdentifierCodec<DatetimeInput, ImmutableDate, Encode
   specForIdentifier: datetimeInputSpec,
   specForDecoding: longCodec.specForDecoding,
   forIdentifier: createImmutableDate,
-  toDebugString: (date) => date.toISOString(),
-  encode: (date) => Long.fromNumber(date.time),
+  toDebugString: toDebugString,
+  encode: encodeDatetime,
   decode: decodeDatetime
 };
