@@ -1,18 +1,18 @@
 const path = require('path');
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const tsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
   mode: 'production',
   entry: path.resolve(__dirname, '../src/index.ts'),
   output: {
-    library: "identifiers",
+    library: 'identifiers',
     filename: 'identifiers.bundle.js',
     path: path.resolve(__dirname, '../dist')
   },
   resolve: {
     extensions: ['.ts', '.js'],
     // use a different tsconfig that does not generate declarations
-    plugins: [new TsconfigPathsPlugin({configFile: path.resolve(__dirname, 'tsconfig-webpack.json')})]
+    plugins: [new tsConfigPathsPlugin({configFile: path.resolve(__dirname, 'tsconfig-webpack.json')})]
   },
   module: {
     rules: [
