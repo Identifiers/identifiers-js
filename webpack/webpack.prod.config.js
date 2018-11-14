@@ -5,7 +5,7 @@ module.exports = {
   mode: 'production',
   entry: path.resolve(__dirname, '../src/index.ts'),
   output: {
-    library: 'identifiers',
+    library: 'ID',
     filename: 'identifiers.bundle.js',
     path: path.resolve(__dirname, '../dist')
   },

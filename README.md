@@ -34,6 +34,10 @@ const ID = require('identifiers');
 
 ```html
 <script src="https://unpkg.com/identifiers-js/dist/identifiers.bundle.js" crossorigin="anonymous"></script>
+
+<script language="javascript">
+var id = ID.factory.string("a string ID");
+</script>
 ```
 
 The `ID` reference comes with methods to parse Identifier strings as well as a factory to create Identifier instances. For further details see the [Factory API Reference](#factory-api-reference) section.
