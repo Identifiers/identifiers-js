@@ -8,7 +8,6 @@
  */
 export const SYMBOLS = "0123456789abcdefghjkmnpqrstvwxyz";
 export const CHECK_EXTRAS = "*~$=u";
-export const PREFIX = "_";
 
 /*
  where does WORD_SIZE of 5 come from?

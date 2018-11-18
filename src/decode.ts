@@ -34,10 +34,7 @@ export function decodeString(encoded: string): Uint8Array {
   if (decode128.maybe(encoded)) {
     return decode128.decode(encoded);
   }
-  if (decode32.maybe(encoded)) {
-    return decode32.decode(encoded);
-  }
-  throw new Error(`cannot decode to identifier: '${encoded}'`);
+  return decode32.decode(encoded);
 }
 
 export function decodeBytes<ENCODED>(bytes: Uint8Array): IDTuple<ENCODED> {

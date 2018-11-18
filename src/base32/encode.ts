@@ -8,7 +8,6 @@ import {
   BYTE_SIZE,
   CHECK_EXTRAS,
   CHECK_PRIME,
-  PREFIX,
   SYMBOLS,
   WORD_SHIFT_START,
   WORD_SIZE
@@ -19,7 +18,6 @@ import {
 } from "../shared";
 
 const BITS_MASK = 0x1f;
-const PREFIX_CODE = toCharCode(PREFIX);
 const CODES = Array.from(SYMBOLS, toCharCode);
 const CHECK_CODES = [
   ...CODES,
@@ -28,17 +26,15 @@ const CHECK_CODES = [
 export function encode(unencoded: Uint8Array): string {
 
   if (unencoded.length === 0) {
-    return PREFIX;
+    return "";
   }
 
   const wordCount = unencoded.length / WORD_SIZE;
-  const charCount = Math.ceil(wordCount * BYTE_SIZE) + 2; // + 2 is prefix, check digit
+  const charCount = Math.ceil(wordCount * BYTE_SIZE) + 1; // + 1 is check digit
   const fullWordsEnd = Math.trunc(wordCount) * WORD_SIZE;
   const result = new Array(charCount);
 
-  result[0] = PREFIX_CODE;
-
-  let charPos = 1;
+  let charPos = 0;
   let bytePos = 0;
   let checksum = 0;
 

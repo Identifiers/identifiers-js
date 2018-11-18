@@ -8,7 +8,6 @@ import {
   BYTE_SIZE,
   CHECK_EXTRAS,
   CHECK_PRIME,
-  PREFIX,
   SYMBOLS,
   WORD_SHIFT_START,
   WORD_SIZE
@@ -20,7 +19,7 @@ import {
   TypedObject
 } from "../shared";
 
-export const REGEXP = /^_[0-9A-VW-Za-vw-z]{2,}[0-9A-Za-z*~$=]$/;
+export const REGEXP = /^[0-9A-TV-Za-tv-z]{2,}[0-9A-Za-z*~$=]$/;
 
 const BYTE_MASK = 0xff;
 const CODES = new Array(0x100).fill(NOT_A_CODE);
@@ -58,25 +57,20 @@ Array.from(CHECK_EXTRAS, toCharCode)
 CHECK_CODES[toCharCode("U")] = CHECK_CODES[toCharCode("u")];
 
 
-//faster than a full regex test
-export function maybe(encoded: string): boolean {
-  return encoded.length !== 3 && encoded.startsWith(PREFIX);
-}
-
 /**
  * Expects a string value.
  */
 export function decode(encoded: string): Uint8Array {
-  if (encoded === PREFIX) {
+  if (encoded === "") {
     return new Uint8Array(0);
   }
 
-  const length = encoded.length - 2; //skip prefix, check digit
+  const length = encoded.length - 1; //skip check digit
   const bytesCount = Math.trunc(length * WORD_SIZE / BYTE_SIZE);
   const fullWordsEnd = Math.trunc(bytesCount / WORD_SIZE) * WORD_SIZE;
   const result = new Uint8Array(bytesCount);
 
-  let charPos = 1;  //skip the prefix
+  let charPos = 0;
   let bytePos = 0;
   let checksum = 0;
 
@@ -98,7 +92,7 @@ export function decode(encoded: string): Uint8Array {
   if (bytePos < bytesCount) {
     let unpacked = Long.ZERO;
 
-    for (let shift = WORD_SHIFT_START; charPos <= length; shift -= WORD_SIZE) {
+    for (let shift = WORD_SHIFT_START; charPos < length; shift -= WORD_SIZE) {
       unpacked = unpackChar(encoded, charPos++, unpacked, shift);
     }
 

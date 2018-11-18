@@ -14,7 +14,7 @@ chai.use(jsSpecChai);
 describe("decode tests", () => {
 
   it("throws error decoding incorrect values", () => {
-    expect(() => decode.decodeString("")).to.throw();
+    expect(() => decode.decodeString("u")).to.throw();
     expect(() => decode.decodeString("Not an encoded string")).to.throw();
     expect(() => decode.decodeString("messed-upþ")).to.throw();
     expect(() => decode.decodeString("qþ")).to.throw();

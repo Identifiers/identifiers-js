@@ -1,4 +1,3 @@
-import {PREFIX} from "../../src/base32/constants";
 import {expect} from "chai";
 
 import {decode, DECODE_ALIASES, REGEXP} from "../../src/base32/decode";
@@ -11,7 +10,7 @@ describe("base32 tests", () => {
   it("handles empty values", () => {
     const empty = Uint8Array.of();
     const testEnc = encode(empty);
-    expect(testEnc).to.equal(PREFIX);
+    expect(testEnc).to.equal("");
     const testDec = decode(testEnc);
     expect(testDec).to.deep.equal(empty);
   });
@@ -19,7 +18,7 @@ describe("base32 tests", () => {
   it("converts a known single-character value to and from base32", () => {
     const m = Uint8Array.of(toCharCode("m"));
     const testEnc = encode(m);
-    expect(testEnc).to.equal("_dm=");
+    expect(testEnc).to.equal("dm=");
     const testDec = decode(testEnc);
     expect(testDec).to.deep.equal(m);
   });
@@ -27,7 +26,7 @@ describe("base32 tests", () => {
   it("converts a known single-character value with a code point > 128 to and from base 128", () => {
     const y = Uint8Array.of(toCharCode("ÿ"));
     const testEnc = encode(y);
-    expect(testEnc).to.equal("_zw~");
+    expect(testEnc).to.equal("zw~");
     const testDec = decode(testEnc);
     expect(testDec).to.deep.equal(y);
   });
@@ -35,7 +34,7 @@ describe("base32 tests", () => {
   it("converts a known small single-byte array to and from base32", () => {
     const one = Uint8Array.of(1);
     const testEnc = encode(one);
-    expect(testEnc).to.equal("_041");
+    expect(testEnc).to.equal("041");
     const testDec = decode(testEnc);
     expect(testDec).to.deep.equal(one);
   });
@@ -44,7 +43,7 @@ describe("base32 tests", () => {
     const bytes = Uint8Array.from(
       Array.from("green").map(toCharCode));
     const testEnc = encode(bytes);
-    expect(testEnc).to.equal("_cxs6asbeb");
+    expect(testEnc).to.equal("cxs6asbeb");
     const testDec = decode(testEnc);
     expect(testDec).to.deep.equal(bytes);
   });
@@ -53,13 +52,13 @@ describe("base32 tests", () => {
     const bytes = Uint8Array.from(
       Array.from("yellow").map(toCharCode));
     const testEnc = encode(bytes);
-    expect(testEnc).to.equal("_f5jprv3few2");
+    expect(testEnc).to.equal("f5jprv3few2");
     const testDec = decode(testEnc);
     expect(testDec).to.deep.equal(bytes);
   });
 
   it("converts a higher-value byte array", () => {
-    const expected = "_xkakcp";
+    const expected = "xkakcp";
     const bytes = Uint8Array.of(236, 213, 54);  //[-20, -43, 54]
 
     const actualBytes = decode(expected);
@@ -70,8 +69,8 @@ describe("base32 tests", () => {
   });
 
   it("understands the base32 alias characters", () => {
-    const testEnc = "_00011111abcdefghjkmnpqrstvwxyzabcdefghjkmnpqrstvwxyzh";
-    const aliasedEnc = "_0Oo1iIlLabcdefghjkmnpqrstvwxyzABCDEFGHJKMNPQRSTVWXYZH";
+    const testEnc = "00011111abcdefghjkmnpqrstvwxyzabcdefghjkmnpqrstvwxyzh";
+    const aliasedEnc = "0Oo1iIlLabcdefghjkmnpqrstvwxyzABCDEFGHJKMNPQRSTVWXYZH";
     const testDec = decode(testEnc);
     const aliasedDec = decode(aliasedEnc);
     expect(testDec).to.deep.equal(aliasedDec);
@@ -93,7 +92,7 @@ describe("base32 tests", () => {
 function roundTrip(bytes: Uint8Array): void {
   const testEnc = randomizeAliases(encode(bytes));
   const testDec = decode(testEnc);
-  // note these expectation checks take up 95% of the time in this test
+  // note these expectations take up 95% of the time in this test
   expect(testEnc).to.be.a("string");
   expect(testDec).to.be.a("uint8array");
   expect(testEnc).to.match(REGEXP);
