@@ -18,7 +18,7 @@ import {
   TypedObject
 } from "../shared";
 
-export const REGEXP = /^[0-9A-TV-Za-tv-z]{2,}[0-9A-Za-z*~$=]$/;
+export const REGEXP = /^[0-9a-tv-z]{2,}[0-9a-z*~$=]$/i;
 
 const BYTE_MASK = 0xff;
 const CODES = new Array(0x100);

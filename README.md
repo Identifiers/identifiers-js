@@ -3,7 +3,8 @@
 [![Build Status](https://travis-ci.org/Identifiers/identifiers-js.svg?branch=master)](https://travis-ci.org/Identifiers/identifiers-js)
 [![Coverage Status](https://coveralls.io/repos/github/Identifiers/identifiers-js/badge.svg?branch=master)](https://coveralls.io/github/Identifiers/identifiers-js?branch=master)
 [![Known Vulnerabilities](https://snyk.io/test/github/identifiers/identifiers-js/badge.svg?targetFile=package.json)](https://snyk.io/test/github/identifiers/identifiers-js?targetFile=package.json)
-
+[![npm download](https://img.shields.io/npm/dt/identifiers-js.svg?maxAge=2592000)](https://www.npmjs.com/package/identifiers-js)
+[![MIT License](https://img.shields.io/github/license/Identifiers/identifiers-js.svg)](https://github.com/Identifiers/identifiers-js/blob/master/LICENSE)
 ## Installation and Usage
 
 Identifiers-js is published to NPM and includes packaging for TypeScript, node modules and minified JS.
