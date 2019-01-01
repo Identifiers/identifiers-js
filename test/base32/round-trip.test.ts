@@ -10,7 +10,7 @@ describe("base32 tests", () => {
   it("handles empty values", () => {
     const empty = Uint8Array.of();
     const testEnc = encode(empty);
-    expect(testEnc).to.equal("");
+    expect(testEnc).to.equal("0"); // 0 is check digit
     const testDec = decode(testEnc);
     expect(testDec).to.deep.equal(empty);
   });

@@ -2,8 +2,8 @@
 import * as ID from "../src/types-export";
 import {factory} from "../src/types-export";
 
-const decoded: ID.Identifier<boolean[]> = ID.decodeFromString("Ç1lfR7þ");
-const jsonDecoded = JSON.parse('{"m": "Ç1lfR7þ"}', ID.JSON_reviver);
+const decoded: ID.Identifier<boolean[]> = ID.decodeFromString("Ç1lfR7");
+const jsonDecoded = JSON.parse('{"m": "Ç1lfR7"}', ID.JSON_reviver);
 const stringId: ID.Identifier<string> = factory.string("hi there");
 
 const boolId: ID.Identifier<boolean> = factory.boolean(true);

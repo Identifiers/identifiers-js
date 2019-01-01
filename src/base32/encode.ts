@@ -23,12 +23,8 @@ const CHECK_CODES = [
   ...CODES,
   ...Array.from(CHECK_EXTRAS, toCharCode)];
 
+
 export function encode(unencoded: Uint8Array): string {
-
-  if (unencoded.length === 0) {
-    return "";
-  }
-
   const wordCount = unencoded.length / WORD_SIZE;
   const charCount = Math.ceil(wordCount * BYTE_SIZE) + 1; // + 1 is check digit
   const fullWordsEnd = Math.trunc(wordCount) * WORD_SIZE;

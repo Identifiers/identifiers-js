@@ -5,7 +5,7 @@ import * as decode128 from "./base128/decode";
 import * as decode32 from "./base32/decode";
 import {Identifier} from "./identifier";
 import {codecForTypeCode} from "./finder";
-import {decodedIdSpec, IDTuple} from "./shared";
+import {decodedIdSpec, exists, IDTuple} from "./shared";
 import {createIdentifier} from "./factory";
 import {IdentifierCodec} from "./identifier-codec";
 
@@ -27,14 +27,21 @@ export function decodeToIdentifier<INPUT, VALUE, ENCODED>(tuple: IDTuple<ENCODED
   return createIdentifier<INPUT, VALUE, ENCODED>(codec, value);
 }
 
-const stringSpec = S.spec.predicate("encoded string", S.spec.string);
+const stringSpec = S.spec.and("encoded identifier",
+  S.spec.predicate("encoded string", S.spec.string),
+  S.spec.predicate("not empty", (value) => exists(value) && value.length > 0));
 
 export function decodeString(encoded: string): Uint8Array {
   S.assert(stringSpec, encoded);
-  if (decode128.maybe(encoded)) {
+  // check for encoded msgpack 2-element array
+  const firstChar = encoded.charCodeAt(0);
+  if (firstChar === 0xc7) { // Ç
     return decode128.decode(encoded);
   }
-  return decode32.decode(encoded);
+  if (firstChar === 0x4a || firstChar === 0x6a) { // j/J
+    return decode32.decode(encoded);
+  }
+  throw new Error(`Not a valid encoded identifier: '${encoded}'`);
 }
 
 export function decodeBytes<ENCODED>(bytes: Uint8Array): IDTuple<ENCODED> {

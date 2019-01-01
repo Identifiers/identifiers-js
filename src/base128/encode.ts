@@ -7,7 +7,6 @@ import {
   BYTE_SHIFT_START,
   BYTE_SIZE,
   SYMBOLS,
-  TERMINATOR,
   WORD_SHIFT_START,
   WORD_SIZE
 } from "./constants";
@@ -17,17 +16,12 @@ import {
 } from "../shared";
 
 const BITS_MASK = 0x7f;
-const TERMINATOR_CODE = toCharCode(TERMINATOR);
 const CODES = Array.from(SYMBOLS, toCharCode);
 
+
 export function encode(unencoded: Uint8Array): string {
-
-  if (unencoded.length === 0) {
-    return TERMINATOR;
-  }
-
   const wordCount = unencoded.length / WORD_SIZE;
-  const charCount = Math.ceil(wordCount * BYTE_SIZE) + 1;
+  const charCount = Math.ceil(wordCount * BYTE_SIZE);
   const fullWordsEnd = Math.trunc(wordCount) * WORD_SIZE;
   const result = new Array(charCount);
 
@@ -60,8 +54,6 @@ export function encode(unencoded: Uint8Array): string {
       remainder--;
     }
   }
-
-  result[charPos] = TERMINATOR_CODE;
 
   return String.fromCharCode(...result);
 }

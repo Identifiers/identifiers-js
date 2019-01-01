@@ -10,7 +10,7 @@ describe("base128 round-trip", () => {
   it("handles empty values", () => {
     const empty = Uint8Array.of();
     const testEnc = encode(empty);
-    expect(testEnc).to.equal("þ");
+    expect(testEnc).to.equal("");
     const testDec = decode(testEnc);
     expect(testDec).to.deep.equal(empty);
   });
@@ -18,7 +18,7 @@ describe("base128 round-trip", () => {
   it("converts a known single-character value to and from base 128", () => {
     const m = Uint8Array.of(toCharCode("m"));
     const testEnc = encode(m);
-    expect(testEnc).to.equal("pzþ");
+    expect(testEnc).to.equal("pz");
     const testDec = decode(testEnc);
     expect(testDec).to.deep.equal(m);
   });
@@ -26,7 +26,7 @@ describe("base128 round-trip", () => {
   it("converts a known single-character value with a code point > 128 to and from base 128", () => {
     const y = Uint8Array.of(toCharCode("ÿ"));
     const testEnc = encode(y);
-    expect(testEnc).to.equal("ýzþ");
+    expect(testEnc).to.equal("ýz");
     const testDec = decode(testEnc);
     expect(testDec).to.deep.equal(y);
   });
@@ -35,20 +35,20 @@ describe("base128 round-trip", () => {
     let bytes = Uint8Array.from(
       Array.from("greener").map(toCharCode));
     let testEnc = encode(bytes);
-    expect(testEnc).to.equal("mÚÊÔesÈðþ");
+    expect(testEnc).to.equal("mÚÊÔesÈð");
     let testDec = decode(testEnc);
     expect(testDec).to.deep.equal(bytes);
 
     bytes = Uint8Array.from(
       Array.from("chartreuse").map(toCharCode));
     testEnc = encode(bytes);
-    expect(testEnc).to.equal("kØ@KGÏâãtÚêÎþ");
+    expect(testEnc).to.equal("kØ@KGÏâãtÚêÎ");
     testDec = decode(testEnc);
     expect(testDec).to.deep.equal(bytes);
   });
 
   it("converts a higher-value byte array", () => {
-    const expected = "ôoZÞþ";
+    const expected = "ôoZÞ";
     const bytes = Uint8Array.of(236, 213, 54);  //[-20, -43, 54]
 
     const actualStr = encode(bytes);

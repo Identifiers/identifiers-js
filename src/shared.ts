@@ -3,7 +3,6 @@ import * as S from "js.spec";
 
 import {Identifier} from "./identifier";
 
-export const NOT_A_CODE = Long.fromInt(-1, false);
 export const LONG_BYTES: Long[] = new Array(0x100);
 for (let i = 0; i < 0x100; i++) {
   LONG_BYTES[i] = Long.fromInt(i, false);

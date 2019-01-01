@@ -14,7 +14,6 @@ import {
 } from "./constants";
 import {
   LONG_BYTES,
-  NOT_A_CODE,
   toCharCode,
   TypedObject
 } from "../shared";
@@ -22,7 +21,7 @@ import {
 export const REGEXP = /^[0-9A-TV-Za-tv-z]{2,}[0-9A-Za-z*~$=]$/;
 
 const BYTE_MASK = 0xff;
-const CODES = new Array(0x100).fill(NOT_A_CODE);
+const CODES = new Array(0x100);
 
 Array.from(SYMBOLS, toCharCode)
   .forEach((charCode, i) => {
@@ -61,10 +60,6 @@ CHECK_CODES[toCharCode("U")] = CHECK_CODES[toCharCode("u")];
  * Expects a string value.
  */
 export function decode(encoded: string): Uint8Array {
-  if (encoded === "") {
-    return new Uint8Array(0);
-  }
-
   const length = encoded.length - 1; //skip check digit
   const bytesCount = Math.trunc(length * WORD_SIZE / BYTE_SIZE);
   const fullWordsEnd = Math.trunc(bytesCount / WORD_SIZE) * WORD_SIZE;
@@ -115,8 +110,8 @@ export function decode(encoded: string): Uint8Array {
 
 function unpackChar(encoded: string, charPos: number, unpacked: Long, shift: number): Long {
   const charCode = encoded.charCodeAt(charPos);
-  const value = charCode < CODES.length ? CODES[charCode] : NOT_A_CODE;
-  if (value === NOT_A_CODE) {
+  const value = CODES[charCode];
+  if (!value) {
     throw new Error(`invalid character code: '${charCode}' at position ${charPos}`);
   }
   return unpacked.or(value.shiftLeft(shift));

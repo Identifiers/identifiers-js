@@ -3,7 +3,6 @@ import {expect} from "chai";
 import * as S from "js.spec";
 import * as msgpack from "msgpack-typed-numbers";
 
-import * as base128 from "../src/base128/encode";
 import * as decode from "../src/decode";
 import {asIsCodec} from "../src/types/shared-types";
 
@@ -14,23 +13,14 @@ chai.use(jsSpecChai);
 describe("decode tests", () => {
 
   it("throws error decoding incorrect values", () => {
-    expect(() => decode.decodeString("u")).to.throw();
     expect(() => decode.decodeString("Not an encoded string")).to.throw();
-    expect(() => decode.decodeString("messed-upþ")).to.throw();
-    expect(() => decode.decodeString("qþ")).to.throw();
-    expect(() => decode.decodeString("1þþ")).to.throw();
+    expect(() => decode.decodeString("'messed-up'")).to.throw();
+    expect(() => decode.decodeString("q")).to.throw();
+    expect(() => decode.decodeString("1")).to.throw();
     expect(() => decode.decodeString("_messed-up")).to.throw();
     expect(() => decode.decodeString("_p")).to.throw();
     expect(() => decode.decodeString("__12")).to.throw();
   });
-
-  it("decodes base128 string input", () => {
-    const bytes = Uint8Array.from([1, 2, 3]);
-    const value = base128.encode(bytes);
-    const actual = decode.decodeString(value);
-    expect(actual).to.deep.equal(bytes);
-  });
-
 
   it("decodes correct msgpack bytes", () => {
     const value = [1, {"bark": 1}];

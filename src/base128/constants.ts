@@ -3,7 +3,6 @@
   which is licensed under the BSD Open Source license.
  */
 export const SYMBOLS = "/0123456789?@ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüý";
-export const TERMINATOR = "þ";
 
 /*
  where does WORD_SIZE of 7 come from?
