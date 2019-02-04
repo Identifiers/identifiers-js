@@ -10,7 +10,7 @@
 
 Identifiers are self-describing strings of data that can be decoded into semantically-meaningful values. Identifiers can define basic data types, like numbers and bytes. They can also describe values like geolocations, date-times and uuids.
 
-Try out an online version at [identfiers.io](https://identifiers.io/id-converter/)
+Try out an online version at [identifiers.io](https://identifiers.io/id-converter/)
 
 ## Installation and Usage
 
