@@ -5,6 +5,13 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/identifiers/identifiers-js/badge.svg?targetFile=package.json)](https://snyk.io/test/github/identifiers/identifiers-js?targetFile=package.json)
 [![npm download](https://img.shields.io/npm/dt/identifiers-js.svg?maxAge=2592000)](https://www.npmjs.com/package/identifiers-js)
 [![MIT License](https://img.shields.io/github/license/Identifiers/identifiers-js.svg)](https://github.com/Identifiers/identifiers-js/blob/master/LICENSE)
+
+### About Identifiers
+
+Identifiers are self-describing strings of data that can be decoded into semantically-meaningful values. Identifiers can define basic data types, like numbers and bytes. They can also describe values like geolocations, date-times and uuids.
+
+Try out an online version at [identfiers.io](https://identifiers.io/id-converter/)
+
 ## Installation and Usage
 
 Identifiers-js is published to NPM and includes packaging for TypeScript, node modules and minified JS.
