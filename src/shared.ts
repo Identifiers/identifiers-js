@@ -61,10 +61,7 @@ export function toCharCode(char: string): number {
 }
 
 //msgPack tuple
-export interface IDTuple<VALUE> extends Array<number | VALUE> {
-  0: number,
-  1: VALUE
-}
+export type IDTuple<VALUE>  = readonly [number, VALUE];
 
 const codecAssignedSpec = S.spec.predicate("codec assigned", S.spec.object);
 

@@ -2,6 +2,8 @@
   "compilerOptions": {
     "declaration": true,
     "declarationDir": "lib",
+    "incremental": true,
+    "tsBuildInfoFile": ".tsbuildinfo",
     "lib": [
       "es6"
     ],
