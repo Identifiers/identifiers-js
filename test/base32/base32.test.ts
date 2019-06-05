@@ -7,6 +7,14 @@ import {toCharCode} from "../../src/shared";
 
 describe("base32 tests", () => {
 
+  it("handles illegal characters in an encoded string", () => {
+    expect(() => decode("/a0")).to.throw();
+  });
+
+  it("handles incorrect check digit", () => {
+    expect(() => decode("dm0")).to.throw();
+  });
+
   it("handles empty values", () => {
     const empty = Uint8Array.of();
     const testEnc = encode(empty);

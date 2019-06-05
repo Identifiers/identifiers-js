@@ -7,6 +7,10 @@ import {toCharCode} from "../../src/shared";
 
 describe("base128 round-trip", () => {
 
+  it("handles illegal characters in an encoded string", () => {
+    expect(() => decode("a:")).to.throw();
+  });
+
   it("handles empty values", () => {
     const empty = Uint8Array.of();
     const testEnc = encode(empty);
