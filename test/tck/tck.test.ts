@@ -3,7 +3,7 @@ const expect = chai.expect;
 
 import * as ID from "../../src";
 import * as Long from "long";
-import {long} from "../../src/types-export";
+
 const codecSymbol = Symbol.for("id-codec");
 
 
