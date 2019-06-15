@@ -34,7 +34,7 @@ const dtmf: ID.MapFactory<ID.datetime.DatetimeInput, ID.datetime.ImmutableDate> 
 const dateMapId: ID.MapIdentifier<ID.datetime.ImmutableDate> = dtmf({a: new Date()});
 
 Object.keys(dateMapId.value);
-dateListId.value[0];
+const immutableDate = dateListId.value[0]
 
 const compListId: ID.Identifier<ID.composite.IdList> = factory.composite.list(dateMapId, lid, geoId);
 const compMapId: ID.Identifier<ID.composite.IdMap> = factory.composite.map({a: uuidId, b: lid, c: geoId});
