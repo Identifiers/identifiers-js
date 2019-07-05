@@ -36,6 +36,7 @@ export function isValidLength(input: BytesInput, minLen: number, maxLen: number)
 }
 
 function containsOnlyBytes(input: ArrayLike<number>): boolean {
+  // for-of does not apply to ArrayLike
   for (let pos = 0; pos < input.length; pos++) {
     const byte = input[pos];
     if (!Number.isInteger(byte) || (byte < 0x0 || byte > 0xff)) {
