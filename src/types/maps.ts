@@ -15,8 +15,7 @@ export function mapValues<IN, OUT>(map: TypedObject<IN>, mapFn: (value: IN) => O
     // http://exploringjs.com/es6/ch_oop-besides-classes.html#_traversal-order-of-properties
     keys.sort();
   }
-  for (let k = 0; k < keys.length; k++) {
-    const key = keys[k];
+  for (const key of keys) {
     mapped[key] = mapFn(map[key]);
   }
   return mapped;
@@ -38,8 +37,7 @@ export class MapValuesSpec extends S.AbstractSpec {
 
   conform(value: any): any {
     const keys = Object.keys(value);
-    for (let k = 0; k < keys.length; k++) {
-      const key = keys[k];
+    for (const key of keys) {
       if (!S.valid(this.itemSpec(), value[key])) {
         return S.symbol.invalid;
       }
@@ -50,8 +48,7 @@ export class MapValuesSpec extends S.AbstractSpec {
   explain(path: string[], via: string[], value: any): S.Problem[] {
     let problems: S.Problem[] = [];
     const keys = Object.keys(value);
-    for (let k = 0; k < keys.length; k++) {
-      const key = keys[k];
+    for (const key of keys) {
       const mapValue = value[key];
       if (!S.valid(this.itemSpec(), mapValue)) {
         problems = [

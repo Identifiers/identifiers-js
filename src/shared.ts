@@ -24,7 +24,7 @@ export const codecSymbol: symbol = Symbol.for("id-codec");
  * @returns true if the value exists, regardless of it's actual value
  */
 export function exists(value: any): boolean {
-  return !!value || value != null;
+  return value !== undefined && value !== null;
 }
 
 export function isString(value: any): value is string {
