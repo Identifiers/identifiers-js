@@ -75,10 +75,10 @@ const dataString = integerId.toDataString();
 const humanString = integerId.toHumanString();
 
 // decode the identifier
-const decodedId = ID.parse(dataString);
+const decodedId = ID.decodeFromString(dataString);
 
 // parse() can decode either type of encoded string
-const decodedId2 = ID.parse(humanString);
+const decodedId2 = ID.decodeFromString(humanString);
 
 console.log(decodedId.value === decodedId2.value);
 // -> true
