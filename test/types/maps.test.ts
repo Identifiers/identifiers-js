@@ -25,13 +25,12 @@ describe("create a map codec from an item codec", () => {
       typeCode: 7,
       type: "test",
       specForIdentifier: S.spec.and("spy forIdentifier",
-        (value) => value !== Number.MAX_VALUE,
-        (value) => {spy.sfi++; return true;}),
-      forIdentifier: (value) => {spy.fi++; return value + 1;},
-      encode: (value) => {spy.e++; return value + 1;},
+        (value) => value !== Number.MAX_VALUE, () => !!++spy.sfi),
+      forIdentifier: (value) => {++spy.fi; return value + 1;},
+      encode: (value) => {++spy.e; return value + 1;},
       toDebugString: asIsCodec.toDebugString,
-      specForDecoding: S.spec.and("spy forDecoding", (value) => {spy.sfd++; return true;}),
-      decode: (value) => {spy.d++; return value - 1;}
+      specForDecoding: S.spec.and("spy forDecoding", () => !!++spy.sfd),
+      decode: (value) => {++spy.d; return value - 1;}
     };
     const codecUnderTest = createMapCodec(itemCodec);
 

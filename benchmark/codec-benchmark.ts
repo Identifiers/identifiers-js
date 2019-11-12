@@ -9,16 +9,16 @@ import * as msgpack from "msgpack-typed-numbers";
 
 const suite = new benchmark.Suite("codecs");
 const randomBytes: Uint8Array[] = [];
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 10; ++i) {
   const bytes = new Array(100);
-  for (let b = 0; b < 20; b++) {
+  for (let b = 0; b < 20; ++b) {
     bytes[b] = Math.floor(0xff * Math.random());
   }
   randomBytes.push(Uint8Array.from(bytes));
 }
 
 const strings: string[] = [];
-for (let i = 0; i < 2; i++) {
+for (let i = 0; i < 2; ++i) {
   strings.push(
     faker.lorem.slug(),
     faker.internet.url(),

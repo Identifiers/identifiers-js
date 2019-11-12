@@ -51,7 +51,7 @@ export function encode(unencoded: Uint8Array): string {
     let remainder = unencoded.length - fullWordsEnd;
     for (let shift = WORD_SHIFT_START; remainder > -1; shift -= WORD_SIZE) {
       result[charPos++] = packChar(packed, shift);
-      remainder--;
+      --remainder;
     }
   }
 

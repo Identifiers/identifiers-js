@@ -271,7 +271,7 @@ describe("identifier factory methods", () => {
 
     const uuidListExpectation = (expected: number[][], actual: UuidLike[]) => {
       expect(actual).to.have.lengthOf(expected.length);
-      for (let i = 0; i < expected.length; i++) {
+      for (let i = 0; i < expected.length; ++i) {
         uuidExpectation(expected[i], actual[i]);
       }
     };

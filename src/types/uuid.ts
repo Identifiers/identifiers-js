@@ -45,7 +45,7 @@ export const uuidDecodingSpec = S.spec.and("uuid decoding spec",
 
 const bytesToHex: string[] = [];
 const hexToBytes: TypedObject<number> = {};
-for (let i = 0; i < 0x100; i++) {
+for (let i = 0; i < 0x100; ++i) {
   const hex = (i + 0x100).toString(16).substr(1);
   bytesToHex.push(hex);
   hexToBytes[hex] = i;

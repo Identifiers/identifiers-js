@@ -60,15 +60,14 @@ describe("base128 round-trip", () => {
 
     const actualBytes = decode(expected);
     expect(actualBytes).to.deep.equal(bytes);
-
   });
 
 
   it("converts random byte arrays to and from base 128", () => {
     const bytes: Uint8Array[] = [];
-    for (let i = 1; i < 500; i++) {
+    for (let i = 1; i < 500; ++i) {
       const byteArray: number[] = [];
-      for (let b = 0; b < i; b++) {
+      for (let b = 0; b < i; ++b) {
         byteArray[b] = Math.floor(Math.random() * 256);
       }
       bytes.push(Uint8Array.from(byteArray));
