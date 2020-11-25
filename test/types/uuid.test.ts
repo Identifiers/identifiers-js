@@ -15,7 +15,7 @@ describe("uuid codec", () => {
     expect(bytes).to.conform(uuidCodec.specForIdentifier);
     expect(Uint8Array.of(...bytes)).to.conform(uuidCodec.specForIdentifier);
     expect(new ArrayBuffer(16)).to.conform(uuidCodec.specForIdentifier);
-    expect({length: 16, ...bytes}).to.conform(uuidCodec.specForIdentifier);
+    expect({...bytes, length: 16}).to.conform(uuidCodec.specForIdentifier);
   });
 
   it("rejects bad identifier values", () => {
