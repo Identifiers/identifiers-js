@@ -2,24 +2,22 @@
   This base128 algorithm is based on Mikael Grev's MiGBase64 algorithm: http://migbase64.sourceforge.net
   which is licensed under the BSD Open Source license.
  */
-import * as Long from "long";
 import {
   BYTE_SHIFT_START,
   BYTE_SIZE,
+  BYTE_SIZE_N,
   SYMBOLS,
   WORD_SHIFT_START,
-  WORD_SIZE
-} from "./constants";
-import {
-  LONG_BYTES,
-  toCharCode
-} from "../shared";
+  WORD_SIZE,
+  WORD_SIZE_N
+} from "./constants"
+import {toCharCode} from "../shared";
 
 export const REGEXP = /^[/-9?-Za-z¿-ý]{2,}$/;
 
-const CODES: Long[] = new Array(0x100);
+const CODES: bigint[] = new Array(0x100);
 Array.from(SYMBOLS, toCharCode)
-  .forEach((code, i) => CODES[code] = LONG_BYTES[i]);
+  .forEach((code, i) => CODES[code] = BigInt(i));
 
 
 /**
@@ -35,26 +33,26 @@ export function decode(encoded: string): Uint8Array {
   let bytePos = 0;
 
   while (bytePos < fullWordsEnd) {
-    let unpacked = Long.ZERO;
+    let unpacked = 0n;
 
-    for (let shift = WORD_SHIFT_START; shift > -1; shift -= WORD_SIZE) {
+    for (let shift = WORD_SHIFT_START; shift > -1; shift -= WORD_SIZE_N) {
       unpacked = unpackChar(encoded, charPos++, unpacked, shift);
     }
 
-    for (let shift = BYTE_SHIFT_START; shift > -1; shift -= BYTE_SIZE) {
+    for (let shift = BYTE_SHIFT_START; shift > -1; shift -= BYTE_SIZE_N) {
       result[bytePos++] = unpackByte(unpacked, shift);
     }
   }
 
   // remainder
   if (bytePos < bytesCount) {
-    let unpacked = Long.ZERO;
+    let unpacked = 0n;
 
-    for (let shift = WORD_SHIFT_START; charPos < length; shift -= WORD_SIZE) {
+    for (let shift = WORD_SHIFT_START; charPos < length; shift -= WORD_SIZE_N) {
       unpacked = unpackChar(encoded, charPos++, unpacked, shift);
     }
 
-    for (let shift = BYTE_SHIFT_START; bytePos < bytesCount; shift -= BYTE_SIZE) {
+    for (let shift = BYTE_SHIFT_START; bytePos < bytesCount; shift -= BYTE_SIZE_N) {
       result[bytePos++] = unpackByte(unpacked, shift);
     }
   }
@@ -63,15 +61,15 @@ export function decode(encoded: string): Uint8Array {
 }
 
 
-function unpackChar(encoded: string, charPos: number, unpacked: Long, shift: number): Long {
+function unpackChar(encoded: string, charPos: number, unpacked: bigint, shift: bigint): bigint {
   const charCode = encoded.charCodeAt(charPos);
   const value = CODES[charCode];
-  if (!value) {
-    throw new Error(`invalid character code: '${charCode}' at position ${charPos}`);
+  if (value === undefined) {
+    throw new Error(`invalid character code: '${encoded[charPos]}' (${charCode}) at position ${charPos}`);
   }
-  return unpacked.or(value.shiftLeft(shift));
+  return unpacked | value << shift;
 }
 
-function unpackByte(unpacked: Long, shift: number): number {
-  return unpacked.shiftRight(shift).low;
+function unpackByte(unpacked: bigint, shift: bigint): number {
+  return Number(unpacked >> shift & 0xffn);
 }

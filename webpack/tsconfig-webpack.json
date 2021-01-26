@@ -3,10 +3,10 @@
     "baseUrl": ".",
     "declaration": false,
     "lib": [
-      "es6"
+      "ES2020"
     ],
     "sourceMap": true,
     "strict": true,
-    "target": "es5"
+    "target": "ES2020"
   }
 }

@@ -17,8 +17,10 @@ export const SYMBOLS = "/0123456789?@ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
    • 7 bytes needed to pack 8 base128 digits without gaps. That means a 7-byte word.
  */
 export const BYTE_SIZE = 0x8;
+export const BYTE_SIZE_N = BigInt(BYTE_SIZE);
 export const WORD_SIZE = 0x7;
+export const WORD_SIZE_N = BigInt(WORD_SIZE);
 const CHARS_PER_WORD = 0x8;
 
-export const BYTE_SHIFT_START = WORD_SIZE * CHARS_PER_WORD - BYTE_SIZE;
-export const WORD_SHIFT_START = WORD_SIZE * CHARS_PER_WORD - WORD_SIZE;
+export const BYTE_SHIFT_START = BigInt(WORD_SIZE * CHARS_PER_WORD - BYTE_SIZE);
+export const WORD_SHIFT_START = BigInt(WORD_SIZE * CHARS_PER_WORD - WORD_SIZE);
