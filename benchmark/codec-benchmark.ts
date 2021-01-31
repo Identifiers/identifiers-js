@@ -5,7 +5,7 @@ import * as base128enc from "../src/base128/encode";
 
 import * as benchmark from "benchmark";
 import * as faker from "faker";
-import * as msgpack from "msgpack-typed-numbers";
+import * as msgpack from "msgpackr";
 
 const suite = new benchmark.Suite("codecs");
 const randomBytes: Uint8Array[] = [];
