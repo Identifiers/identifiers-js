@@ -1,7 +1,7 @@
 import * as chai from "chai";
 import {expect} from "chai";
 import * as S from "js.spec";
-import * as msgpack from "msgpack-typed-numbers";
+import * as msgpack from "msgpackr";
 
 import * as decode from "../src/decode";
 import {asIsCodec} from "../src/types/shared-types";

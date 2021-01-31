@@ -1757,7 +1757,7 @@ log-symbols@4.0.0:
   dependencies:
     chalk "^4.0.0"
 
-long@^4.0.0:
+long@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/long/-/long-4.0.0.tgz#9a7b71cfb7d361a194ea555241c92f7468d5bf28"
   integrity sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==
@@ -1894,12 +1894,25 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
   integrity sha512-tgp+dl5cGk28utYktBsrFqA7HKgrhgPsg6Z/EfhWI4gl1Hwq8B/GmY/0oXZ6nF8hDVesS/FpnYaD/kOWhYQvyg==
 
-msgpack-typed-numbers@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/msgpack-typed-numbers/-/msgpack-typed-numbers-0.0.1.tgz#49ee9318d7764371cc76025af653252d5a834e54"
-  integrity sha512-HWZetYhEl0DWzcny41rLAOm0yV+U5MR5b7+dz+2Yt1sq/uD0f09JJfz+HG96mGFAfzDbv3OeVZWI0diNpDD0YQ==
+msgpackr-extract@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/msgpackr-extract/-/msgpackr-extract-1.0.3.tgz#08f12b545db47f704760e5eef994ad5d4bfafd73"
+  integrity sha512-PKvGH5NklS64NAvOIDLKaLv8rRh+4Mxn/4Z4n8JSMd2lA7HZ6E/uNtLLWErnBuMnBGgAnniZ8XceZhYCthdcJA==
   dependencies:
-    long "^4.0.0"
+    nan "^2.14.2"
+    node-gyp-build "^4.2.3"
+
+msgpackr@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/msgpackr/-/msgpackr-1.1.2.tgz#cde3a986db74ef2c51fb564278de1b129f1e3aec"
+  integrity sha512-y5xSJOAyHJQXAYUWfEwkx0HfZZ9CPGLYRv1teTto+9FpgWasOoQ0jPtAvJ4WRHS5gQg4wGsQbFbm4YX49zKqgA==
+  optionalDependencies:
+    msgpackr-extract "^1.0.3"
+
+nan@^2.14.2:
+  version "2.14.2"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.2.tgz#f5376400695168f4cc694ac9393d0c9585eeea19"
+  integrity sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==
 
 nanoid@3.1.12:
   version "3.1.12"
@@ -1910,6 +1923,11 @@ neo-async@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
+
+node-gyp-build@^4.2.3:
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/node-gyp-build/-/node-gyp-build-4.2.3.tgz#ce6277f853835f718829efb47db20f3e4d9c4739"
+  integrity sha512-MN6ZpzmfNCRM+3t57PTJHgHyw/h4OWnZ6mR8P5j/uZtqQr46RRuDE/P+g3n0YR/AiYXeWixZZzaip77gdICfRg==
 
 node-preload@^0.2.1:
   version "0.2.1"
@@ -2707,10 +2725,10 @@ webpack-sources@^2.1.1:
     source-list-map "^2.0.1"
     source-map "^0.6.1"
 
-webpack@5.17.0:
-  version "5.17.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.17.0.tgz#e92aebad45be25f86f788dc72fc11daacdcfd55d"
-  integrity sha512-R+IdNEaYcYaACpXZOt7reyc8txBK7J06lOPkX1SbgmeoAnUbyBZivJIksrDBnmMA3wlTWvPcX7DubxELyPB8rA==
+webpack@5.19.0:
+  version "5.19.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.19.0.tgz#1a5fee84dd63557e68336b0774ac4a1c81aa2c73"
+  integrity sha512-egX19vAQ8fZ4cVYtA9Y941eqJtcZAK68mQq87MMv+GTXKZOc3TpKBBxdGX+HXUYlquPxiluNsJ1VHvwwklW7CQ==
   dependencies:
     "@types/eslint-scope" "^3.7.0"
     "@types/estree" "^0.0.46"

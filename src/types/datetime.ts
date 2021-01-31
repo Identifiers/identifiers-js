@@ -1,5 +1,4 @@
 import * as S from "js.spec";
-import * as Long from "long";
 
 import {IdentifierCodec} from "../identifier-codec";
 import {EncodedLong, longCodec} from "./long";
@@ -19,7 +18,7 @@ const datetimeInputSpec = S.spec.or("DatetimeInput spec", {
 function decodeDatetime(encoded: EncodedLong): ImmutableDate {
   const value = isNumber(encoded)
     ? encoded
-    : longCodec.decode(encoded).toNumber();
+    : Number(longCodec.decode(encoded));
   return createImmutableDate(value);
 }
 
@@ -27,8 +26,8 @@ function toDebugString(date: ImmutableDate): string {
   return date.toISOString();
 }
 
-function encodeDatetime(date: ImmutableDate): Long {
-  return Long.fromNumber(date.time);
+function encodeDatetime(date: ImmutableDate): number {
+  return date.time;
 }
 
 /**

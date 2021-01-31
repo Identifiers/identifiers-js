@@ -1,9 +1,8 @@
 import * as S from "js.spec";
-import * as Long from "long";
 
 import {IdentifierCodec} from "../identifier-codec";
 import {integerSpec} from "./integer";
-import {exists, isNumber} from "../shared";
+import {exists, isBigInt, isNumber} from "../shared"
 import {asIsCodec} from "./shared-types";
 
 
@@ -30,24 +29,30 @@ export interface LongLike {
   unsigned?: boolean;
 }
 
-export type LongInput = number | LongLike;
+
+export type LongInput = number | bigint | LongLike;
 
 /**
- * Encoded type of long. Can be either a number or Long.
+ * Encoded type of long. Can be either a number or bigint.
  */
-export type EncodedLong = number | Long;
+export type EncodedLong = number | bigint;
 
-const longLikeSpec = S.spec.map("long value", {
-  high: integerSpec,
-  low: integerSpec,
-  [S.symbol.optional]: {
-    unsigned: S.spec.boolean
-  }
-});
+const TWO_PWR_32_DBL = 1n << 32n;
+
+const longLikeSpec = S.spec.and("long value",
+  S.spec.map("long object", {
+    high: integerSpec,
+    low: integerSpec,
+    [S.symbol.optional]: {
+      unsigned: S.spec.boolean
+    }
+  }),
+  S.spec.predicate("signed long", (value) => value.unsigned === undefined || !value.unsigned)
+);
 
 /*
   Convert a long-like input into a plain object. Must explicitly mask out 'unsigned' as js.spec will fail
-  if key is defined, but value is undefined.
+  if key is defined, but value is undefined. Maybe remove with specified
  */
 function toPlainLongLike({high, low, unsigned}: LongLike): LongLike {
   return exists(unsigned)
@@ -55,43 +60,51 @@ function toPlainLongLike({high, low, unsigned}: LongLike): LongLike {
     : {high, low};
 }
 
+function isBigIntLong(value: any) {
+  return isBigInt(value) && inLongRange(value);
+}
+
 const longInputSpec = S.spec.or("long input", {
   "number": Number.isInteger,
-  "Long": Long.isLong,
+  "bigint": isBigIntLong,
   "LongLike": (value) => S.valid(longLikeSpec, toPlainLongLike(value))
 });
 
 const decodeSpec = S.spec.or("decoded long", {
-  "number": integerSpec,
-  "Long": Long.isLong
+  "number": Number.isInteger,
+  "bigint": isBigInt
 });
 
-/*
- Convert the input into a plain LongLike object, either from number or another LongLike object.
- */
-function forIdentifier(input: LongInput): Long {
-  let long: Long;
-  if (Long.isLong(input)) {
-    long = input as Long;
-  } else if (isNumber(input)) {
-    long = Long.fromNumber(input);
-  } else {
-    long = Long.fromBits(input.low, input.high, input.unsigned);
-  }
-  return long.toSigned();
+function inLongRange(value: bigint): boolean {
+  return value >= -0x8000000000000000n && value <= 0x7fffffffffffffffn;
 }
 
-function toDebugString(value: Long): string {
+/*
+ Convert the input into a bigint.
+ */
+function forIdentifier(input: LongInput): bigint {
+  let long: bigint;
+  if (isBigInt(input)) {
+    long = input;
+  } else if (isNumber(input)) {
+    long = BigInt(input);
+  } else { // long-like
+    long = BigInt(input.high) * TWO_PWR_32_DBL + BigInt(input.low >>> 0);
+  }
+  return long;
+}
+
+function toDebugString(value: bigint): string {
   return value.toString();
 }
 
-function decodeValue(encoded: EncodedLong): Long {
+function decodeValue(encoded: EncodedLong): bigint {
   return isNumber(encoded)
-    ? Long.fromNumber(encoded)
-    : encoded.toSigned()
+    ? BigInt(encoded)
+    : encoded;
 }
 
-export const longCodec: IdentifierCodec<LongInput, Long, EncodedLong> = {
+export const longCodec: IdentifierCodec<LongInput, bigint, EncodedLong> = {
   type: "long",
   typeCode: 0x4,
   specForIdentifier: longInputSpec,

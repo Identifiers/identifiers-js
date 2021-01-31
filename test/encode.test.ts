@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import * as msgpack from "msgpack-typed-numbers";
+import * as msgpack from "msgpackr";
 
 import * as encode from "../src/encode";
 import {testCodec} from "./tests-shared";
@@ -30,7 +30,7 @@ describe("encode tests", () => {
     expect(bytes).to.be.a("uint8array");
     expect(Array.from(bytes)).to.have.ordered.members([146, 1, 164, 115, 111, 117, 112]);
 
-    const actual = msgpack.decode(bytes);
+    const actual = msgpack.decode(Buffer.from(bytes));
     expect(actual).to.have.ordered.members(valueTuple);
   });
 });

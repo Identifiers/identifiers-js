@@ -6,7 +6,6 @@ import jsSpecChai from "js.spec-chai";
 import {factory} from "../src";
 import {Identifier} from "../src/identifier";
 import {identifierSpec, testCodec} from "./tests-shared";
-import {LongLike} from "../src/types/long";
 import {ImmutableDate} from "../src/types/immutable-date";
 import {createIdentifier} from "../src/factory";
 import {UuidLike} from "../src/types/uuid";
@@ -149,48 +148,53 @@ describe("identifier factory methods", () => {
     it("creates an identifier from a number", () => {
       const value = 9967574044;
       const actual = factory.long(value);
-      const long = Long.fromNumber(value);
+      const long = BigInt(value);
       validateCreatedIdentifier(long, actual);
+    });
+
+    it("creates an identifier from a bigint", () => {
+      const value = 19404n;
+      const actual = factory.long(value);
+      validateCreatedIdentifier(value, actual);
     });
 
     it("creates an identifier from a Long", () => {
       const value = Long.fromNumber(19404);
       const actual = factory.long(value);
-      validateCreatedIdentifier(value, actual);
+      validateCreatedIdentifier(BigInt(value.toNumber()), actual);
     });
 
     it("creates a list identifier from numbers", () => {
       const v1 = 9967574044;
       const v2 = -945;
       const actual = factory.long.list(v1, v2);
-      const l1 = Long.fromNumber(v1);
-      const l2 = Long.fromNumber(v2);
-      validateCreatedIdentifier([l1, l2], actual);
+      validateCreatedIdentifier([BigInt(v1), BigInt(v2)], actual);
     });
 
     it("creates a list identifier from Longs", () => {
       const l1 = Long.fromNumber(-276534);
       const l2 = Long.fromNumber(15);
-      const actual: Identifier<LongLike[]> = factory.long.list(l1, l2);
-      validateCreatedIdentifier([l1, l2], actual);
+      const actual: Identifier<bigint[]> = factory.long.list(l1, l2);
+      validateCreatedIdentifier([BigInt(l1.toNumber()), BigInt(l2.toNumber())], actual);
     });
 
     it("creates a list identifier from both number and Long", () => {
       const l1 = Long.fromNumber(764739633);
       const v2 = -685849345;
-      const actual: Identifier<LongLike[]> = factory.long.list(l1, v2);
-      const l2 = Long.fromNumber(v2);
-      validateCreatedIdentifier([l1, l2], actual);
+      const actual: Identifier<bigint[]> = factory.long.list(l1, v2);
+      validateCreatedIdentifier([BigInt(l1.toNumber()), BigInt(v2)], actual);
     });
 
     it("creates a map identifier", () => {
-      const l1 = Long.fromNumber(764739633);
+      const v1 = 764739633n;
       const v2 = -685849345;
       const l2 = Long.fromNumber(v2);
-      const values = {b: l1, a: v2};
+      const v3 = -5588694;
+      const values = {b: v1, a: l2, c: v3};
       const expected = {
-        a: l2,
-        b: l1
+        a: BigInt(v2),
+        b: v1,
+        c: BigInt(v3)
       };
       const actual = factory.long.map(values);
       validateCreatedIdentifier(expected, actual);

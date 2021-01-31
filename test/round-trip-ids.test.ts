@@ -70,19 +70,17 @@ describe("round-trip identifiers to strings using factory functions", () => {
   });
 
   it("long", () => {
-    // Long comes from both msgpack and locally. They cannot be compared exactly because instanceof fails across modules.
-    const compareLong = (id1: Identifier<Long>, id2: Identifier<Long>) => id1.value.equals(id2.value);
-    roundTrip(ID.factory.long(-4095), compareLong);
-    roundTrip(ID.factory.long(8700), compareLong);
-    roundTrip(ID.factory.long(2 ** 63), compareLong);
-    roundTrip(ID.factory.long(Number.MAX_SAFE_INTEGER), compareLong);
-    roundTrip(ID.factory.long(Number.MIN_SAFE_INTEGER), compareLong);
-    roundTrip(ID.factory.long(Long.fromBits(63, 65535)), compareLong);
-    roundTrip(ID.factory.long({low: 766745, high: 2900}), compareLong);
-    roundTrip(ID.factory.long({low: 89, high: 420, unsigned: false}), compareLong);
-    const extractLong = (value: Long) => value.toString();
-    roundTrip(ID.factory.long.list(1987, 2 ** 58, Long.fromNumber(-100), {low: -50, high: 5564}), createListExpectation(extractLong));
-    roundTrip(ID.factory.long.map({a: 20, b: 2 ** 62, c: Long.fromNumber(-400), d: {low: -10, high: 33}}), createMapExpectation(extractLong));
+    roundTrip(ID.factory.long(-4095));
+    roundTrip(ID.factory.long(8700));
+    roundTrip(ID.factory.long(-(2n ** 63n)));
+    roundTrip(ID.factory.long((2n ** 63n) - 1n));
+    roundTrip(ID.factory.long(Number.MAX_SAFE_INTEGER));
+    roundTrip(ID.factory.long(Number.MIN_SAFE_INTEGER));
+    roundTrip(ID.factory.long(Long.fromBits(63, 65535)));
+    roundTrip(ID.factory.long({low: 766745, high: 2900}));
+    roundTrip(ID.factory.long({low: 89, high: 420, unsigned: false}));
+    roundTrip(ID.factory.long.list(1987, 2 ** 58, Long.fromNumber(-100), {low: -50, high: 5564}));
+    roundTrip(ID.factory.long.map({a: 20, b: 2 ** 62, c: Long.fromNumber(-400), d: {low: -10, high: 33}}));
   });
 
   it("bytes", () => {

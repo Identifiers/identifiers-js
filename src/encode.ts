@@ -1,4 +1,4 @@
-import * as msgpack from "msgpack-typed-numbers";
+import {Packr} from "msgpackr";
 
 import * as base128 from "./base128/encode";
 import * as base32 from "./base32/encode";
@@ -52,6 +52,10 @@ export function encodeWithCodec<INPUT, VALUE, ENCODED>(codec: IdentifierCodec<IN
   return codec.encode(value);
 }
 
+const pack = new Packr({
+  variableMapSize: true,
+  useRecords: false
+}).pack;
 export function encodeBytes<VALUE>(tuple: IDTuple<VALUE>): Uint8Array {
-  return msgpack.encode(tuple);
+  return pack(tuple);
 }

@@ -35,6 +35,10 @@ export function isNumber(value: any): value is number {
   return typeof value === "number";
 }
 
+export function isBigInt(value: any): value is bigint {
+  return typeof value === "bigint";
+}
+
 /**
  * Recursively deep-freeze objects.
  * @param obj the object to deep freeze

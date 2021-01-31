@@ -13,7 +13,7 @@ const intId: ID.Identifier<number> = factory.integer(1);
 const floatId: ID.Identifier<number> = factory.float(55965.3342);
 
 const myLong: ID.long.LongInput = {low: 4485645, high: -1};
-const lid: ID.Identifier<ID.long.LongLike> = factory.long(myLong);
+const lid: ID.Identifier<bigint> = factory.long(myLong);
 factory.long(6685894);
 
 const bytesId: ID.Identifier<number[]> = factory.bytes([9, 21]);

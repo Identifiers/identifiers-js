@@ -1,5 +1,3 @@
-import * as Long from "long";
-
 import {IdentifierCodec} from "./identifier-codec";
 import {CompositeFactory, createFactory, createListFactory, createMapFactory, Factory} from "./factory";
 import {createListCodec} from "./types/lists";
@@ -28,7 +26,7 @@ export interface Factories {
   readonly boolean: Factory<boolean, boolean>
   readonly integer: Factory<number, number>
   readonly float: Factory<number, number>
-  readonly long: Factory<LongInput, Long>
+  readonly long: Factory<LongInput, bigint>
   readonly bytes: Factory<BytesInput, number[]>
   readonly uuid: Factory<UuidInput, UuidLike>
   readonly datetime: Factory<DatetimeInput, ImmutableDate>

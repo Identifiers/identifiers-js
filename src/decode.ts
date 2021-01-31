@@ -1,5 +1,5 @@
 import * as S from "js.spec";
-import * as msgpack from "msgpack-typed-numbers";
+import {Unpackr} from "msgpackr"
 
 import * as decode128 from "./base128/decode";
 import * as decode32 from "./base32/decode";
@@ -44,8 +44,9 @@ export function decodeString(encoded: string): Uint8Array {
   throw new Error(`Not a valid encoded identifier: '${encoded}'`);
 }
 
+const unpack = new Unpackr().unpack;
 export function decodeBytes<ENCODED>(bytes: Uint8Array): IDTuple<ENCODED> {
-  const decoded = msgpack.decode(bytes);
+  const decoded = unpack(Buffer.from(bytes));
   S.assert(decodedIdSpec, decoded);
   return decoded;
 }

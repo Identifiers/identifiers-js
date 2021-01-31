@@ -12,7 +12,10 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js'],
     // use a different tsconfig that does not generate declarations
-    plugins: [new TsconfigPathsPlugin({configFile: path.resolve(__dirname, 'tsconfig-webpack.json')})]
+    plugins: [new TsconfigPathsPlugin({configFile: path.resolve(__dirname, 'tsconfig-webpack.json')})],
+    fallback: {
+      'stream': false
+    }
   },
   module: {
     rules: [

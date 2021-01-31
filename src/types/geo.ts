@@ -5,7 +5,7 @@
 import * as S from "js.spec";
 import {IdentifierCodec} from "../identifier-codec";
 import {registerSemanticTypeCode} from "../semantic";
-import {EncodedFloat, floatCodec} from "./float";
+import {floatCodec} from "./float";
 import {LIST_TYPE_CODE} from "./lists";
 
 export interface GeoLike {
@@ -59,7 +59,7 @@ function toDebugString(value: GeoLike): string {
   return `lat:${value.latitude}/long:${value.longitude}`;
 }
 
-function encodeGeo({latitude, longitude}: GeoLike): EncodedFloat[] {
+function encodeGeo({latitude, longitude}: GeoLike): number[] {
   return [floatCodec.encode(latitude), floatCodec.encode(longitude)];
 }
 
@@ -67,7 +67,7 @@ function decodeGeo([latitude, longitude]: number[]): GeoLike {
   return {latitude, longitude};
 }
 
-export const geoCodec: IdentifierCodec<GeoInput, GeoLike, EncodedFloat[]> = {
+export const geoCodec: IdentifierCodec<GeoInput, GeoLike, number[]> = {
   type: "geo",
   typeCode: registerSemanticTypeCode(LIST_TYPE_CODE | floatCodec.typeCode, 2),
   specForIdentifier: geoInputSpec,

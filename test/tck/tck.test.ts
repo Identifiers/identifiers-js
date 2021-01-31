@@ -2,7 +2,7 @@ import * as chai from "chai";
 const expect = chai.expect;
 
 import * as ID from "../../src";
-import * as Long from "long";
+import {isBigInt} from "../../src/shared"
 
 const codecSymbol = Symbol.for("id-codec");
 
@@ -32,7 +32,7 @@ describe("TCK tests", () => {
     it("supports long", () => {
       const tck = require("spec/tck/files/primitives/long.json");
       function testLongValue(idValue: any, testValue: any) {
-        if (Long.isLong(idValue)) {
+        if (isBigInt(idValue)) {
           expect(idValue.toString()).to.equal(testValue);
           return;
         }
@@ -141,19 +141,18 @@ function roundTripTest(test: TCK,
 
   const encoded = isHuman ? test.mixedHuman : test.data;
   const id = ID.decodeFromString(encoded);
+
   expect(id.type).to.equal(test.type);
-
   valueExpectation(id.value, test.value);
-
-  if (isHuman) {
-    const toString = id.toHumanString();
-    expect(toString).to.equal(test.human);
-  } else {
-    const toString = id.toDataString();
-    expect(toString).to.equal(encoded);
-  }
 
   // @ts-ignore: codec not part of identifier interface
   const codec = id[codecSymbol];
   expect(codec.typeCode).to.equal(test.typeCode);
+
+  const idToString = isHuman ? id.toHumanString() : id.toDataString();
+  // cannot compare encoded string to test string as JS float might be encoded as msgpack int
+  const idFromString = ID.decodeFromString(idToString);
+
+  expect(idFromString.type).to.equal(test.type);
+  valueExpectation(idFromString.value, test.value);
 }

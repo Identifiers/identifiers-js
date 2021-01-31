@@ -5,7 +5,7 @@
     "incremental": true,
     "tsBuildInfoFile": ".tsbuildinfo",
     "lib": [
-      "es6"
+      "ES2020"
     ],
     "module": "commonjs",
     "moduleResolution": "node",
@@ -13,7 +13,7 @@
     "pretty": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es5"
+    "target": "ES2020"
   },
   "include": [
     "src/**/*"
