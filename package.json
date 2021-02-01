@@ -21,6 +21,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "@assemblyscript/loader": "^0.18.2",
     "js.spec": "^1.0.0-23",
     "long": "^4.0.0",
     "msgpack-typed-numbers": "^0.0.1"
@@ -33,6 +34,7 @@
     "@types/long": "4.0.1",
     "@types/mocha": "8.2.0",
     "@types/node": "10.17.51",
+    "assemblyscript": "0.18.2",
     "benchmark": "2.1.4",
     "chai": "4.2.0",
     "coveralls": "3.1.0",
@@ -52,6 +54,9 @@
     "webpack-cli": "4.4.0"
   },
   "scripts": {
+    "asbuild:untouched": "asc assembly/src/*.ts --config assembly/asconfig.json --target debug",
+    "asbuild:optimized": "asc assembly/src/*.ts --config assembly/asconfig.json --target release",
+    "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
     "clean": "rimraf lib dist coverage .nyc_output .browser-test yarn-error.log",
     "build:commonjs": "tsc",
     "build:webpack-test": "rimraf .browser-test && node_modules/.bin/webpack --config=webpack/webpack.dev.config.js",
