@@ -4,10 +4,6 @@ const tsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 module.exports = {
   mode: 'production',
   entry: path.resolve(__dirname, '../src/index.ts'),
-  externals: [
-    'msgpackr/stream.js',
-    'msgpackr/sync'
-  ],
   output: {
     library: 'ID',
     filename: 'identifiers.bundle.js',
@@ -16,10 +12,7 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js'],
     // use a different tsconfig that does not generate declarations
-    plugins: [new tsConfigPathsPlugin({configFile: path.resolve(__dirname, 'tsconfig-webpack.json')})],
-    fallback: {
-      'stream': false
-    }
+    plugins: [new tsConfigPathsPlugin({configFile: path.resolve(__dirname, 'tsconfig-webpack.json')})]
   },
   module: {
     rules: [

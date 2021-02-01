@@ -2,6 +2,13 @@ import * as Long from "long";
 import * as S from "js.spec";
 
 import {Identifier} from "./identifier";
+import {Packr} from "msgpackr/pack"
+
+
+export const msgpack = new Packr({
+  variableMapSize: true,
+  useRecords: false
+});
 
 export const LONG_BYTES: Long[] = new Array(0x100);
 for (let i = 0; i < 0x100; ++i) {
