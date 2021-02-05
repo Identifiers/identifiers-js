@@ -1902,10 +1902,10 @@ msgpackr-extract@^1.0.5:
     nan "^2.14.2"
     node-gyp-build "^4.2.3"
 
-msgpackr@^1.1.4:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/msgpackr/-/msgpackr-1.1.4.tgz#9fa7287ffeb7ef30178b0235e8ecae682f8c53ef"
-  integrity sha512-mCYcxiXv95ewXRklMPxBoSL1qWG1556NX0JzG2N8sU6B5vEMH2ekaJgQYAULCWbSU5zva7kpFA+Zrs6HoO/2vQ==
+msgpackr@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/msgpackr/-/msgpackr-1.2.1.tgz#0394fcade0a9de08bae03f8f7cfcee1e67e86bf2"
+  integrity sha512-X1i7dcE9LVw340Sl1ov4FlSN4Bq1BtxUBVH6Bg/Ysicga0Q7JkJYLkqX66jwMYULfPVEXXTqYoHl1I8rmUc4LA==
   optionalDependencies:
     msgpackr-extract "^1.0.5"
 

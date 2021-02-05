@@ -2,12 +2,13 @@ import * as Long from "long";
 import * as S from "js.spec";
 
 import {Identifier} from "./identifier";
-import {Packr} from "msgpackr/pack"
+import {FLOAT32_OPTIONS, Packr} from "msgpackr/pack";
 
 
 export const msgpack = new Packr({
   variableMapSize: true,
-  useRecords: false
+  useRecords: false,
+  useFloat32: FLOAT32_OPTIONS.DECIMAL_FIT
 });
 
 export const LONG_BYTES: Long[] = new Array(0x100);
