@@ -22,7 +22,7 @@
   "private": false,
   "dependencies": {
     "js.spec": "^1.0.0-23",
-    "msgpackr": "^1.2.1"
+    "msgpackr": "^1.2.3"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "1.0.1",

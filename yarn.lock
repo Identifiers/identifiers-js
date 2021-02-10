@@ -1894,20 +1894,20 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
   integrity sha512-tgp+dl5cGk28utYktBsrFqA7HKgrhgPsg6Z/EfhWI4gl1Hwq8B/GmY/0oXZ6nF8hDVesS/FpnYaD/kOWhYQvyg==
 
-msgpackr-extract@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/msgpackr-extract/-/msgpackr-extract-1.0.5.tgz#eac3455c1c1911bdde1eb2c947d8ff4cc52c8e2f"
-  integrity sha512-sXNJtCHjxgigWaYn1wxPgHcc07mmG7R2lcmwp/n6hxT3BXtLGnY77cElvPtG0DHYv1W6NnS5P1FhAHOIaCyR8g==
+msgpackr-extract@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/msgpackr-extract/-/msgpackr-extract-1.0.6.tgz#65713a266de36d7dce8edcb766a7b4e5aa5f12ca"
+  integrity sha512-xDZjVWdBDQqohlB14/tbuhtFGsnQqZxE9/aJNz4iTxfGANtuajSCC6wJ72vYPR/k3hKtgLyL76E7xi6t2hcS+Q==
   dependencies:
     nan "^2.14.2"
     node-gyp-build "^4.2.3"
 
-msgpackr@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/msgpackr/-/msgpackr-1.2.1.tgz#0394fcade0a9de08bae03f8f7cfcee1e67e86bf2"
-  integrity sha512-X1i7dcE9LVw340Sl1ov4FlSN4Bq1BtxUBVH6Bg/Ysicga0Q7JkJYLkqX66jwMYULfPVEXXTqYoHl1I8rmUc4LA==
+msgpackr@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/msgpackr/-/msgpackr-1.2.3.tgz#617dd4cf3218e2455769d4026ec98e452f0912a5"
+  integrity sha512-s2hp+PTz6MVUlr/wGzUNMyoABuHhHmWA2hqDGZnwW91OJchfRxIkyl7WPQ+YkrQ/9HcyPzIEIf2pabSqXhSVbg==
   optionalDependencies:
-    msgpackr-extract "^1.0.5"
+    msgpackr-extract "^1.0.6"
 
 nan@^2.14.2:
   version "2.14.2"
